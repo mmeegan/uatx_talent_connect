@@ -1,0 +1,86 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String     // STUDENT | MENTOR
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  studentProfile StudentProfile?
+  mentorProfile  MentorProfile?
+}
+
+
+model StudentProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  tags      String   // JSON array of interest tags
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  helpRequests HelpRequest[]
+}
+
+model MentorProfile {
+  id           String         @id @default(cuid())
+  userId       String         @unique
+  user         User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  headline     String
+  bio          String
+  topics       String         // JSON array of mentor topics
+  industryTags String         // JSON array
+  availability String  @default("MEDIUM")
+  contactEmail String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  requests MentorRequest[]
+}
+
+
+model HelpRequest {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title       String
+  description String
+  tags        String   // JSON array of optional tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  mentorRequests MentorRequest[]
+}
+
+model MentorRequest {
+  id             String       @id @default(cuid())
+  helpRequestId String
+  helpRequest   HelpRequest  @relation(fields: [helpRequestId], references: [id], onDelete: Cascade)
+  mentorId      String
+  mentor        MentorProfile @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+  status        String @default("PENDING")
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+
+  @@unique([helpRequestId, mentorId])
+}
+
+
+model InviteCode {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  used      Boolean  @default(false)
+  usedAt    DateTime?
+  createdAt DateTime @default(now())
+}

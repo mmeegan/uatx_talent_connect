@@ -1,0 +1,36 @@
+import { NextResponse } from "next/server";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/lib/auth";
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  const session = await getServerSession(authOptions);
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: session.user.id },
+    include: { studentProfile: true, mentorProfile: true },
+  });
+  if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
+
+  const profile = user.role === "STUDENT" ? user.studentProfile : user.mentorProfile;
+  return NextResponse.json({
+    id: user.id,
+    email: user.email,
+    role: user.role,
+    profile: profile
+      ? {
+          ...profile,
+          topics: profile && "topics" in profile ? JSON.parse((profile as { topics: string }).topics || "[]") : undefined,
+          industryTags:
+            profile && "industryTags" in profile
+              ? JSON.parse((profile as { industryTags: string }).industryTags || "[]")
+              : undefined,
+          tags:
+            profile && "tags" in profile ? JSON.parse((profile as { tags: string }).tags || "[]") : undefined,
+        }
+      : null,
+  });
+}
