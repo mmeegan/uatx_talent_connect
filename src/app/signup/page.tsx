@@ -67,22 +67,22 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-cream flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <Link href="/" className="text-xl font-semibold text-stone-800">
+          <Link href="/" className="font-serif text-xl text-charcoal">
             Bridge
           </Link>
-          <h2 className="mt-4 text-2xl font-semibold text-stone-900">Sign up</h2>
+          <h2 className="mt-6 font-serif text-2xl text-charcoal">Sign up</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <p className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-800">
+            <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-800">
               {error}
             </p>
           )}
           <div>
-            <label className="block text-sm font-medium text-stone-700">I am a</label>
+            <label className="block text-sm font-medium text-charcoal/80">I am a</label>
             <div className="mt-1 flex gap-4">
               <label className="flex items-center gap-2">
                 <input
@@ -90,7 +90,7 @@ export default function SignupPage() {
                   name="role"
                   checked={role === "STUDENT"}
                   onChange={() => setRole("STUDENT")}
-                  className="rounded border-stone-300"
+                  className="rounded border-stone-200"
                 />
                 Student
               </label>
@@ -100,7 +100,7 @@ export default function SignupPage() {
                   name="role"
                   checked={role === "MENTOR"}
                   onChange={() => setRole("MENTOR")}
-                  className="rounded border-stone-300"
+                  className="rounded border-stone-200"
                 />
                 Mentor
               </label>
@@ -108,7 +108,7 @@ export default function SignupPage() {
           </div>
           {role === "MENTOR" && (
             <div>
-              <label htmlFor="inviteCode" className="block text-sm font-medium text-stone-700">
+              <label htmlFor="inviteCode" className="block text-sm font-medium text-charcoal/80">
                 Invite code *
               </label>
               <input
@@ -117,46 +117,46 @@ export default function SignupPage() {
                 required={role === "MENTOR"}
                 value={inviteCode}
                 onChange={(e) => setInviteCode(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
               />
             </div>
           )}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-stone-700">Email *</label>
+            <label htmlFor="email" className="block text-sm font-medium text-charcoal/80">Email *</label>
             <input
               id="email"
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-stone-700">Password *</label>
+            <label htmlFor="password" className="block text-sm font-medium text-charcoal/80">Password *</label>
             <input
               id="password"
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
             />
           </div>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-stone-700">Name *</label>
+            <label htmlFor="name" className="block text-sm font-medium text-charcoal/80">Name *</label>
             <input
               id="name"
               type="text"
               required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
             />
           </div>
           {role === "STUDENT" && (
             <div>
-              <label htmlFor="interestTags" className="block text-sm font-medium text-stone-700">
+              <label htmlFor="interestTags" className="block text-sm font-medium text-charcoal/80">
                 Interest tags (optional, comma-separated)
               </label>
               <input
@@ -165,63 +165,63 @@ export default function SignupPage() {
                 placeholder="e.g. product, design, engineering"
                 value={interestTags}
                 onChange={(e) => setInterestTags(e.target.value)}
-                className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
               />
             </div>
           )}
           {role === "MENTOR" && (
             <>
               <div>
-                <label htmlFor="headline" className="block text-sm font-medium text-stone-700">Headline *</label>
+                <label htmlFor="headline" className="block text-sm font-medium text-charcoal/80">Headline *</label>
                 <input
                   id="headline"
                   type="text"
                   required
                   value={headline}
                   onChange={(e) => setHeadline(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
                 />
               </div>
               <div>
-                <label htmlFor="bio" className="block text-sm font-medium text-stone-700">Bio *</label>
+                <label htmlFor="bio" className="block text-sm font-medium text-charcoal/80">Bio *</label>
                 <textarea
                   id="bio"
                   rows={3}
                   required
                   value={bio}
                   onChange={(e) => setBio(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
                 />
               </div>
               <div>
-                <label htmlFor="topics" className="block text-sm font-medium text-stone-700">Topics you mentor on (comma-separated) *</label>
+                <label htmlFor="topics" className="block text-sm font-medium text-charcoal/80">Topics you mentor on (comma-separated) *</label>
                 <input
                   id="topics"
                   type="text"
                   placeholder="e.g. product management, career transition"
                   value={topics}
                   onChange={(e) => setTopics(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
                 />
               </div>
               <div>
-                <label htmlFor="industryTags" className="block text-sm font-medium text-stone-700">Industry tags (comma-separated)</label>
+                <label htmlFor="industryTags" className="block text-sm font-medium text-charcoal/80">Industry tags (comma-separated)</label>
                 <input
                   id="industryTags"
                   type="text"
                   placeholder="e.g. tech, healthcare"
                   value={industryTags}
                   onChange={(e) => setIndustryTags(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
                 />
               </div>
               <div>
-                <label htmlFor="availability" className="block text-sm font-medium text-stone-700">Availability</label>
+                <label htmlFor="availability" className="block text-sm font-medium text-charcoal/80">Availability</label>
                 <select
                   id="availability"
                   value={availability}
                   onChange={(e) => setAvailability(e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
                 >
                   <option value="NONE">None</option>
                   <option value="LOW">Low</option>
@@ -230,14 +230,14 @@ export default function SignupPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="contactEmail" className="block text-sm font-medium text-stone-700">Contact email (for coffee chat) *</label>
+                <label htmlFor="contactEmail" className="block text-sm font-medium text-charcoal/80">Contact email (for coffee chat) *</label>
                 <input
                   id="contactEmail"
                   type="email"
                   value={contactEmail}
                   onChange={(e) => setContactEmail(e.target.value)}
                   placeholder={email}
-                  className="mt-1 block w-full rounded-md border border-stone-300 bg-white px-3 py-2 text-stone-900 shadow-sm"
+                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
                 />
               </div>
             </>
@@ -245,14 +245,14 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-md bg-stone-900 px-4 py-2.5 text-sm font-medium text-white hover:bg-stone-800 disabled:opacity-50"
+            className="w-full rounded bg-maroon px-4 py-2.5 text-sm font-medium text-white hover:bg-maroon-hover disabled:opacity-50"
           >
             {loading ? "Creating account…" : "Sign up"}
           </button>
         </form>
-        <p className="text-center text-sm text-stone-600">
+        <p className="text-center text-sm text-charcoal/70">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-stone-900 hover:underline">
+          <Link href="/login" className="font-medium text-maroon hover:underline">
             Log in
           </Link>
         </p>

@@ -13,20 +13,27 @@ export async function getStudentHelpRequests(session: Session | null) {
     orderBy: { createdAt: "desc" },
     include: { mentorRequests: { include: { mentor: true } } },
   });
-  return list.map((r) => ({
-    id: r.id,
-    title: r.title,
-    description: r.description,
-    tags: JSON.parse(r.tags || "[]"),
-    createdAt: r.createdAt,
-    mentorRequests: r.mentorRequests.map((mr) => ({
+  return list.map((r) => {
+    const mentorRequests = r.mentorRequests.map((mr) => ({
       id: mr.id,
       status: mr.status,
       mentorName: mr.mentor.name,
       mentorHeadline: mr.mentor.headline,
       contactEmail: mr.status === "ACCEPTED" ? mr.mentor.contactEmail : undefined,
-    })),
-  }));
+    }));
+    const hasAccepted = mentorRequests.some((mr) => mr.status === "ACCEPTED");
+    const hasPending = mentorRequests.some((mr) => mr.status === "PENDING");
+    const status = hasAccepted ? "ACCEPTED" : hasPending ? "PENDING" : "DECLINED";
+    return {
+      id: r.id,
+      title: r.title,
+      description: r.description,
+      tags: JSON.parse(r.tags || "[]"),
+      createdAt: r.createdAt,
+      status,
+      mentorRequests,
+    };
+  });
 }
 
 export async function getMentorIncomingRequests(session: Session | null) {

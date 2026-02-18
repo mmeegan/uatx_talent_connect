@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { getStudentHelpRequests } from "@/lib/server-data";
 import Link from "next/link";
+import NewRequestForm from "@/components/NewRequestForm";
 
 export default async function StudentDashboardPage() {
   const session = await getServerSession(authOptions);
@@ -12,19 +13,16 @@ export default async function StudentDashboardPage() {
   const requests = await getStudentHelpRequests(session);
 
   return (
-    <div className="min-h-screen bg-stone-50">
-      <header className="border-b border-stone-200 bg-white">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <Link href="/" className="text-xl font-semibold text-stone-800">
+    <div className="min-h-screen bg-cream">
+      <header className="border-b border-stone-200/80 bg-cream">
+        <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-6">
+          <Link href="/dashboard/student" className="font-serif text-xl text-charcoal">
             Bridge
           </Link>
-          <nav className="flex items-center gap-4">
-            <Link href="/dashboard/student" className="text-sm font-medium text-stone-900">
-              My requests
-            </Link>
+          <nav className="flex items-center gap-6">
             <Link
               href="/api/auth/signout"
-              className="text-sm text-stone-600 hover:text-stone-900"
+              className="text-sm text-charcoal/70 hover:text-charcoal"
             >
               Sign out
             </Link>
@@ -32,63 +30,89 @@ export default async function StudentDashboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-4 py-8">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-stone-900">My help requests</h1>
-          <Link
-            href="/dashboard/student/requests/new"
-            className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-          >
-            New request
-          </Link>
-        </div>
-
-        {requests.length === 0 ? (
-          <div className="mt-8 rounded-lg border border-stone-200 bg-white p-8 text-center text-stone-600">
-            <p>You haven’t created any help requests yet.</p>
-            <Link
-              href="/dashboard/student/requests/new"
-              className="mt-2 inline-block font-medium text-stone-900 hover:underline"
-            >
-              Create your first request
-            </Link>
-          </div>
-        ) : (
-          <ul className="mt-6 space-y-4">
-            {requests.map((r: { id: string; title: string; mentorRequests: { status: string; mentorName: string; contactEmail?: string }[]; createdAt: string }) => (
-              <li key={r.id} className="rounded-lg border border-stone-200 bg-white p-4 shadow-sm">
-                <div className="flex items-start justify-between">
-                  <div>
+      <main className="mx-auto max-w-3xl px-6 py-12">
+        {/* Section A: Your requests */}
+        <section>
+          <h2 className="font-serif text-xl text-charcoal">Your requests</h2>
+          <p className="mt-1 text-sm text-charcoal/70">
+            Pending requests are with mentors; we’ll notify you when someone accepts.
+          </p>
+          {requests.length === 0 ? (
+            <p className="mt-6 text-charcoal/60">No requests yet. Submit one below.</p>
+          ) : (
+            <ul className="mt-6 space-y-3">
+              {requests.map(
+                (r: {
+                  id: string;
+                  title: string;
+                  status: string;
+                  mentorRequests: { status: string; mentorName: string; contactEmail?: string }[];
+                }) => (
+                  <li
+                    key={r.id}
+                    className="flex items-center justify-between rounded border border-stone-200/80 bg-white py-3 px-4"
+                  >
                     <Link
                       href={`/dashboard/student/requests/${r.id}`}
-                      className="font-medium text-stone-900 hover:underline"
+                      className="font-medium text-charcoal hover:text-maroon"
                     >
                       {r.title}
                     </Link>
-                    <p className="mt-1 text-sm text-stone-500">
-                      {r.mentorRequests.length} mentor(s) requested ·{" "}
-                      {r.mentorRequests.filter((m: { status: string }) => m.status === "ACCEPTED").length} accepted
-                    </p>
-                  </div>
-                  <div className="flex gap-2">
-                    <Link
-                      href={`/dashboard/student/requests/${r.id}/matches`}
-                      className="rounded border border-stone-300 bg-white px-3 py-1.5 text-sm text-stone-700 hover:bg-stone-50"
+                    <span
+                      className={`rounded px-2 py-0.5 text-xs font-medium ${
+                        r.status === "ACCEPTED"
+                          ? "bg-green-100 text-green-800"
+                          : r.status === "PENDING"
+                          ? "bg-amber-50 text-amber-800"
+                          : "bg-stone-100 text-charcoal/70"
+                      }`}
                     >
-                      Matches
-                    </Link>
-                    <Link
-                      href={`/dashboard/student/requests/${r.id}`}
-                      className="rounded bg-stone-100 px-3 py-1.5 text-sm text-stone-700 hover:bg-stone-200"
-                    >
-                      View
-                    </Link>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                      {r.status}
+                    </span>
+                  </li>
+                )
+              )}
+            </ul>
+          )}
+        </section>
+
+        {/* Section B: New request form */}
+        <section className="mt-16">
+          <h2 className="font-serif text-xl text-charcoal">New request</h2>
+          <p className="mt-1 text-sm text-charcoal/70">
+            Describe what you want help with. We’ll match you with up to three mentors automatically.
+          </p>
+          <div className="mt-6 rounded border border-stone-200/80 bg-white p-6">
+            <NewRequestForm />
+          </div>
+        </section>
+
+        {/* Section C: How it works */}
+        <section className="mt-20 border-t border-stone-200/80 pt-12">
+          <h3 className="font-serif text-sm font-medium uppercase tracking-wider text-charcoal/60">
+            How it works
+          </h3>
+          <ol className="mt-4 space-y-4 text-sm text-charcoal/80">
+            <li className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-maroon/10 font-serif text-xs text-maroon">
+                1
+              </span>
+              <span>Submit your request above. We match it to relevant mentors and send it to up to three of them.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-maroon/10 font-serif text-xs text-maroon">
+                2
+              </span>
+              <span>Mentors can accept or decline. You’ll see the status here; no need to pick anyone yourself.</span>
+            </li>
+            <li className="flex gap-3">
+              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-maroon/10 font-serif text-xs text-maroon">
+                3
+              </span>
+              <span>When a mentor accepts, we’ll show their contact and a prefilled email so you can schedule a 30-minute coffee chat.</span>
+            </li>
+          </ol>
+        </section>
       </main>
     </div>
   );

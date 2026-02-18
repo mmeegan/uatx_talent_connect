@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
@@ -6,84 +7,57 @@ export default async function LandingPage() {
   const session = await getServerSession(authOptions);
   const role = (session?.user as { role?: string } | undefined)?.role;
 
+  if (session) {
+    if (role === "MENTOR") redirect("/dashboard/mentor");
+    redirect("/dashboard/student");
+  }
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="border-b border-stone-200 bg-white/80 backdrop-blur">
-        <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-4">
-          <span className="text-xl font-semibold text-stone-800">Bridge</span>
-          <nav className="flex items-center gap-4">
-            {session ? (
-              <>
-                {role === "STUDENT" && (
-                  <Link
-                    href="/dashboard/student"
-                    className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-                  >
-                    Dashboard
-                  </Link>
-                )}
-                {role === "MENTOR" && (
-                  <Link
-                    href="/dashboard/mentor"
-                    className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-                  >
-                    Dashboard
-                  </Link>
-                )}
-                <Link
-                  href="/api/auth/signout"
-                  className="text-sm text-stone-600 hover:text-stone-900"
-                >
-                  Sign out
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="text-sm text-stone-600 hover:text-stone-900"
-                >
-                  Log in
-                </Link>
-                <Link
-                  href="/signup"
-                  className="rounded-md bg-stone-900 px-4 py-2 text-sm font-medium text-white hover:bg-stone-800"
-                >
-                  Sign up
-                </Link>
-              </>
-            )}
+    <div className="min-h-screen flex flex-col bg-cream">
+      <header className="border-b border-stone-200/80 bg-cream">
+        <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-6">
+          <span className="font-serif text-xl text-charcoal">Bridge</span>
+          <nav className="flex items-center gap-6">
+            <Link
+              href="/login"
+              className="text-sm text-charcoal/70 hover:text-charcoal"
+            >
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              className="rounded bg-maroon px-4 py-2 text-sm font-medium text-white hover:bg-maroon-hover"
+            >
+              Sign up
+            </Link>
           </nav>
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-20">
-        <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">
-          Find the right mentor for your question
-        </h1>
-        <p className="mt-4 max-w-xl text-center text-lg text-stone-600">
-          Submit a short help request. We match you with mentors by topic and availability. 
-          Request a 30-minute coffee chat — no in-app messaging, just a direct connection.
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
+        <p className="font-serif text-2xl tracking-tight text-charcoal sm:text-3xl">
+          Talent Network
         </p>
-        {!session && (
-          <div className="mt-10 flex gap-4">
-            <Link
-              href="/signup"
-              className="rounded-lg bg-stone-900 px-6 py-3 text-base font-medium text-white hover:bg-stone-800"
-            >
-              Get started
-            </Link>
-            <Link
-              href="/login"
-              className="rounded-lg border border-stone-300 bg-white px-6 py-3 text-base font-medium text-stone-700 hover:bg-stone-50"
-            >
-              Log in
-            </Link>
-          </div>
-        )}
+        <p className="mt-3 max-w-md text-center text-charcoal/75">
+          Request help from a mentor. We match you; you get a 30-minute coffee chat.
+        </p>
+        <div className="mt-10 flex gap-4">
+          <Link
+            href="/signup"
+            className="rounded bg-maroon px-6 py-3 text-sm font-medium text-white hover:bg-maroon-hover"
+          >
+            Sign up
+          </Link>
+          <Link
+            href="/login"
+            className="rounded border border-charcoal/20 bg-transparent px-6 py-3 text-sm font-medium text-charcoal hover:bg-charcoal/5"
+          >
+            Log in
+          </Link>
+        </div>
       </main>
 
-      <footer className="border-t border-stone-200 py-6 text-center text-sm text-stone-500">
+      <footer className="border-t border-stone-200/80 py-6 text-center text-sm text-charcoal/50">
         Bridge — Talent Network coffee chats
       </footer>
     </div>

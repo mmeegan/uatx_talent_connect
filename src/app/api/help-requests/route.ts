@@ -2,6 +2,9 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { rankMentorsForRequest } from "@/lib/matching";
+
+const MAX_MENTORS_AUTO_SEND = 3;
 
 export async function GET() {
   const session = await getServerSession(authOptions);
@@ -75,6 +78,19 @@ export async function POST(request: Request) {
       tags: JSON.stringify(Array.isArray(tags) ? tags : []),
     },
   });
+
+  const requestTags = Array.isArray(tags) ? tags : [];
+  const ranked = await rankMentorsForRequest(helpRequest.id, requestTags);
+  const topMentors = ranked.slice(0, MAX_MENTORS_AUTO_SEND);
+  if (topMentors.length > 0) {
+    await prisma.mentorRequest.createMany({
+      data: topMentors.map((m) => ({
+        helpRequestId: helpRequest.id,
+        mentorId: m.mentorId,
+        status: "PENDING",
+      })),
+    });
+  }
 
   return NextResponse.json({
     id: helpRequest.id,
