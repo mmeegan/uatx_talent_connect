@@ -17,17 +17,17 @@ export default async function StudentRequestDetailPage({
   if (!request) redirect("/dashboard/student");
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="border-b border-stone-200/80 bg-cream">
-        <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-6">
-          <Link href="/dashboard/student" className="font-serif text-xl text-charcoal">
+    <div className="min-h-screen bg-uatx-cream">
+      <header className="bg-uatx-ink border-b border-uatx-gold/20">
+        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
+          <Link href="/dashboard/student" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
             Bridge
           </Link>
           <nav className="flex items-center gap-6">
-            <Link href="/dashboard/student" className="text-sm text-charcoal/70 hover:text-charcoal">
+            <Link href="/dashboard/student" className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors">
               Your requests
             </Link>
-            <Link href="/api/auth/signout" className="text-sm text-charcoal/70 hover:text-charcoal">
+            <Link href="/api/auth/signout" className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors">
               Sign out
             </Link>
           </nav>
@@ -35,15 +35,15 @@ export default async function StudentRequestDetailPage({
       </header>
 
       <main className="mx-auto max-w-2xl px-6 py-8">
-        <Link href="/dashboard/student" className="text-sm text-charcoal/70 hover:text-charcoal">
+        <Link href="/dashboard/student" className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 font-serif text-2xl text-charcoal">{request.title}</h1>
-        <p className="mt-2 text-charcoal/80">{request.description}</p>
+        <h1 className="mt-4 font-display text-display-md uppercase tracking-tight text-uatx-ink">{request.title}</h1>
+        <p className="mt-2 text-body text-uatx-sand">{request.description}</p>
         {request.tags?.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1">
             {request.tags.map((t: string) => (
-              <span key={t} className="rounded bg-stone-200/80 px-2 py-0.5 text-xs text-charcoal/80">
+              <span key={t} className="rounded border border-uatx-gold/30 bg-uatx-gold/10 px-2 py-0.5 text-small text-uatx-ink">
                 {t}
               </span>
             ))}
@@ -51,8 +51,8 @@ export default async function StudentRequestDetailPage({
         )}
 
         <div className="mt-10">
-          <h2 className="font-serif text-lg text-charcoal">Mentor responses</h2>
-          <ul className="mt-4 space-y-4">
+          <h2 className="font-display text-section uppercase tracking-wide text-uatx-ink">Mentor responses</h2>
+          <ul className="mt-4 space-y-3">
             {request.mentorRequests?.map(
               (mr: {
                 id: string;
@@ -61,18 +61,18 @@ export default async function StudentRequestDetailPage({
               }) => (
                 <li
                   key={mr.id}
-                  className="flex items-start justify-between rounded border border-stone-200/80 bg-white p-4"
+                  className="flex items-start justify-between border border-uatx-ink/10 bg-uatx-cream p-4"
                 >
                   <div>
-                    <p className="font-medium text-charcoal">{mr.mentor.name}</p>
-                    <p className="text-sm text-charcoal/70">{mr.mentor.headline}</p>
+                    <p className="font-medium text-body text-uatx-ink">{mr.mentor.name}</p>
+                    <p className="text-small text-uatx-sand">{mr.mentor.headline}</p>
                     <span
-                      className={`mt-2 inline-block rounded px-2 py-0.5 text-xs font-medium ${
+                      className={`mt-2 inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
                         mr.status === "ACCEPTED"
-                          ? "bg-green-100 text-green-800"
+                          ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
                           : mr.status === "DECLINED"
-                          ? "bg-stone-100 text-charcoal/60"
-                          : "bg-amber-50 text-amber-800"
+                          ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
+                          : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
                       }`}
                     >
                       {mr.status}
@@ -85,7 +85,7 @@ export default async function StudentRequestDetailPage({
                         mr.mentor.contactEmail,
                         request.title
                       )}
-                      className="shrink-0 rounded bg-maroon px-3 py-1.5 text-sm font-medium text-white hover:bg-maroon-hover"
+                      className="shrink-0 rounded border border-uatx-gold bg-uatx-gold px-3 py-1.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
                     >
                       Email to schedule
                     </a>
@@ -95,7 +95,7 @@ export default async function StudentRequestDetailPage({
             )}
           </ul>
           {(!request.mentorRequests || request.mentorRequests.length === 0) && (
-            <p className="mt-4 text-sm text-charcoal/60">
+            <p className="mt-4 text-small text-uatx-sand">
               Your request has been sent to mentors. Status will update here when they respond.
             </p>
           )}

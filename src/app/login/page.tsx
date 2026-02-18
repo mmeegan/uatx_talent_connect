@@ -33,20 +33,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-cream flex flex-col items-center justify-center px-6">
+    <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
-          <Link href="/" className="font-serif text-xl text-charcoal">
+          <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ink">
             Bridge
           </Link>
-          <h2 className="mt-6 font-serif text-2xl text-charcoal">Log in</h2>
+          <h2 className="mt-6 font-display text-display-md uppercase tracking-tight text-uatx-ink">Log in</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-800">{error}</p>
+            <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">{error}</p>
           )}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-charcoal/80">
+            <label htmlFor="email" className="block text-small font-medium text-uatx-ink">
               Email
             </label>
             <input
@@ -56,11 +56,11 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal placeholder:text-charcoal/40 focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
+              className="mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold"
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-charcoal/80">
+            <label htmlFor="password" className="block text-small font-medium text-uatx-ink">
               Password
             </label>
             <input
@@ -70,20 +70,20 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal placeholder:text-charcoal/40 focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
+              className="mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold"
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-maroon px-4 py-2.5 text-sm font-medium text-white hover:bg-maroon-hover disabled:opacity-50"
+            className="w-full rounded border border-uatx-gold bg-uatx-gold py-2.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
           >
             {loading ? "Signing in…" : "Log in"}
           </button>
         </form>
-        <p className="text-center text-sm text-charcoal/70">
+        <p className="text-center text-small text-uatx-sand">
           Don’t have an account?{" "}
-          <Link href="/signup" className="font-medium text-maroon hover:underline">
+          <Link href="/signup" className="font-medium text-uatx-gold hover:underline">
             Sign up
           </Link>
         </p>

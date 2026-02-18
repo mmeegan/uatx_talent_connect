@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { Inter, Lora } from "next/font/google";
+import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
-const lora = Lora({ subsets: ["latin"], variable: "--font-serif" });
+const oswald = Oswald({ subsets: ["latin"], variable: "--font-display", weight: ["500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "Bridge — Talent Network",
@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${lora.variable}`}>
-      <body className="min-h-screen bg-cream font-sans text-charcoal antialiased">
+    <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
+      <body className="min-h-screen bg-uatx-cream font-sans text-uatx-ink antialiased">
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

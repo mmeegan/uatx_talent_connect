@@ -13,20 +13,22 @@ export default async function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-cream">
-      <header className="border-b border-stone-200/80 bg-cream">
-        <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-6">
-          <span className="font-serif text-xl text-charcoal">Bridge</span>
+    <div className="min-h-screen flex flex-col bg-uatx-cream">
+      <header className="bg-uatx-ink border-b border-uatx-gold/20">
+        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
+          <span className="font-display text-section uppercase tracking-wide text-uatx-ivory">
+            Bridge
+          </span>
           <nav className="flex items-center gap-6">
             <Link
               href="/login"
-              className="text-sm text-charcoal/70 hover:text-charcoal"
+              className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="rounded bg-maroon px-4 py-2 text-sm font-medium text-white hover:bg-maroon-hover"
+              className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
             >
               Sign up
             </Link>
@@ -34,30 +36,30 @@ export default async function LandingPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
-        <p className="font-serif text-2xl tracking-tight text-charcoal sm:text-3xl">
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-20">
+        <p className="font-display text-display-lg uppercase tracking-tight text-uatx-ink sm:text-3xl">
           Talent Network
         </p>
-        <p className="mt-3 max-w-md text-center text-charcoal/75">
+        <p className="mt-4 max-w-md text-center text-body text-uatx-sand">
           Request help from a mentor. We match you; you get a 30-minute coffee chat.
         </p>
         <div className="mt-10 flex gap-4">
           <Link
             href="/signup"
-            className="rounded bg-maroon px-6 py-3 text-sm font-medium text-white hover:bg-maroon-hover"
+            className="rounded border border-uatx-gold bg-uatx-gold px-6 py-3 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
           >
             Sign up
           </Link>
           <Link
             href="/login"
-            className="rounded border border-charcoal/20 bg-transparent px-6 py-3 text-sm font-medium text-charcoal hover:bg-charcoal/5"
+            className="rounded border border-uatx-ink/20 bg-transparent px-6 py-3 text-small font-medium text-uatx-ink hover:border-uatx-gold hover:text-uatx-gold transition-colors"
           >
             Log in
           </Link>
         </div>
       </main>
 
-      <footer className="border-t border-stone-200/80 py-6 text-center text-sm text-charcoal/50">
+      <footer className="border-t border-uatx-ink/10 py-5 text-center text-small text-uatx-sand">
         Bridge — Talent Network coffee chats
       </footer>
     </div>

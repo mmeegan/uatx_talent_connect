@@ -52,16 +52,16 @@ export default function MentorRequestDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-cream flex items-center justify-center">
-        <p className="text-charcoal/60">Loading…</p>
+      <div className="min-h-screen bg-uatx-cream flex items-center justify-center">
+        <p className="text-uatx-sand">Loading…</p>
       </div>
     );
   }
   if (!item) {
     return (
-      <div className="min-h-screen bg-cream flex flex-col items-center justify-center px-4">
-        <p className="text-charcoal/60">Request not found.</p>
-        <Link href="/dashboard/mentor" className="mt-2 text-maroon hover:underline">
+      <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-4">
+        <p className="text-uatx-sand">Request not found.</p>
+        <Link href="/dashboard/mentor" className="mt-2 text-uatx-gold hover:underline">
           Back to dashboard
         </Link>
       </div>
@@ -71,14 +71,14 @@ export default function MentorRequestDetailPage() {
   const isPending = item.status === "PENDING";
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="border-b border-stone-200/80 bg-cream">
-        <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-6">
-          <Link href="/dashboard/mentor" className="font-serif text-xl text-charcoal">
+    <div className="min-h-screen bg-uatx-cream">
+      <header className="bg-uatx-ink border-b border-uatx-gold/20">
+        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
+          <Link href="/dashboard/mentor" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
             Bridge
           </Link>
           <nav className="flex items-center gap-6">
-            <Link href="/dashboard/mentor" className="text-sm text-charcoal/70 hover:text-charcoal">
+            <Link href="/dashboard/mentor" className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors">
               Incoming requests
             </Link>
           </nav>
@@ -86,17 +86,17 @@ export default function MentorRequestDetailPage() {
       </header>
 
       <main className="mx-auto max-w-2xl px-6 py-8">
-        <Link href="/dashboard/mentor" className="text-sm text-charcoal/70 hover:text-charcoal">
+        <Link href="/dashboard/mentor" className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
           ← Back to dashboard
         </Link>
-        <div className="mt-6 rounded border border-stone-200/80 bg-white p-6">
-          <h1 className="font-serif text-xl text-charcoal">{item.helpRequest.title}</h1>
-          <p className="mt-1 text-sm text-charcoal/70">From {item.helpRequest.studentName}</p>
-          <p className="mt-4 text-charcoal/80">{item.helpRequest.description}</p>
+        <div className="mt-6 border border-uatx-ink/10 bg-uatx-cream p-6">
+          <h1 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">{item.helpRequest.title}</h1>
+          <p className="mt-1 text-small text-uatx-sand">From {item.helpRequest.studentName}</p>
+          <p className="mt-4 text-body text-uatx-sand">{item.helpRequest.description}</p>
           {item.helpRequest.tags?.length > 0 && (
             <div className="mt-2 flex flex-wrap gap-1">
               {item.helpRequest.tags.map((t) => (
-                <span key={t} className="rounded bg-stone-100 px-2 py-0.5 text-xs text-charcoal/80">
+                <span key={t} className="rounded border border-uatx-gold/30 bg-uatx-gold/10 px-2 py-0.5 text-small text-uatx-ink">
                   {t}
                 </span>
               ))}
@@ -104,12 +104,12 @@ export default function MentorRequestDetailPage() {
           )}
           <p className="mt-4">
             <span
-              className={`inline-block rounded px-2 py-0.5 text-xs font-medium ${
+              className={`inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
                 item.status === "ACCEPTED"
-                  ? "bg-green-100 text-green-800"
+                  ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
                   : item.status === "DECLINED"
-                  ? "bg-stone-100 text-charcoal/60"
-                  : "bg-amber-50 text-amber-800"
+                  ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
+                  : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
               }`}
             >
               {item.status}
@@ -120,21 +120,21 @@ export default function MentorRequestDetailPage() {
               <button
                 onClick={() => respond("accept")}
                 disabled={responding}
-                className="rounded bg-maroon px-4 py-2 text-sm font-medium text-white hover:bg-maroon-hover disabled:opacity-50"
+                className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
               >
                 Accept (share contact for coffee chat)
               </button>
               <button
                 onClick={() => respond("decline")}
                 disabled={responding}
-                className="rounded border border-charcoal/20 bg-white px-4 py-2 text-sm font-medium text-charcoal hover:bg-charcoal/5 disabled:opacity-50"
+                className="rounded border border-uatx-ink/20 bg-white px-4 py-2 text-small font-medium text-uatx-ink hover:border-uatx-gold hover:text-uatx-gold disabled:opacity-50 transition-colors"
               >
                 Decline
               </button>
             </div>
           )}
           {item.status === "ACCEPTED" && (
-            <p className="mt-4 text-sm text-charcoal/70">
+            <p className="mt-4 text-small text-uatx-sand">
               The student will see your contact email and can reach out to schedule the coffee chat.
             </p>
           )}

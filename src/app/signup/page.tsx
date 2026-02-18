@@ -66,163 +66,81 @@ export default function SignupPage() {
     router.refresh();
   }
 
+  const inputClass =
+    "mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold";
+  const labelClass = "block text-small font-medium text-uatx-ink";
+
   return (
-    <div className="min-h-screen bg-cream flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <Link href="/" className="font-serif text-xl text-charcoal">
+          <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ink">
             Bridge
           </Link>
-          <h2 className="mt-6 font-serif text-2xl text-charcoal">Sign up</h2>
+          <h2 className="mt-6 font-display text-display-md uppercase tracking-tight text-uatx-ink">Sign up</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && (
-            <p className="rounded bg-red-50 px-3 py-2 text-sm text-red-800">
-              {error}
-            </p>
+            <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">{error}</p>
           )}
           <div>
-            <label className="block text-sm font-medium text-charcoal/80">I am a</label>
+            <label className={labelClass}>I am a</label>
             <div className="mt-1 flex gap-4">
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="role"
-                  checked={role === "STUDENT"}
-                  onChange={() => setRole("STUDENT")}
-                  className="rounded border-stone-200"
-                />
+              <label className="flex items-center gap-2 text-body text-uatx-ink">
+                <input type="radio" name="role" checked={role === "STUDENT"} onChange={() => setRole("STUDENT")} className="rounded border-uatx-ink/20" />
                 Student
               </label>
-              <label className="flex items-center gap-2">
-                <input
-                  type="radio"
-                  name="role"
-                  checked={role === "MENTOR"}
-                  onChange={() => setRole("MENTOR")}
-                  className="rounded border-stone-200"
-                />
+              <label className="flex items-center gap-2 text-body text-uatx-ink">
+                <input type="radio" name="role" checked={role === "MENTOR"} onChange={() => setRole("MENTOR")} className="rounded border-uatx-ink/20" />
                 Mentor
               </label>
             </div>
           </div>
           {role === "MENTOR" && (
             <div>
-              <label htmlFor="inviteCode" className="block text-sm font-medium text-charcoal/80">
-                Invite code *
-              </label>
-              <input
-                id="inviteCode"
-                type="text"
-                required={role === "MENTOR"}
-                value={inviteCode}
-                onChange={(e) => setInviteCode(e.target.value)}
-                className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-              />
+              <label htmlFor="inviteCode" className={labelClass}>Invite code *</label>
+              <input id="inviteCode" type="text" required={role === "MENTOR"} value={inviteCode} onChange={(e) => setInviteCode(e.target.value)} className={inputClass} />
             </div>
           )}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-charcoal/80">Email *</label>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-            />
+            <label htmlFor="email" className={labelClass}>Email *</label>
+            <input id="email" type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className={inputClass} />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-charcoal/80">Password *</label>
-            <input
-              id="password"
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-            />
+            <label htmlFor="password" className={labelClass}>Password *</label>
+            <input id="password" type="password" required value={password} onChange={(e) => setPassword(e.target.value)} className={inputClass} />
           </div>
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-charcoal/80">Name *</label>
-            <input
-              id="name"
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-            />
+            <label htmlFor="name" className={labelClass}>Name *</label>
+            <input id="name" type="text" required value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
           </div>
           {role === "STUDENT" && (
             <div>
-              <label htmlFor="interestTags" className="block text-sm font-medium text-charcoal/80">
-                Interest tags (optional, comma-separated)
-              </label>
-              <input
-                id="interestTags"
-                type="text"
-                placeholder="e.g. product, design, engineering"
-                value={interestTags}
-                onChange={(e) => setInterestTags(e.target.value)}
-                className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-              />
+              <label htmlFor="interestTags" className={labelClass}>Interest tags (optional, comma-separated)</label>
+              <input id="interestTags" type="text" placeholder="e.g. product, design, engineering" value={interestTags} onChange={(e) => setInterestTags(e.target.value)} className={inputClass} />
             </div>
           )}
           {role === "MENTOR" && (
             <>
               <div>
-                <label htmlFor="headline" className="block text-sm font-medium text-charcoal/80">Headline *</label>
-                <input
-                  id="headline"
-                  type="text"
-                  required
-                  value={headline}
-                  onChange={(e) => setHeadline(e.target.value)}
-                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-                />
+                <label htmlFor="headline" className={labelClass}>Headline *</label>
+                <input id="headline" type="text" required value={headline} onChange={(e) => setHeadline(e.target.value)} className={inputClass} />
               </div>
               <div>
-                <label htmlFor="bio" className="block text-sm font-medium text-charcoal/80">Bio *</label>
-                <textarea
-                  id="bio"
-                  rows={3}
-                  required
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-                />
+                <label htmlFor="bio" className={labelClass}>Bio *</label>
+                <textarea id="bio" rows={3} required value={bio} onChange={(e) => setBio(e.target.value)} className={inputClass} />
               </div>
               <div>
-                <label htmlFor="topics" className="block text-sm font-medium text-charcoal/80">Topics you mentor on (comma-separated) *</label>
-                <input
-                  id="topics"
-                  type="text"
-                  placeholder="e.g. product management, career transition"
-                  value={topics}
-                  onChange={(e) => setTopics(e.target.value)}
-                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-                />
+                <label htmlFor="topics" className={labelClass}>Topics you mentor on (comma-separated) *</label>
+                <input id="topics" type="text" placeholder="e.g. product management, career transition" value={topics} onChange={(e) => setTopics(e.target.value)} className={inputClass} />
               </div>
               <div>
-                <label htmlFor="industryTags" className="block text-sm font-medium text-charcoal/80">Industry tags (comma-separated)</label>
-                <input
-                  id="industryTags"
-                  type="text"
-                  placeholder="e.g. tech, healthcare"
-                  value={industryTags}
-                  onChange={(e) => setIndustryTags(e.target.value)}
-                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-                />
+                <label htmlFor="industryTags" className={labelClass}>Industry tags (comma-separated)</label>
+                <input id="industryTags" type="text" placeholder="e.g. tech, healthcare" value={industryTags} onChange={(e) => setIndustryTags(e.target.value)} className={inputClass} />
               </div>
               <div>
-                <label htmlFor="availability" className="block text-sm font-medium text-charcoal/80">Availability</label>
-                <select
-                  id="availability"
-                  value={availability}
-                  onChange={(e) => setAvailability(e.target.value)}
-                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-                >
+                <label htmlFor="availability" className={labelClass}>Availability</label>
+                <select id="availability" value={availability} onChange={(e) => setAvailability(e.target.value)} className={inputClass}>
                   <option value="NONE">None</option>
                   <option value="LOW">Low</option>
                   <option value="MEDIUM">Medium</option>
@@ -230,31 +148,22 @@ export default function SignupPage() {
                 </select>
               </div>
               <div>
-                <label htmlFor="contactEmail" className="block text-sm font-medium text-charcoal/80">Contact email (for coffee chat) *</label>
-                <input
-                  id="contactEmail"
-                  type="email"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                  placeholder={email}
-                  className="mt-1 block w-full rounded border border-stone-200 bg-white px-3 py-2 text-charcoal focus:border-maroon focus:outline-none focus:ring-1 focus:ring-maroon"
-                />
+                <label htmlFor="contactEmail" className={labelClass}>Contact email (for coffee chat) *</label>
+                <input id="contactEmail" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} placeholder={email} className={inputClass} />
               </div>
             </>
           )}
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded bg-maroon px-4 py-2.5 text-sm font-medium text-white hover:bg-maroon-hover disabled:opacity-50"
+            className="w-full rounded border border-uatx-gold bg-uatx-gold py-2.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
           >
             {loading ? "Creating account…" : "Sign up"}
           </button>
         </form>
-        <p className="text-center text-sm text-charcoal/70">
+        <p className="text-center text-small text-uatx-sand">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-maroon hover:underline">
-            Log in
-          </Link>
+          <Link href="/login" className="font-medium text-uatx-gold hover:underline">Log in</Link>
         </p>
       </div>
     </div>

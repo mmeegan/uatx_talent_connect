@@ -13,19 +13,19 @@ export default async function MentorDashboardPage() {
   const pending = requests.filter((r: { status: string }) => r.status === "PENDING");
 
   return (
-    <div className="min-h-screen bg-cream">
-      <header className="border-b border-stone-200/80 bg-cream">
-        <div className="mx-auto flex h-16 max-w-3xl items-center justify-between px-6">
-          <Link href="/" className="font-serif text-xl text-charcoal">
+    <div className="min-h-screen bg-uatx-cream">
+      <header className="bg-uatx-ink border-b border-uatx-gold/20">
+        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
+          <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
             Bridge
           </Link>
           <nav className="flex items-center gap-6">
-            <Link href="/dashboard/mentor" className="text-sm font-medium text-charcoal">
+            <Link href="/dashboard/mentor" className="text-small font-medium text-uatx-ivory">
               Incoming requests
             </Link>
             <Link
               href="/api/auth/signout"
-              className="text-sm text-charcoal/70 hover:text-charcoal"
+              className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
             >
               Sign out
             </Link>
@@ -33,18 +33,18 @@ export default async function MentorDashboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-8">
-        <h1 className="font-serif text-2xl text-charcoal">Incoming requests</h1>
-        <p className="mt-1 text-charcoal/70">
+      <main className="mx-auto max-w-3xl px-6 py-10">
+        <h1 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">Incoming requests</h1>
+        <p className="mt-1 text-small text-uatx-sand">
           Students have been matched to you. Accept or decline each request.
         </p>
 
         {requests.length === 0 ? (
-          <div className="mt-8 rounded border border-stone-200/80 bg-white p-8 text-center text-charcoal/60">
+          <div className="mt-8 border border-uatx-ink/10 bg-uatx-cream p-8 text-center text-body text-uatx-sand">
             <p>No requests yet. When a student’s request is matched to you, it will appear here.</p>
           </div>
         ) : (
-          <ul className="mt-6 space-y-4">
+          <ul className="mt-6 space-y-3">
             {requests.map(
               (r: {
                 id: string;
@@ -57,19 +57,19 @@ export default async function MentorDashboardPage() {
                   studentName: string;
                 };
               }) => (
-                <li key={r.id} className="rounded border border-stone-200/80 bg-white p-4">
+                <li key={r.id} className="border border-uatx-ink/10 bg-uatx-cream p-4">
                   <div className="flex items-start justify-between">
                     <div>
-                      <p className="font-medium text-charcoal">{r.helpRequest.title}</p>
-                      <p className="text-sm text-charcoal/70">From {r.helpRequest.studentName}</p>
-                      <p className="mt-2 text-sm text-charcoal/80">{r.helpRequest.description}</p>
+                      <p className="font-medium text-body text-uatx-ink">{r.helpRequest.title}</p>
+                      <p className="text-small text-uatx-sand">From {r.helpRequest.studentName}</p>
+                      <p className="mt-2 text-small text-uatx-sand">{r.helpRequest.description}</p>
                       <span
-                        className={`mt-2 inline-block rounded px-2 py-0.5 text-xs font-medium ${
+                        className={`mt-2 inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
                           r.status === "ACCEPTED"
-                            ? "bg-green-100 text-green-800"
+                            ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
                             : r.status === "DECLINED"
-                            ? "bg-stone-100 text-charcoal/60"
-                            : "bg-amber-50 text-amber-800"
+                            ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
+                            : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
                         }`}
                       >
                         {r.status}
@@ -78,7 +78,7 @@ export default async function MentorDashboardPage() {
                     {r.status === "PENDING" && (
                       <Link
                         href={`/dashboard/mentor/requests/${r.id}`}
-                        className="shrink-0 rounded bg-maroon px-3 py-1.5 text-sm font-medium text-white hover:bg-maroon-hover"
+                        className="shrink-0 rounded border border-uatx-gold bg-uatx-gold px-3 py-1.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
                       >
                         Respond
                       </Link>
@@ -91,7 +91,7 @@ export default async function MentorDashboardPage() {
         )}
 
         {pending.length > 0 && (
-          <p className="mt-4 text-sm text-charcoal/60">
+          <p className="mt-4 text-small text-uatx-sand">
             {pending.length} pending — open each to accept or decline.
           </p>
         )}

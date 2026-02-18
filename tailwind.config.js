@@ -8,14 +8,22 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        cream: "#FBF9F6",
-        charcoal: "#2C2C2C",
-        maroon: "#6B2D3C",
-        "maroon-hover": "#5A2633",
+        "uatx-ink": "#0D1117",
+        "uatx-gold": "#C9A962",
+        "uatx-cream": "#FBF8F3",
+        "uatx-ivory": "#F5F0E8",
+        "uatx-sand": "#6B5B4F",
       },
       fontFamily: {
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
+      },
+      fontSize: {
+        "display-lg": ["2.25rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
+        "display-md": ["1.5rem", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
+        "section": ["1.125rem", { lineHeight: "1.35" }],
+        "body": ["0.9375rem", { lineHeight: "1.6" }],
+        "small": ["0.8125rem", { lineHeight: "1.5" }],
       },
     },
   },
