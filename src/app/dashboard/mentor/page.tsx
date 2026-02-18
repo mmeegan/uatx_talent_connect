@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { getMentorIncomingRequests } from "@/lib/server-data";
+import { getMentorConnections, getMentorIncomingRequests } from "@/lib/server-data";
 import Link from "next/link";
 
 export default async function MentorDashboardPage() {
@@ -10,13 +10,14 @@ export default async function MentorDashboardPage() {
   if ((session.user as { role?: string }).role !== "MENTOR") redirect("/dashboard/student");
 
   const requests = await getMentorIncomingRequests(session);
+  const connections = await getMentorConnections(session);
   const pending = requests.filter((r: { status: string }) => r.status === "PENDING");
 
   return (
     <div className="min-h-screen w-full bg-uatx-cream">
       <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
-          <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
+          <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
             Bridge
           </Link>
           <nav className="flex items-center gap-6">
@@ -34,67 +35,108 @@ export default async function MentorDashboardPage() {
       </header>
 
       <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
-        <h1 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">Incoming requests</h1>
-        <p className="mt-1 text-small text-uatx-sand">
-          Students have been matched to you. Accept or decline each request.
-        </p>
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+          <section className="lg:col-span-2">
+            <h1 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">
+              Incoming requests
+            </h1>
+            <p className="mt-1 text-small text-uatx-sand">
+              Students have been matched to you. Accept or decline each request.
+            </p>
 
-        {requests.length === 0 ? (
-          <div className="mt-8 border border-uatx-ink/10 bg-uatx-cream p-8 text-center text-body text-uatx-sand">
-            <p>No requests yet. When a student’s request is matched to you, it will appear here.</p>
-          </div>
-        ) : (
-          <ul className="mt-6 space-y-3">
-            {requests.map(
-              (r: {
-                id: string;
-                status: string;
-                createdAt: string;
-                helpRequest: {
-                  id: string;
-                  title: string;
-                  description: string;
-                  studentName: string;
-                };
-              }) => (
-                <li key={r.id} className="border border-uatx-ink/10 bg-uatx-cream p-4">
-                  <div className="flex items-start justify-between">
-                    <div>
-                      <p className="font-medium text-body text-uatx-ink">{r.helpRequest.title}</p>
-                      <p className="text-small text-uatx-sand">From {r.helpRequest.studentName}</p>
-                      <p className="mt-2 text-small text-uatx-sand">{r.helpRequest.description}</p>
-                      <span
-                        className={`mt-2 inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
-                          r.status === "ACCEPTED"
-                            ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
-                            : r.status === "DECLINED"
-                            ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
-                            : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
-                        }`}
-                      >
-                        {r.status}
-                      </span>
-                    </div>
-                    {r.status === "PENDING" && (
-                      <Link
-                        href={`/dashboard/mentor/requests/${r.id}`}
-                        className="shrink-0 rounded border border-uatx-gold bg-uatx-gold px-3 py-1.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
-                      >
-                        Respond
-                      </Link>
-                    )}
-                  </div>
-                </li>
-              )
+            {requests.length === 0 ? (
+              <div className="mt-8 border border-uatx-ink/10 bg-uatx-cream p-8 text-center text-body text-uatx-sand">
+                <p>No requests yet. When a student’s request is matched to you, it will appear here.</p>
+              </div>
+            ) : (
+              <ul className="mt-6 space-y-3">
+                {requests.map(
+                  (r: {
+                    id: string;
+                    status: string;
+                    createdAt: string;
+                    helpRequest: {
+                      id: string;
+                      title: string;
+                      description: string;
+                      studentName: string;
+                    };
+                  }) => (
+                    <li key={r.id} className="border border-uatx-ink/10 bg-uatx-cream p-4">
+                      <div className="flex items-start justify-between gap-6">
+                        <div className="min-w-0">
+                          <p className="font-medium text-body text-uatx-ink">{r.helpRequest.title}</p>
+                          <p className="text-small text-uatx-sand">From {r.helpRequest.studentName}</p>
+                          <p className="mt-2 text-small text-uatx-sand">{r.helpRequest.description}</p>
+                          <span
+                            className={`mt-2 inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
+                              r.status === "ACCEPTED"
+                                ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
+                                : r.status === "DECLINED"
+                                ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
+                                : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
+                            }`}
+                          >
+                            {r.status}
+                          </span>
+                        </div>
+                        {r.status === "PENDING" && (
+                          <Link
+                            href={`/dashboard/mentor/requests/${r.id}`}
+                            className="shrink-0 rounded border border-uatx-gold bg-uatx-gold px-3 py-1.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
+                          >
+                            Respond
+                          </Link>
+                        )}
+                      </div>
+                    </li>
+                  )
+                )}
+              </ul>
             )}
-          </ul>
-        )}
 
-        {pending.length > 0 && (
-          <p className="mt-4 text-small text-uatx-sand">
-            {pending.length} pending — open each to accept or decline.
-          </p>
-        )}
+            {pending.length > 0 && (
+              <p className="mt-4 text-small text-uatx-sand">
+                {pending.length} pending — open each to accept or decline.
+              </p>
+            )}
+          </section>
+
+          <aside>
+            <h2 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">
+              Connections
+            </h2>
+            <p className="mt-1 text-small text-uatx-sand">
+              Students whose requests you’ve accepted.
+            </p>
+
+            {connections.length === 0 ? (
+              <div className="mt-6 border border-uatx-ink/10 bg-uatx-cream p-6 text-body text-uatx-sand">
+                No connections yet.
+              </div>
+            ) : (
+              <ul className="mt-6 space-y-3">
+                {connections.map((c: { id: string; helpRequestTitle: string; studentName: string; studentEmail: string }) => (
+                  <li key={c.id} className="border border-uatx-ink/10 bg-uatx-cream p-4">
+                    <Link
+                      href={`/dashboard/mentor/requests/${c.id}`}
+                      className="block font-medium text-body text-uatx-ink hover:text-uatx-gold transition-colors"
+                    >
+                      {c.helpRequestTitle}
+                    </Link>
+                    <p className="mt-1 text-small text-uatx-sand">{c.studentName}</p>
+                    <a
+                      href={`mailto:${encodeURIComponent(c.studentEmail)}`}
+                      className="mt-1 inline-block text-small text-uatx-sand hover:text-uatx-gold transition-colors"
+                    >
+                      {c.studentEmail}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </aside>
+        </div>
       </main>
     </div>
   );

@@ -63,6 +63,38 @@ export async function getMentorIncomingRequests(session: Session | null) {
   }));
 }
 
+export async function getMentorConnections(session: Session | null) {
+  if (!session?.user?.id) return [];
+  const mentor = await prisma.mentorProfile.findUnique({
+    where: { userId: session.user.id },
+  });
+  if (!mentor) return [];
+
+  const list = await prisma.mentorRequest.findMany({
+    where: { mentorId: mentor.id, status: "ACCEPTED" },
+    orderBy: { updatedAt: "desc" },
+    include: {
+      helpRequest: {
+        include: {
+          student: {
+            include: {
+              user: { select: { email: true } },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  return list.map((r) => ({
+    id: r.id,
+    acceptedAt: r.updatedAt,
+    helpRequestTitle: r.helpRequest.title,
+    studentName: r.helpRequest.student.name,
+    studentEmail: r.helpRequest.student.user.email,
+  }));
+}
+
 export async function getHelpRequestById(id: string, session: Session | null) {
   if (!session?.user?.id) return null;
   const helpRequest = await prisma.helpRequest.findUnique({

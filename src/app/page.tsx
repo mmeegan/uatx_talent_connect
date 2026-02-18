@@ -15,8 +15,8 @@ export default async function LandingPage() {
   return (
     <div className="min-h-screen flex flex-col bg-uatx-cream">
       <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
-          <span className="font-display text-section uppercase tracking-wide text-uatx-ivory">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
+          <span className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
             Bridge
           </span>
           <nav className="flex items-center gap-6">

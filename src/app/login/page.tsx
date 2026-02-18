@@ -36,7 +36,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6">
       <div className="w-full max-w-sm space-y-8">
         <div className="text-center">
-          <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ink">
+          <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ink">
             Bridge
           </Link>
           <h2 className="mt-6 font-display text-display-md uppercase tracking-tight text-uatx-ink">Log in</h2>

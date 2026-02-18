@@ -74,7 +74,7 @@ export default function SignupPage() {
     <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ink">
+          <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ink">
             Bridge
           </Link>
           <h2 className="mt-6 font-display text-display-md uppercase tracking-tight text-uatx-ink">Sign up</h2>

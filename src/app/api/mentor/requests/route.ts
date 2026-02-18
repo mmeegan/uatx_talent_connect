@@ -21,7 +21,7 @@ export async function GET() {
     orderBy: { createdAt: "desc" },
     include: {
       helpRequest: {
-        include: { student: true },
+        include: { student: { include: { user: { select: { email: true } } } } },
       },
     },
   });
@@ -37,6 +37,7 @@ export async function GET() {
         description: r.helpRequest.description,
         tags: JSON.parse(r.helpRequest.tags || "[]"),
         studentName: r.helpRequest.student.name,
+        studentEmail: r.helpRequest.student.user.email,
       },
     }))
   );

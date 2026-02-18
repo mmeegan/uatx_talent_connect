@@ -19,8 +19,8 @@ export default async function StudentRequestDetailPage({
   return (
     <div className="min-h-screen bg-uatx-cream">
       <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
-          <Link href="/dashboard/student" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
+        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
+          <Link href="/dashboard/student" className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
             Bridge
           </Link>
           <nav className="flex items-center gap-6">
@@ -34,7 +34,7 @@ export default async function StudentRequestDetailPage({
         </div>
       </header>
 
-      <main className="mx-auto max-w-2xl px-6 py-8">
+      <main className="mx-auto w-full max-w-7xl px-6 py-8 lg:px-8">
         <Link href="/dashboard/student" className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
           ← Back to dashboard
         </Link>
