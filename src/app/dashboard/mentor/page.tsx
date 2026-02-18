@@ -13,9 +13,9 @@ export default async function MentorDashboardPage() {
   const pending = requests.filter((r: { status: string }) => r.status === "PENDING");
 
   return (
-    <div className="min-h-screen bg-uatx-cream">
+    <div className="min-h-screen w-full bg-uatx-cream">
       <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
+        <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
           <Link href="/" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
             Bridge
           </Link>
@@ -33,7 +33,7 @@ export default async function MentorDashboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-10">
+      <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
         <h1 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">Incoming requests</h1>
         <p className="mt-1 text-small text-uatx-sand">
           Students have been matched to you. Accept or decline each request.

@@ -13,9 +13,9 @@ export default async function StudentDashboardPage() {
   const requests = await getStudentHelpRequests(session);
 
   return (
-    <div className="min-h-screen bg-uatx-cream">
+    <div className="min-h-screen w-full bg-uatx-cream">
       <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-6">
+        <div className="mx-auto flex h-14 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
           <Link href="/dashboard/student" className="font-display text-section uppercase tracking-wide text-uatx-ivory">
             Bridge
           </Link>
@@ -30,66 +30,68 @@ export default async function StudentDashboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto max-w-3xl px-6 py-10">
-        {/* Section A: Your requests */}
-        <section>
-          <h2 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">
-            Your requests
-          </h2>
-          <p className="mt-1 text-small text-uatx-sand">
-            Pending requests are with mentors; we’ll notify you when someone accepts.
-          </p>
-          {requests.length === 0 ? (
-            <p className="mt-6 text-body text-uatx-sand">No requests yet. Submit one below.</p>
-          ) : (
-            <ul className="mt-5 space-y-2">
-              {requests.map(
-                (r: {
-                  id: string;
-                  title: string;
-                  status: string;
-                  mentorRequests: { status: string; mentorName: string; contactEmail?: string }[];
-                }) => (
-                  <li
-                    key={r.id}
-                    className="flex items-center justify-between border border-uatx-ink/10 bg-uatx-cream py-3 px-4"
-                  >
-                    <Link
-                      href={`/dashboard/student/requests/${r.id}`}
-                      className="font-medium text-body text-uatx-ink hover:text-uatx-gold transition-colors"
+      <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
+          {/* Left: Your requests */}
+          <section>
+            <h2 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">
+              Your requests
+            </h2>
+            <p className="mt-1 text-small text-uatx-sand">
+              Pending requests are with mentors; we’ll notify you when someone accepts.
+            </p>
+            {requests.length === 0 ? (
+              <p className="mt-6 text-body text-uatx-sand">No requests yet. Submit one on the right.</p>
+            ) : (
+              <ul className="mt-5 space-y-2">
+                {requests.map(
+                  (r: {
+                    id: string;
+                    title: string;
+                    status: string;
+                    mentorRequests: { status: string; mentorName: string; contactEmail?: string }[];
+                  }) => (
+                    <li
+                      key={r.id}
+                      className="flex items-center justify-between border border-uatx-ink/10 bg-uatx-cream py-3 px-4"
                     >
-                      {r.title}
-                    </Link>
-                    <span
-                      className={`rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
-                        r.status === "ACCEPTED"
-                          ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
-                          : r.status === "PENDING"
-                          ? "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
-                          : "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
-                      }`}
-                    >
-                      {r.status}
-                    </span>
-                  </li>
-                )
-              )}
-            </ul>
-          )}
-        </section>
+                      <Link
+                        href={`/dashboard/student/requests/${r.id}`}
+                        className="font-medium text-body text-uatx-ink hover:text-uatx-gold transition-colors"
+                      >
+                        {r.title}
+                      </Link>
+                      <span
+                        className={`rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
+                          r.status === "ACCEPTED"
+                            ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
+                            : r.status === "PENDING"
+                            ? "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
+                            : "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
+                        }`}
+                      >
+                        {r.status}
+                      </span>
+                    </li>
+                  )
+                )}
+              </ul>
+            )}
+          </section>
 
-        {/* Section B: New request form */}
-        <section className="mt-14">
-          <h2 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">
-            New request
-          </h2>
-          <p className="mt-1 text-small text-uatx-sand">
-            Describe what you want help with. We’ll match you with up to three mentors automatically.
-          </p>
-          <div className="mt-5 border border-uatx-ink/10 bg-uatx-cream p-6">
-            <NewRequestForm />
-          </div>
-        </section>
+          {/* Right: New request form */}
+          <section>
+            <h2 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">
+              New request
+            </h2>
+            <p className="mt-1 text-small text-uatx-sand">
+              Describe what you want help with. We’ll match you with up to three mentors automatically.
+            </p>
+            <div className="mt-5 border border-uatx-ink/10 bg-uatx-cream p-6">
+              <NewRequestForm />
+            </div>
+          </section>
+        </div>
 
         {/* Section C: How it works */}
         <section className="mt-16 border-t border-uatx-ink/10 pt-10">
