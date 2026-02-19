@@ -1,11 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
@@ -33,9 +33,8 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6">
-      <div className="w-full max-w-sm space-y-8">
-        <div className="text-center">
+    <div className="w-full max-w-sm space-y-8">
+      <div className="text-center">
           <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ink">
             Bridge
           </Link>
@@ -87,7 +86,16 @@ export default function LoginPage() {
             Sign up
           </Link>
         </p>
-      </div>
+    </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6">
+      <Suspense fallback={<div className="text-uatx-sand">Loading…</div>}>
+        <LoginForm />
+      </Suspense>
     </div>
   );
 }

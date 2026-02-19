@@ -59,7 +59,6 @@ export async function POST(
       mentorId,
       status: "PENDING",
     })),
-    skipDuplicates: true,
   });
 
   return NextResponse.json({ ok: true });

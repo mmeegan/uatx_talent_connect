@@ -54,7 +54,7 @@ export default async function MentorDashboardPage() {
                   (r: {
                     id: string;
                     status: string;
-                    createdAt: string;
+                    createdAt: Date;
                     helpRequest: {
                       id: string;
                       title: string;

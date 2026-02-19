@@ -6,6 +6,7 @@ import type { MentorProfilePayload, StudentProfilePayload } from "@/types";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
+const inviteCodeValue = body.inviteCode;
     const { email, password, role, inviteCode, profile } = body as {
       email: string;
       password: string;
@@ -77,7 +78,7 @@ export async function POST(request: Request) {
         },
       });
       await prisma.inviteCode.update({
-        where: { id: code.id },
+        where: { code: inviteCodeValue }, // string
         data: { used: true, usedAt: new Date() },
       });
     }

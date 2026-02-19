@@ -1,6 +1,8 @@
 import { prisma } from "./prisma";
 import { parseJsonArray } from "@/types";
-import type { Availability } from "@prisma/client";
+
+/** Matches MentorProfile.availability values in the schema (stored as String). */
+type Availability = "NONE" | "LOW" | "MEDIUM" | "HIGH";
 
 const AVAILABILITY_WEIGHT: Record<Availability, number> = {
   NONE: 0,
@@ -20,10 +22,10 @@ function tagScore(
   const industrySet = new Set(mentorIndustry.map((t) => t.toLowerCase().trim()));
   if (reqSet.size === 0 && topicSet.size === 0 && industrySet.size === 0) return 0.5;
   let matches = 0;
-  for (const t of reqSet) {
+  for (const t of Array.from(reqSet)) {
     if (topicSet.has(t) || industrySet.has(t)) matches++;
   }
-  for (const t of topicSet) {
+  for (const t of Array.from(topicSet)) {
     if (reqSet.has(t)) matches++;
   }
   const total = reqSet.size + topicSet.size + industrySet.size;
@@ -67,7 +69,7 @@ export async function rankMentorsForRequest(
       const topics = parseJsonArray(m.topics);
       const industryTags = parseJsonArray(m.industryTags);
       const base = tagScore(requestTags, topics, industryTags);
-      const avail = AVAILABILITY_WEIGHT[m.availability] ?? 1;
+      const avail = AVAILABILITY_WEIGHT[m.availability as Availability] ?? 1;
       const activeConnections = m._count.requests;
       const loadPenalty = Math.max(0.7, 1 - activeConnections * 0.05);
       const score = base * avail * loadPenalty;
@@ -78,7 +80,7 @@ export async function rankMentorsForRequest(
         bio: m.bio,
         topics,
         industryTags,
-        availability: m.availability,
+        availability: m.availability as Availability,
         contactEmail: m.contactEmail,
         score,
         activeConnections,
