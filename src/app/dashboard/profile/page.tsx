@@ -68,7 +68,7 @@ export default function ProfilePage() {
   const role = (session?.user as { role?: string })?.role;
   const isMentor = role === "MENTOR";
   const mainHref = isMentor ? "/dashboard/mentor" : "/dashboard/student";
-  const mainLabel = isMentor ? "Incoming requests" : "Your requests";
+  const mainLabel = "Requests";
 
   useEffect(() => {
     if (status === "unauthenticated") {

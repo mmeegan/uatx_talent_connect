@@ -45,7 +45,7 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-zinc-600 bg-zinc-800 text-xs font-medium text-zinc-300 transition-colors duration-200 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+              className={open ? "text-sm font-medium text-zinc-100" : navLinkClass}
               aria-expanded={open}
               aria-haspopup="true"
             >
