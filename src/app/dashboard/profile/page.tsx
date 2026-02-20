@@ -217,7 +217,17 @@ function StudentProfileForm({
         <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 text-2xl font-semibold text-zinc-100">{profile.name}</h1>
+        {(imageUrl || profile.imageUrl) && (
+          <div className="mt-6">
+            <img
+              src={imageUrl || profile.imageUrl || ""}
+              alt=""
+              className="h-28 w-28 rounded-full border border-zinc-700 object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            />
+          </div>
+        )}
+        <h1 className="mt-6 text-2xl font-semibold text-zinc-100">{name}</h1>
         <div className="mt-2 h-px w-16 bg-zinc-700" />
         <p className="mt-4 text-zinc-400">Your public profile.</p>
 
@@ -254,16 +264,6 @@ function StudentProfileForm({
                   <label htmlFor="imageUrl" className={labelClass}>Profile picture (URL)</label>
                   <input id="imageUrl" type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" className={inputClass} />
                 </div>
-                {(imageUrl || profile.imageUrl) && (
-                  <div className="shrink-0">
-                    <img
-                      src={imageUrl || profile.imageUrl || ""}
-                      alt=""
-                      className="h-24 w-24 rounded-full border border-zinc-700 object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                  </div>
-                )}
               </div>
             </Section>
             <Section title="UATX center(s)">
@@ -338,8 +338,18 @@ function MentorProfileForm({
         <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 text-2xl font-semibold text-zinc-100">{profile.name}</h1>
-        <p className="mt-1 text-zinc-500">{profile.headline || "Mentor"}</p>
+        {(imageUrl || profile.imageUrl) && (
+          <div className="mt-6">
+            <img
+              src={imageUrl || profile.imageUrl || ""}
+              alt=""
+              className="h-28 w-28 rounded-full border border-zinc-700 object-cover"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            />
+          </div>
+        )}
+        <h1 className="mt-6 text-2xl font-semibold text-zinc-100">{name}</h1>
+        <p className="mt-1 text-zinc-500">{headline || "Mentor"}</p>
         <div className="mt-2 h-px w-16 bg-zinc-700" />
         <p className="mt-4 text-zinc-400">Your mentor profile.</p>
 
@@ -373,16 +383,6 @@ function MentorProfileForm({
                   <label htmlFor="m-imageUrl" className={labelClass}>Profile picture (URL)</label>
                   <input id="m-imageUrl" type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" className={inputClass} />
                 </div>
-                {(imageUrl || profile.imageUrl) && (
-                  <div className="shrink-0">
-                    <img
-                      src={imageUrl || profile.imageUrl || ""}
-                      alt=""
-                      className="h-24 w-24 rounded-full border border-zinc-700 object-cover"
-                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-                    />
-                  </div>
-                )}
                 <div>
                   <label htmlFor="contactEmail" className={labelClass}>Contact email</label>
                   <input id="contactEmail" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className={inputClass} />

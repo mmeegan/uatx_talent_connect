@@ -34,24 +34,12 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
         >
           Constellate
         </Link>
-        <nav className="flex items-center gap-8">
+        <nav className="flex items-center gap-6">
           <Link
             href={mainHref}
             className={pathname === mainHref ? "text-sm font-medium text-zinc-100" : navLinkClass}
           >
             {mainLabel}
-          </Link>
-          <Link
-            href={mainHref}
-            className={navLinkClass}
-          >
-            Network
-          </Link>
-          <Link href="/dashboard/profile" className={navLinkClass}>
-            Profile
-          </Link>
-          <Link href="/dashboard/settings" className={navLinkClass}>
-            Settings
           </Link>
           <div className="relative" ref={ref}>
             <button

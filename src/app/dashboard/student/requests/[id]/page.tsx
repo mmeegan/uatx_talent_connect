@@ -66,20 +66,19 @@ export default async function StudentRequestDetailPage({
                     className="flex flex-wrap items-start justify-between gap-4 rounded-lg border border-zinc-800 bg-zinc-900/30 p-4"
                   >
                     <div>
-                      <p className="font-medium text-zinc-100">{mr.mentor.name}</p>
-                      <p className="text-sm text-zinc-500">{mr.mentor.headline}</p>
-                      <Badge
-                        variant={
-                          mr.status === "ACCEPTED"
-                            ? "success"
-                            : mr.status === "DECLINED"
-                            ? "muted"
-                            : "warning"
-                        }
-                        className="mt-2"
-                      >
-                        {mr.status}
-                      </Badge>
+                      {mr.status === "ACCEPTED" ? (
+                        <>
+                          <p className="font-medium text-zinc-100">{mr.mentor.name}</p>
+                          <p className="text-sm text-zinc-500">{mr.mentor.headline}</p>
+                          <Badge variant="success" className="mt-2">Accepted</Badge>
+                        </>
+                      ) : (
+                        <Badge
+                          variant={mr.status === "DECLINED" ? "muted" : "warning"}
+                        >
+                          {mr.status === "PENDING" ? "Pending" : "Declined"}
+                        </Badge>
+                      )}
                     </div>
                     {mr.status === "ACCEPTED" && mr.mentor.contactEmail && (
                       <a
