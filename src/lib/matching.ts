@@ -32,10 +32,11 @@ function tagScore(
   return total === 0 ? 0.5 : Math.min(1, (matches * 0.5) / Math.max(1, total * 0.3));
 }
 
-/** Rank mentors for a help request. Uses tag overlap; availability and load adjust score. */
+/** Rank mentors for a help request. Uses tag overlap (topics + industries); availability and load adjust score. */
 export async function rankMentorsForRequest(
   requestId: string,
-  requestTags: string[]
+  requestTags: string[],
+  requestIndustryTags: string[] = []
 ): Promise<
   Array<{
     mentorId: string;
@@ -63,12 +64,13 @@ export async function rankMentorsForRequest(
     },
   });
 
+  const allRequestTags = [...requestTags, ...requestIndustryTags];
   const scored = mentors
     .filter((m) => !excludedMentorIds.has(m.id))
     .map((m) => {
       const topics = parseJsonArray(m.topics);
       const industryTags = parseJsonArray(m.industryTags);
-      const base = tagScore(requestTags, topics, industryTags);
+      const base = tagScore(allRequestTags, topics, industryTags);
       const avail = AVAILABILITY_WEIGHT[m.availability as Availability] ?? 1;
       const activeConnections = m._count.requests;
       const loadPenalty = Math.max(0.7, 1 - activeConnections * 0.05);

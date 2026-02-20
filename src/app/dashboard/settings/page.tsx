@@ -83,7 +83,7 @@ export default function SettingsPage() {
           Account control: change your password.
         </p>
 
-        <section className="mt-8 max-w-md border border-uatx-ink/10 bg-white p-6">
+        <section className="mt-8 w-full max-w-2xl border border-uatx-ink/10 bg-white p-6 lg:p-8">
           <h2 className="font-display text-small font-semibold uppercase tracking-wider text-uatx-ink">
             Change password
           </h2>

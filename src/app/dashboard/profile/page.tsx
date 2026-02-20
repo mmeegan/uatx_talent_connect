@@ -5,14 +5,16 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import DashboardNav from "@/components/DashboardNav";
+import { TOPIC_OPTIONS, INDUSTRY_OPTIONS, UATX_CENTERS } from "@/lib/constants";
 
 type StudentProfile = {
   id: string;
   name: string;
   description?: string | null;
   imageUrl?: string | null;
-  center?: string | null;
+  center?: string[] | string | null; // JSON array or legacy single string
   tags?: string[];
+  industryTags?: string[];
 };
 
 type MentorProfile = {
@@ -34,14 +36,16 @@ type MeResponse = {
   profile: StudentProfile | MentorProfile | null;
 };
 
-const UATX_CENTERS = [
-  "Austin",
-  "Bay Area",
-  "Boston",
-  "London",
-  "New York",
-  "Other",
-];
+function parseCenter(center: string[] | string | null | undefined): string[] {
+  if (!center) return [];
+  if (Array.isArray(center)) return center;
+  try {
+    const parsed = JSON.parse(center);
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return center ? [center] : [];
+  }
+}
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -171,6 +175,55 @@ export default function ProfilePage() {
   );
 }
 
+function MultiSelect({
+  options,
+  selected,
+  onChange,
+  label,
+  id,
+}: {
+  options: readonly string[];
+  selected: string[];
+  onChange: (selected: string[]) => void;
+  label: string;
+  id: string;
+}) {
+  function toggle(value: string) {
+    if (selected.includes(value)) {
+      onChange(selected.filter((s) => s !== value));
+    } else {
+      onChange([...selected, value]);
+    }
+  }
+  return (
+    <div>
+      <span className={labelClass} id={id}>
+        {label}
+      </span>
+      <div
+        className="mt-2 flex flex-wrap gap-x-4 gap-y-2"
+        role="group"
+        aria-labelledby={id}
+      >
+        {options.map((opt) => (
+          <label
+            key={opt}
+            className="flex cursor-pointer items-center gap-2 text-body text-uatx-ink"
+          >
+            <input
+              type="checkbox"
+              checked={selected.includes(opt)}
+              onChange={() => toggle(opt)}
+              className="h-4 w-4 rounded border-uatx-ink/20 text-uatx-gold focus:ring-uatx-gold"
+            />
+            {opt}
+          </label>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const inputClass =
   "mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold";
 const labelClass = "block text-small font-medium text-uatx-ink";
@@ -187,7 +240,7 @@ function StudentProfileForm({
   profile: StudentProfile;
   mainHref: string;
   mainLabel: string;
-  onSave: (p: Partial<StudentProfile> & { tags?: string[] }) => void;
+  onSave: (p: Partial<StudentProfile> & { tags?: string[]; industryTags?: string[]; center?: string[] }) => void;
   error: string;
   success: boolean;
   saving: boolean;
@@ -195,8 +248,9 @@ function StudentProfileForm({
   const [name, setName] = useState(profile.name);
   const [description, setDescription] = useState(profile.description ?? "");
   const [imageUrl, setImageUrl] = useState(profile.imageUrl ?? "");
-  const [center, setCenter] = useState(profile.center ?? "");
-  const [tagsStr, setTagsStr] = useState((profile.tags ?? []).join(", "));
+  const [centers, setCenters] = useState<string[]>(() => parseCenter(profile.center));
+  const [tags, setTags] = useState<string[]>(() => profile.tags ?? []);
+  const [industryTags, setIndustryTags] = useState<string[]>(() => profile.industryTags ?? []);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -204,8 +258,9 @@ function StudentProfileForm({
       name: name.trim() || "Student",
       description: description.trim() || undefined,
       imageUrl: imageUrl.trim() || undefined,
-      center: center.trim() || undefined,
-      tags: tagsStr.split(/[\s,]+/).map((t) => t.trim()).filter(Boolean),
+      center: centers,
+      tags,
+      industryTags,
     });
   }
 
@@ -223,7 +278,7 @@ function StudentProfileForm({
           Your public profile for the talent network.
         </p>
 
-        <div className="mt-8 flex flex-col gap-8 md:flex-row">
+        <div className="mt-8 flex flex-col gap-8 lg:flex-row">
           {(imageUrl || profile.imageUrl) && (
             <div className="shrink-0">
               <img
@@ -234,7 +289,7 @@ function StudentProfileForm({
               />
             </div>
           )}
-          <section className="max-w-lg flex-1 border border-uatx-ink/10 bg-white p-6">
+          <section className="min-w-0 flex-1 border border-uatx-ink/10 bg-white p-6 lg:p-8">
             <h2 className="font-display text-small font-semibold uppercase tracking-wider text-uatx-ink">
               Edit profile
             </h2>
@@ -248,12 +303,12 @@ function StudentProfileForm({
                 Profile updated.
               </p>
             )}
-            <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-              <div>
+            <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+              <div className="sm:col-span-2">
                 <label htmlFor="name" className={labelClass}>Name</label>
                 <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="description" className={labelClass}>Description</label>
                 <textarea
                   id="description"
@@ -264,7 +319,7 @@ function StudentProfileForm({
                   className={inputClass}
                 />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="imageUrl" className={labelClass}>Profile picture (URL)</label>
                 <input
                   id="imageUrl"
@@ -275,38 +330,42 @@ function StudentProfileForm({
                   className={inputClass}
                 />
               </div>
-              <div>
-                <label htmlFor="center" className={labelClass}>UATX center</label>
-                <select
-                  id="center"
-                  value={center || ""}
-                  onChange={(e) => setCenter(e.target.value)}
-                  className={inputClass}
-                >
-                  <option value="">Select your center</option>
-                  {UATX_CENTERS.map((c) => (
-                    <option key={c} value={c}>{c}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label htmlFor="tags" className={labelClass}>Interest tags (comma-separated)</label>
-                <input
-                  id="tags"
-                  type="text"
-                  value={tagsStr}
-                  onChange={(e) => setTagsStr(e.target.value)}
-                  placeholder="e.g. product, design, engineering"
-                  className={inputClass}
+              <div className="sm:col-span-2">
+                <MultiSelect
+                  id="centers"
+                  label="UATX center(s)"
+                  options={UATX_CENTERS}
+                  selected={centers}
+                  onChange={setCenters}
                 />
               </div>
-              <button
-                type="submit"
-                disabled={saving}
-                className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
-              >
-                {saving ? "Saving…" : "Save profile"}
-              </button>
+              <div className="sm:col-span-2">
+                <MultiSelect
+                  id="topics"
+                  label="Topics (what you’re interested in)"
+                  options={TOPIC_OPTIONS}
+                  selected={tags}
+                  onChange={setTags}
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <MultiSelect
+                  id="industries"
+                  label="Industries / fields"
+                  options={INDUSTRY_OPTIONS}
+                  selected={industryTags}
+                  onChange={setIndustryTags}
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
+                >
+                  {saving ? "Saving…" : "Save profile"}
+                </button>
+              </div>
             </form>
           </section>
         </div>
@@ -336,8 +395,8 @@ function MentorProfileForm({
   const [headline, setHeadline] = useState(profile.headline ?? "");
   const [bio, setBio] = useState(profile.bio ?? "");
   const [imageUrl, setImageUrl] = useState(profile.imageUrl ?? "");
-  const [topicsStr, setTopicsStr] = useState((profile.topics ?? []).join(", "));
-  const [industryTagsStr, setIndustryTagsStr] = useState((profile.industryTags ?? []).join(", "));
+  const [topics, setTopics] = useState<string[]>(() => profile.topics ?? []);
+  const [industryTags, setIndustryTags] = useState<string[]>(() => profile.industryTags ?? []);
   const [contactEmail, setContactEmail] = useState(profile.contactEmail ?? "");
 
   function handleSubmit(e: React.FormEvent) {
@@ -347,8 +406,8 @@ function MentorProfileForm({
       headline: headline.trim(),
       bio: bio.trim(),
       imageUrl: imageUrl.trim() || undefined,
-      topics: topicsStr.split(/[\s,]+/).map((t) => t.trim()).filter(Boolean),
-      industryTags: industryTagsStr.split(/[\s,]+/).map((t) => t.trim()).filter(Boolean),
+      topics,
+      industryTags,
       contactEmail: contactEmail.trim(),
     });
   }
@@ -367,7 +426,7 @@ function MentorProfileForm({
           Your mentor profile: description, picture, and expertise.
         </p>
 
-        <div className="mt-8 flex flex-col gap-8 md:flex-row">
+        <div className="mt-8 flex flex-col gap-8 lg:flex-row">
           {(imageUrl || profile.imageUrl) && (
             <div className="shrink-0">
               <img
@@ -378,7 +437,7 @@ function MentorProfileForm({
               />
             </div>
           )}
-          <section className="max-w-lg flex-1 border border-uatx-ink/10 bg-white p-6">
+          <section className="min-w-0 flex-1 border border-uatx-ink/10 bg-white p-6 lg:p-8">
             <h2 className="font-display text-small font-semibold uppercase tracking-wider text-uatx-ink">
               Edit profile
             </h2>
@@ -392,12 +451,12 @@ function MentorProfileForm({
                 Profile updated.
               </p>
             )}
-            <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-              <div>
+            <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
+              <div className="sm:col-span-2">
                 <label htmlFor="m-name" className={labelClass}>Name</label>
                 <input id="m-name" type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="headline" className={labelClass}>Headline</label>
                 <input
                   id="headline"
@@ -408,7 +467,7 @@ function MentorProfileForm({
                   className={inputClass}
                 />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="bio" className={labelClass}>Description / Bio</label>
                 <textarea
                   id="bio"
@@ -419,7 +478,7 @@ function MentorProfileForm({
                   className={inputClass}
                 />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="m-imageUrl" className={labelClass}>Profile picture (URL)</label>
                 <input
                   id="m-imageUrl"
@@ -430,29 +489,25 @@ function MentorProfileForm({
                   className={inputClass}
                 />
               </div>
-              <div>
-                <label htmlFor="topics" className={labelClass}>Expertise / topics (comma-separated)</label>
-                <input
-                  id="topics"
-                  type="text"
-                  value={topicsStr}
-                  onChange={(e) => setTopicsStr(e.target.value)}
-                  placeholder="e.g. product strategy, career transitions"
-                  className={inputClass}
+              <div className="sm:col-span-2">
+                <MultiSelect
+                  id="m-topics"
+                  label="Topics you mentor on"
+                  options={TOPIC_OPTIONS}
+                  selected={topics}
+                  onChange={setTopics}
                 />
               </div>
-              <div>
-                <label htmlFor="industryTags" className={labelClass}>Fields / industries (comma-separated)</label>
-                <input
-                  id="industryTags"
-                  type="text"
-                  value={industryTagsStr}
-                  onChange={(e) => setIndustryTagsStr(e.target.value)}
-                  placeholder="e.g. tech, healthcare, design"
-                  className={inputClass}
+              <div className="sm:col-span-2">
+                <MultiSelect
+                  id="m-industries"
+                  label="Industries / fields"
+                  options={INDUSTRY_OPTIONS}
+                  selected={industryTags}
+                  onChange={setIndustryTags}
                 />
               </div>
-              <div>
+              <div className="sm:col-span-2">
                 <label htmlFor="contactEmail" className={labelClass}>Contact email</label>
                 <input
                   id="contactEmail"
@@ -462,13 +517,15 @@ function MentorProfileForm({
                   className={inputClass}
                 />
               </div>
-              <button
-                type="submit"
-                disabled={saving}
-                className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
-              >
-                {saving ? "Saving…" : "Save profile"}
-              </button>
+              <div className="sm:col-span-2">
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
+                >
+                  {saving ? "Saving…" : "Save profile"}
+                </button>
+              </div>
             </form>
           </section>
         </div>

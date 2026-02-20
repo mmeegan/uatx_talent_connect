@@ -61,6 +61,7 @@ const inviteCodeValue = body.inviteCode;
           userId: user.id,
           name: p.name?.trim() || "Student",
           tags: JSON.stringify(p.tags || []),
+          industryTags: JSON.stringify(p.industryTags || []),
         },
       });
     } else {

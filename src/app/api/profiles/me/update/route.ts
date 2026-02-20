@@ -19,14 +19,21 @@ export async function PATCH(request: Request) {
 
   if (user.role === "STUDENT" && user.studentProfile) {
     const p = body as Partial<StudentProfilePayload>;
+    const centerVal =
+      p.center === undefined
+        ? undefined
+        : Array.isArray(p.center)
+          ? JSON.stringify(p.center)
+          : p.center || null;
     await prisma.studentProfile.update({
       where: { id: user.studentProfile.id },
       data: {
         ...(p.name != null && { name: p.name }),
         ...(p.description !== undefined && { description: p.description || null }),
         ...(p.imageUrl !== undefined && { imageUrl: p.imageUrl || null }),
-        ...(p.center !== undefined && { center: p.center || null }),
+        ...(p.center !== undefined && { center: centerVal }),
         ...(p.tags != null && { tags: JSON.stringify(p.tags) }),
+        ...(p.industryTags !== undefined && { industryTags: JSON.stringify(p.industryTags || []) }),
       },
     });
   } else if (user.role === "MENTOR" && user.mentorProfile) {

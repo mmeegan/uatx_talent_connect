@@ -38,6 +38,7 @@ export async function GET(
     title: helpRequest.title,
     description: helpRequest.description,
     tags: JSON.parse(helpRequest.tags || "[]"),
+    industryTags: JSON.parse(helpRequest.industryTags || "[]"),
     createdAt: helpRequest.createdAt,
     studentName: helpRequest.student.name,
     mentorRequests: helpRequest.mentorRequests.map((mr) => ({

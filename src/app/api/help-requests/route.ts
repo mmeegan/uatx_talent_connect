@@ -38,6 +38,7 @@ export async function GET() {
       title: r.title,
       description: r.description,
       tags: JSON.parse(r.tags || "[]"),
+      industryTags: JSON.parse(r.industryTags || "[]"),
       createdAt: r.createdAt,
       mentorRequests: r.mentorRequests.map((mr) => ({
         id: mr.id,
@@ -65,7 +66,7 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, description, tags } = body;
+  const { title, description, tags, industryTags } = body;
   if (!title?.trim()) {
     return NextResponse.json({ error: "Title is required" }, { status: 400 });
   }
@@ -76,11 +77,13 @@ export async function POST(request: Request) {
       title: title.trim(),
       description: (description ?? "").trim(),
       tags: JSON.stringify(Array.isArray(tags) ? tags : []),
+      industryTags: JSON.stringify(Array.isArray(industryTags) ? industryTags : []),
     },
   });
 
   const requestTags = Array.isArray(tags) ? tags : [];
-  const ranked = await rankMentorsForRequest(helpRequest.id, requestTags);
+  const requestIndustryTags = Array.isArray(industryTags) ? industryTags : [];
+  const ranked = await rankMentorsForRequest(helpRequest.id, requestTags, requestIndustryTags);
   const topMentors = ranked.slice(0, MAX_MENTORS_AUTO_SEND);
   if (topMentors.length > 0) {
     await prisma.mentorRequest.createMany({
@@ -97,6 +100,7 @@ export async function POST(request: Request) {
     title: helpRequest.title,
     description: helpRequest.description,
     tags: JSON.parse(helpRequest.tags || "[]"),
+    industryTags: JSON.parse(helpRequest.industryTags || "[]"),
     createdAt: helpRequest.createdAt,
   });
 }

@@ -24,6 +24,7 @@ export async function GET(
   }
 
   const requestTags = JSON.parse(helpRequest.tags || "[]") as string[];
-  const ranked = await rankMentorsForRequest(id, requestTags);
+  const requestIndustryTags = JSON.parse(helpRequest.industryTags || "[]") as string[];
+  const ranked = await rankMentorsForRequest(id, requestTags, requestIndustryTags);
   return NextResponse.json(ranked);
 }

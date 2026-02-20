@@ -16,21 +16,22 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: "User not found" }, { status: 404 });
 
   const profile = user.role === "STUDENT" ? user.studentProfile : user.mentorProfile;
-  return NextResponse.json({
-    id: user.id,
-    email: user.email,
-    role: user.role,
-    profile: profile
-      ? {
-          ...profile,
-          topics: profile && "topics" in profile ? JSON.parse((profile as { topics: string }).topics || "[]") : undefined,
-          industryTags:
-            profile && "industryTags" in profile
-              ? JSON.parse((profile as { industryTags: string }).industryTags || "[]")
-              : undefined,
-          tags:
-            profile && "tags" in profile ? JSON.parse((profile as { tags: string }).tags || "[]") : undefined,
-        }
-      : null,
-  });
+  if (!profile) return NextResponse.json({ id: user.id, email: user.email, role: user.role, profile: null });
+
+  const base: Record<string, unknown> = { ...profile };
+  if ("tags" in profile) {
+    base.tags = JSON.parse((profile as { tags: string }).tags || "[]");
+  }
+  if ("industryTags" in profile) {
+    const raw = (profile as { industryTags?: string | null }).industryTags;
+    base.industryTags = raw ? JSON.parse(raw) : [];
+  }
+  if ("topics" in profile) {
+    base.topics = JSON.parse((profile as { topics: string }).topics || "[]");
+  }
+  if ("center" in profile) {
+    const raw = (profile as { center?: string | null }).center;
+    base.center = raw ? JSON.parse(raw) : [];
+  }
+  return NextResponse.json({ id: user.id, email: user.email, role: user.role, profile: base });
 }

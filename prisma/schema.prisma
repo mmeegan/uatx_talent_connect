@@ -21,16 +21,17 @@ model User {
 
 
 model StudentProfile {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name        String
-  description String?
-  imageUrl    String?
-  center      String?  // UATX center
-  tags        String   // JSON array of interest tags
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name         String
+  description  String?
+  imageUrl     String?
+  center       String?  // JSON array of UATX centers e.g. ["CAL","CEPS"]
+  tags         String   // JSON array of topic tags
+  industryTags String?  // JSON array of industry tags
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   helpRequests HelpRequest[]
 }
@@ -55,14 +56,15 @@ model MentorProfile {
 
 
 model HelpRequest {
-  id          String   @id @default(cuid())
-  studentId   String
-  student     StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  title       String
-  description String
-  tags        String   // JSON array of optional tags
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  studentId    String
+  student      StudentProfile @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  title        String
+  description  String
+  tags         String   // JSON array of topic tags
+  industryTags String?  // JSON array of industry tags
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   mentorRequests MentorRequest[]
 }

@@ -16,14 +16,16 @@ export interface StudentProfilePayload {
   name: string;
   description?: string;
   imageUrl?: string;
-  center?: string;
+  center?: string | string[]; // JSON array of UATX centers, or string for API
   tags: string[];
+  industryTags?: string[];
 }
 
 export interface HelpRequestPayload {
   title: string;
   description: string;
   tags?: string[];
+  industryTags?: string[];
 }
 
 export interface RankedMentor {
