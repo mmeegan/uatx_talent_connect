@@ -6,6 +6,10 @@ import Link from "next/link";
 
 type Role = "STUDENT" | "MENTOR";
 
+const inputClass =
+  "mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500";
+const labelClass = "block text-sm font-medium text-zinc-300";
+
 export default function SignupPage() {
   const router = useRouter();
   const [role, setRole] = useState<Role>("STUDENT");
@@ -66,32 +70,42 @@ export default function SignupPage() {
     router.refresh();
   }
 
-  const inputClass =
-    "mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold";
-  const labelClass = "block text-small font-medium text-uatx-ink";
-
   return (
-    <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6 py-12">
+    <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center px-6 py-12">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ink">
-            Bridge
+          <Link href="/" className="font-display text-xl tracking-tight text-zinc-100">
+            Constellate
           </Link>
-          <h2 className="mt-6 font-display text-display-md uppercase tracking-tight text-uatx-ink">Sign up</h2>
+          <h2 className="mt-8 text-xl font-semibold text-zinc-100">Sign up</h2>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-5">
           {error && (
-            <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">{error}</p>
+            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200" role="alert">
+              {error}
+            </p>
           )}
           <div>
-            <label className={labelClass}>I am a</label>
-            <div className="mt-1 flex gap-4">
-              <label className="flex items-center gap-2 text-body text-uatx-ink">
-                <input type="radio" name="role" checked={role === "STUDENT"} onChange={() => setRole("STUDENT")} className="rounded border-uatx-ink/20" />
+            <span className={labelClass}>I am a</span>
+            <div className="mt-2 flex gap-6">
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
+                <input
+                  type="radio"
+                  name="role"
+                  checked={role === "STUDENT"}
+                  onChange={() => setRole("STUDENT")}
+                  className="border-zinc-600 text-zinc-100 focus:ring-zinc-500"
+                />
                 Student
               </label>
-              <label className="flex items-center gap-2 text-body text-uatx-ink">
-                <input type="radio" name="role" checked={role === "MENTOR"} onChange={() => setRole("MENTOR")} className="rounded border-uatx-ink/20" />
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
+                <input
+                  type="radio"
+                  name="role"
+                  checked={role === "MENTOR"}
+                  onChange={() => setRole("MENTOR")}
+                  className="border-zinc-600 text-zinc-100 focus:ring-zinc-500"
+                />
                 Mentor
               </label>
             </div>
@@ -156,14 +170,14 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded border border-uatx-gold bg-uatx-gold py-2.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
+            className="w-full rounded-lg border border-zinc-200 bg-zinc-100 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
           >
             {loading ? "Creating account…" : "Sign up"}
           </button>
         </form>
-        <p className="text-center text-small text-uatx-sand">
+        <p className="text-center text-sm text-zinc-500">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-uatx-gold hover:underline">Log in</Link>
+          <Link href="/login" className="font-medium text-zinc-300 hover:text-zinc-100 transition-colors duration-200">Log in</Link>
         </p>
       </div>
     </div>

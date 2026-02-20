@@ -5,6 +5,10 @@ import { getHelpRequestById } from "@/lib/server-data";
 import Link from "next/link";
 import { getCoffeeChatEmailTemplate } from "@/lib/email-template";
 import DashboardNav from "@/components/DashboardNav";
+import Card from "@/components/ui/Card";
+import Section from "@/components/ui/Section";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
 
 export default async function StudentRequestDetailPage({
   params,
@@ -18,75 +22,83 @@ export default async function StudentRequestDetailPage({
   if (!request) redirect("/dashboard/student");
 
   return (
-    <div className="min-h-screen bg-uatx-cream">
-      <DashboardNav mainHref="/dashboard/student" mainLabel="Your requests" />
+    <div className="min-h-screen bg-[#0B0F14]">
+      <DashboardNav mainHref="/dashboard/student" mainLabel="Requests" />
 
-      <main className="mx-auto w-full max-w-7xl px-6 py-8 lg:px-8">
-        <Link href="/dashboard/student" className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
+      <main className="mx-auto w-full max-w-[1100px] px-6 py-8 lg:px-8">
+        <Link href="/dashboard/student" className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 font-display text-display-md uppercase tracking-tight text-uatx-ink">{request.title}</h1>
-        <p className="mt-2 text-body text-uatx-sand">{request.description}</p>
-        {request.tags?.length > 0 && (
-          <div className="mt-2 flex flex-wrap gap-1">
-            {request.tags.map((t: string) => (
-              <span key={t} className="rounded border border-uatx-gold/30 bg-uatx-gold/10 px-2 py-0.5 text-small text-uatx-ink">
-                {t}
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div className="mt-10">
-          <h2 className="font-display text-section uppercase tracking-wide text-uatx-ink">Mentor responses</h2>
-          <ul className="mt-4 space-y-3">
-            {request.mentorRequests?.map(
-              (mr: {
-                id: string;
-                status: string;
-                mentor: { name: string; headline: string; contactEmail?: string };
-              }) => (
-                <li
-                  key={mr.id}
-                  className="flex items-start justify-between border border-uatx-ink/10 bg-uatx-cream p-4"
+        <Card className="mt-6">
+          <h1 className="font-display text-xl font-semibold tracking-tight text-zinc-100">
+            {request.title}
+          </h1>
+          <p className="mt-3 text-zinc-400 leading-relaxed">{request.description}</p>
+          {request.tags?.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {request.tags.map((t: string) => (
+                <span
+                  key={t}
+                  className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs text-zinc-400"
                 >
-                  <div>
-                    <p className="font-medium text-body text-uatx-ink">{mr.mentor.name}</p>
-                    <p className="text-small text-uatx-sand">{mr.mentor.headline}</p>
-                    <span
-                      className={`mt-2 inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
-                        mr.status === "ACCEPTED"
-                          ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
-                          : mr.status === "DECLINED"
-                          ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
-                          : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
-                      }`}
-                    >
-                      {mr.status}
-                    </span>
-                  </div>
-                  {mr.status === "ACCEPTED" && mr.mentor.contactEmail && (
-                    <a
-                      href={getCoffeeChatEmailTemplate(
-                        mr.mentor.name,
-                        mr.mentor.contactEmail,
-                        request.title
-                      )}
-                      className="shrink-0 rounded border border-uatx-gold bg-uatx-gold px-3 py-1.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
-                    >
-                      Email to schedule
-                    </a>
-                  )}
-                </li>
-              )
-            )}
-          </ul>
-          {(!request.mentorRequests || request.mentorRequests.length === 0) && (
-            <p className="mt-4 text-small text-uatx-sand">
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
+        </Card>
+
+        <Section title="Mentor responses" className="mt-10">
+          {!request.mentorRequests?.length ? (
+            <p className="py-6 text-center text-sm text-zinc-500">
               Your request has been sent to mentors. Status will update here when they respond.
             </p>
+          ) : (
+            <ul className="space-y-3" role="list">
+              {request.mentorRequests.map(
+                (mr: {
+                  id: string;
+                  status: string;
+                  mentor: { name: string; headline: string; contactEmail?: string };
+                }) => (
+                  <li
+                    key={mr.id}
+                    className="flex flex-wrap items-start justify-between gap-4 rounded-lg border border-zinc-800 bg-zinc-900/30 p-4"
+                  >
+                    <div>
+                      <p className="font-medium text-zinc-100">{mr.mentor.name}</p>
+                      <p className="text-sm text-zinc-500">{mr.mentor.headline}</p>
+                      <Badge
+                        variant={
+                          mr.status === "ACCEPTED"
+                            ? "success"
+                            : mr.status === "DECLINED"
+                            ? "muted"
+                            : "warning"
+                        }
+                        className="mt-2"
+                      >
+                        {mr.status}
+                      </Badge>
+                    </div>
+                    {mr.status === "ACCEPTED" && mr.mentor.contactEmail && (
+                      <a
+                        href={getCoffeeChatEmailTemplate(
+                          mr.mentor.name,
+                          mr.mentor.contactEmail,
+                          request.title
+                        )}
+                        className="shrink-0"
+                      >
+                        <Button variant="primary">Email to schedule</Button>
+                      </a>
+                    )}
+                  </li>
+                )
+              )}
+            </ul>
           )}
-        </div>
+        </Section>
       </main>
     </div>
   );

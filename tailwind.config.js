@@ -8,11 +8,15 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        "uatx-ink": "#0D1117",
-        "uatx-gold": "#C9A962",
-        "uatx-cream": "#FBF8F3",
-        "uatx-ivory": "#F5F0E8",
-        "uatx-sand": "#6B5B4F",
+        constellate: {
+          bg: "#0B0F14",
+          surface: "#18181b",
+          border: "#27272a",
+          "text-primary": "#fafafa",
+          "text-secondary": "#a1a1aa",
+          accent: "#e7e5e4",
+          cta: "#e7e5e4",
+        },
       },
       fontFamily: {
         display: ["var(--font-display)", "system-ui", "sans-serif"],
@@ -21,9 +25,9 @@ module.exports = {
       fontSize: {
         "display-lg": ["2.25rem", { lineHeight: "1.15", letterSpacing: "-0.02em" }],
         "display-md": ["1.5rem", { lineHeight: "1.2", letterSpacing: "-0.01em" }],
-        "section": ["1.125rem", { lineHeight: "1.35" }],
-        "body": ["0.9375rem", { lineHeight: "1.6" }],
-        "small": ["0.8125rem", { lineHeight: "1.5" }],
+        section: ["1.125rem", { lineHeight: "1.35" }],
+        body: ["0.9375rem", { lineHeight: "1.6" }],
+        small: ["0.8125rem", { lineHeight: "1.5" }],
       },
     },
   },

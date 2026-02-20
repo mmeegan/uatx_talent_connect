@@ -6,13 +6,16 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import DashboardNav from "@/components/DashboardNav";
 import { TOPIC_OPTIONS, INDUSTRY_OPTIONS, UATX_CENTERS } from "@/lib/constants";
+import PillMultiSelect from "@/components/PillMultiSelect";
+import Card from "@/components/ui/Card";
+import Section from "@/components/ui/Section";
 
 type StudentProfile = {
   id: string;
   name: string;
   description?: string | null;
   imageUrl?: string | null;
-  center?: string[] | string | null; // JSON array or legacy single string
+  center?: string[] | string | null;
   tags?: string[];
   industryTags?: string[];
 };
@@ -46,6 +49,12 @@ function parseCenter(center: string[] | string | null | undefined): string[] {
     return center ? [center] : [];
   }
 }
+
+const AVAILABILITY_OPTIONS = ["LOW", "MEDIUM", "HIGH"] as const;
+
+const inputClass =
+  "mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500";
+const labelClass = "block text-sm font-medium text-zinc-300";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -81,8 +90,8 @@ export default function ProfilePage() {
 
   if (status === "loading" || loading) {
     return (
-      <div className="min-h-screen bg-uatx-cream flex items-center justify-center">
-        <p className="text-uatx-sand">Loading…</p>
+      <div className="min-h-screen bg-[#0B0F14] flex items-center justify-center">
+        <p className="text-zinc-500">Loading…</p>
       </div>
     );
   }
@@ -91,10 +100,10 @@ export default function ProfilePage() {
   const profile = data.profile;
   if (!profile) {
     return (
-      <div className="min-h-screen w-full bg-uatx-cream">
+      <div className="min-h-screen w-full bg-[#0B0F14]">
         <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
-        <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
-          <p className="text-uatx-sand">No profile found.</p>
+        <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
+          <p className="text-zinc-500">No profile found.</p>
         </main>
       </div>
     );
@@ -123,12 +132,7 @@ export default function ProfilePage() {
           }
           setSuccess(true);
           setData((prev) =>
-            prev
-              ? {
-                  ...prev,
-                  profile: { ...(prev.profile as MentorProfile), ...payload },
-                }
-              : null
+            prev ? { ...prev, profile: { ...(prev.profile as MentorProfile), ...payload } } : null
           );
         }}
         error={error}
@@ -160,12 +164,7 @@ export default function ProfilePage() {
         }
         setSuccess(true);
         setData((prev) =>
-          prev
-            ? {
-                ...prev,
-                profile: { ...(prev.profile as StudentProfile), ...payload },
-              }
-            : null
+          prev ? { ...prev, profile: { ...(prev.profile as StudentProfile), ...payload } } : null
         );
       }}
       error={error}
@@ -174,59 +173,6 @@ export default function ProfilePage() {
     />
   );
 }
-
-function MultiSelect({
-  options,
-  selected,
-  onChange,
-  label,
-  id,
-}: {
-  options: readonly string[];
-  selected: string[];
-  onChange: (selected: string[]) => void;
-  label: string;
-  id: string;
-}) {
-  function toggle(value: string) {
-    if (selected.includes(value)) {
-      onChange(selected.filter((s) => s !== value));
-    } else {
-      onChange([...selected, value]);
-    }
-  }
-  return (
-    <div>
-      <span className={labelClass} id={id}>
-        {label}
-      </span>
-      <div
-        className="mt-2 flex flex-wrap gap-x-4 gap-y-2"
-        role="group"
-        aria-labelledby={id}
-      >
-        {options.map((opt) => (
-          <label
-            key={opt}
-            className="flex cursor-pointer items-center gap-2 text-body text-uatx-ink"
-          >
-            <input
-              type="checkbox"
-              checked={selected.includes(opt)}
-              onChange={() => toggle(opt)}
-              className="h-4 w-4 rounded border-uatx-ink/20 text-uatx-gold focus:ring-uatx-gold"
-            />
-            {opt}
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-const inputClass =
-  "mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold";
-const labelClass = "block text-small font-medium text-uatx-ink";
 
 function StudentProfileForm({
   profile,
@@ -265,110 +211,81 @@ function StudentProfileForm({
   }
 
   return (
-    <div className="min-h-screen w-full bg-uatx-cream">
+    <div className="min-h-screen w-full bg-[#0B0F14]">
       <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
-      <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
-        <Link href={mainHref} className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
+      <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
+        <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 font-display text-display-md uppercase tracking-tight text-uatx-ink">
-          Profile
-        </h1>
-        <p className="mt-1 text-small text-uatx-sand">
-          Your public profile for the talent network.
-        </p>
+        <h1 className="mt-4 text-2xl font-semibold text-zinc-100">{profile.name}</h1>
+        <div className="mt-2 h-px w-16 bg-zinc-700" />
+        <p className="mt-4 text-zinc-400">Your public profile.</p>
 
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row">
-          {(imageUrl || profile.imageUrl) && (
-            <div className="shrink-0">
-              <img
-                src={imageUrl || profile.imageUrl || ""}
-                alt=""
-                className="h-32 w-32 rounded-full border-2 border-uatx-gold/30 object-cover"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-              />
-            </div>
+        <Card className="mt-8">
+          {error && (
+            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4" role="alert">
+              {error}
+            </p>
           )}
-          <section className="min-w-0 flex-1 border border-uatx-ink/10 bg-white p-6 lg:p-8">
-            <h2 className="font-display text-small font-semibold uppercase tracking-wider text-uatx-ink">
-              Edit profile
-            </h2>
-            {error && (
-              <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">
-                {error}
-              </p>
-            )}
-            {success && (
-              <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-small text-green-800">
-                Profile updated.
-              </p>
-            )}
-            <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
-              <div className="sm:col-span-2">
-                <label htmlFor="name" className={labelClass}>Name</label>
-                <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
+          {success && (
+            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4">
+              Profile updated.
+            </p>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Section title="About">
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="name" className={labelClass}>Name</label>
+                  <input id="name" type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="description" className={labelClass}>Description</label>
+                  <textarea
+                    id="description"
+                    rows={4}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="A short bio or what you’re looking for"
+                    className={inputClass}
+                  />
+                </div>
+                <div>
+                  <label htmlFor="imageUrl" className={labelClass}>Profile picture (URL)</label>
+                  <input id="imageUrl" type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" className={inputClass} />
+                </div>
+                {(imageUrl || profile.imageUrl) && (
+                  <div className="shrink-0">
+                    <img
+                      src={imageUrl || profile.imageUrl || ""}
+                      alt=""
+                      className="h-24 w-24 rounded-full border border-zinc-700 object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                )}
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="description" className={labelClass}>Description</label>
-                <textarea
-                  id="description"
-                  rows={4}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="A short bio or what you’re looking for"
-                  className={inputClass}
-                />
+            </Section>
+            <Section title="UATX center(s)">
+              <PillMultiSelect id="centers" label="Centers" options={UATX_CENTERS} selected={centers} onChange={setCenters} />
+            </Section>
+            <Section title="Expertise">
+              <div className="space-y-4">
+                <PillMultiSelect id="topics" label="Topics" options={TOPIC_OPTIONS} selected={tags} onChange={setTags} />
+                <PillMultiSelect id="industries" label="Industries / fields" options={INDUSTRY_OPTIONS} selected={industryTags} onChange={setIndustryTags} optional />
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="imageUrl" className={labelClass}>Profile picture (URL)</label>
-                <input
-                  id="imageUrl"
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://…"
-                  className={inputClass}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <MultiSelect
-                  id="centers"
-                  label="UATX center(s)"
-                  options={UATX_CENTERS}
-                  selected={centers}
-                  onChange={setCenters}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <MultiSelect
-                  id="topics"
-                  label="Topics (what you’re interested in)"
-                  options={TOPIC_OPTIONS}
-                  selected={tags}
-                  onChange={setTags}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <MultiSelect
-                  id="industries"
-                  label="Industries / fields"
-                  options={INDUSTRY_OPTIONS}
-                  selected={industryTags}
-                  onChange={setIndustryTags}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
-                >
-                  {saving ? "Saving…" : "Save profile"}
-                </button>
-              </div>
-            </form>
-          </section>
-        </div>
+            </Section>
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={saving}
+                className="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+              >
+                {saving ? "Saving…" : "Save profile"}
+              </button>
+            </div>
+          </form>
+        </Card>
       </main>
     </div>
   );
@@ -397,6 +314,7 @@ function MentorProfileForm({
   const [imageUrl, setImageUrl] = useState(profile.imageUrl ?? "");
   const [topics, setTopics] = useState<string[]>(() => profile.topics ?? []);
   const [industryTags, setIndustryTags] = useState<string[]>(() => profile.industryTags ?? []);
+  const [availability, setAvailability] = useState(profile.availability ?? "MEDIUM");
   const [contactEmail, setContactEmail] = useState(profile.contactEmail ?? "");
 
   function handleSubmit(e: React.FormEvent) {
@@ -408,127 +326,106 @@ function MentorProfileForm({
       imageUrl: imageUrl.trim() || undefined,
       topics,
       industryTags,
+      availability,
       contactEmail: contactEmail.trim(),
     });
   }
 
   return (
-    <div className="min-h-screen w-full bg-uatx-cream">
+    <div className="min-h-screen w-full bg-[#0B0F14]">
       <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
-      <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
-        <Link href={mainHref} className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
+      <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
+        <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 font-display text-display-md uppercase tracking-tight text-uatx-ink">
-          Profile
-        </h1>
-        <p className="mt-1 text-small text-uatx-sand">
-          Your mentor profile: description, picture, and expertise.
-        </p>
+        <h1 className="mt-4 text-2xl font-semibold text-zinc-100">{profile.name}</h1>
+        <p className="mt-1 text-zinc-500">{profile.headline || "Mentor"}</p>
+        <div className="mt-2 h-px w-16 bg-zinc-700" />
+        <p className="mt-4 text-zinc-400">Your mentor profile.</p>
 
-        <div className="mt-8 flex flex-col gap-8 lg:flex-row">
-          {(imageUrl || profile.imageUrl) && (
-            <div className="shrink-0">
-              <img
-                src={imageUrl || profile.imageUrl || ""}
-                alt=""
-                className="h-32 w-32 rounded-full border-2 border-uatx-gold/30 object-cover"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
-              />
-            </div>
+        <Card className="mt-8">
+          {error && (
+            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4" role="alert">
+              {error}
+            </p>
           )}
-          <section className="min-w-0 flex-1 border border-uatx-ink/10 bg-white p-6 lg:p-8">
-            <h2 className="font-display text-small font-semibold uppercase tracking-wider text-uatx-ink">
-              Edit profile
-            </h2>
-            {error && (
-              <p className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">
-                {error}
-              </p>
-            )}
-            {success && (
-              <p className="mt-3 rounded border border-green-200 bg-green-50 px-3 py-2 text-small text-green-800">
-                Profile updated.
-              </p>
-            )}
-            <form onSubmit={handleSubmit} className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-8">
-              <div className="sm:col-span-2">
-                <label htmlFor="m-name" className={labelClass}>Name</label>
-                <input id="m-name" type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
+          {success && (
+            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4">
+              Profile updated.
+            </p>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <Section title="About">
+              <div className="space-y-4">
+                <div>
+                  <label htmlFor="m-name" className={labelClass}>Name</label>
+                  <input id="m-name" type="text" value={name} onChange={(e) => setName(e.target.value)} className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="headline" className={labelClass}>Headline</label>
+                  <input id="headline" type="text" value={headline} onChange={(e) => setHeadline(e.target.value)} placeholder="e.g. Product Lead at …" className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="bio" className={labelClass}>Description / Bio</label>
+                  <textarea id="bio" rows={4} value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Short bio and what you can help with" className={inputClass} />
+                </div>
+                <div>
+                  <label htmlFor="m-imageUrl" className={labelClass}>Profile picture (URL)</label>
+                  <input id="m-imageUrl" type="url" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} placeholder="https://…" className={inputClass} />
+                </div>
+                {(imageUrl || profile.imageUrl) && (
+                  <div className="shrink-0">
+                    <img
+                      src={imageUrl || profile.imageUrl || ""}
+                      alt=""
+                      className="h-24 w-24 rounded-full border border-zinc-700 object-cover"
+                      onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+                    />
+                  </div>
+                )}
+                <div>
+                  <label htmlFor="contactEmail" className={labelClass}>Contact email</label>
+                  <input id="contactEmail" type="email" value={contactEmail} onChange={(e) => setContactEmail(e.target.value)} className={inputClass} />
+                </div>
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="headline" className={labelClass}>Headline</label>
-                <input
-                  id="headline"
-                  type="text"
-                  value={headline}
-                  onChange={(e) => setHeadline(e.target.value)}
-                  placeholder="e.g. Product Lead at …"
-                  className={inputClass}
-                />
+            </Section>
+            <Section title="Expertise">
+              <div className="space-y-4">
+                <PillMultiSelect id="m-topics" label="Topics you mentor on" options={TOPIC_OPTIONS} selected={topics} onChange={setTopics} />
+                <PillMultiSelect id="m-industries" label="Industries / fields" options={INDUSTRY_OPTIONS} selected={industryTags} onChange={setIndustryTags} />
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="bio" className={labelClass}>Description / Bio</label>
-                <textarea
-                  id="bio"
-                  rows={4}
-                  value={bio}
-                  onChange={(e) => setBio(e.target.value)}
-                  placeholder="Short bio and what you can help with"
-                  className={inputClass}
-                />
+            </Section>
+            <Section title="Availability">
+              <span id="av-label" className="block text-sm font-medium text-zinc-300">Capacity for new conversations</span>
+              <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="av-label">
+                {AVAILABILITY_OPTIONS.map((opt) => (
+                  <button
+                    key={opt}
+                    type="button"
+                    onClick={() => setAvailability(opt)}
+                    className={
+                      "rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] " +
+                      (availability === opt
+                        ? "border-zinc-400 bg-zinc-100 text-zinc-900"
+                        : "border-zinc-700 bg-transparent text-zinc-400 hover:bg-zinc-800")
+                    }
+                  >
+                    {opt}
+                  </button>
+                ))}
               </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="m-imageUrl" className={labelClass}>Profile picture (URL)</label>
-                <input
-                  id="m-imageUrl"
-                  type="url"
-                  value={imageUrl}
-                  onChange={(e) => setImageUrl(e.target.value)}
-                  placeholder="https://…"
-                  className={inputClass}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <MultiSelect
-                  id="m-topics"
-                  label="Topics you mentor on"
-                  options={TOPIC_OPTIONS}
-                  selected={topics}
-                  onChange={setTopics}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <MultiSelect
-                  id="m-industries"
-                  label="Industries / fields"
-                  options={INDUSTRY_OPTIONS}
-                  selected={industryTags}
-                  onChange={setIndustryTags}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <label htmlFor="contactEmail" className={labelClass}>Contact email</label>
-                <input
-                  id="contactEmail"
-                  type="email"
-                  value={contactEmail}
-                  onChange={(e) => setContactEmail(e.target.value)}
-                  className={inputClass}
-                />
-              </div>
-              <div className="sm:col-span-2">
-                <button
-                  type="submit"
-                  disabled={saving}
-                  className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
-                >
-                  {saving ? "Saving…" : "Save profile"}
-                </button>
-              </div>
-            </form>
-          </section>
-        </div>
+            </Section>
+            <div className="pt-2">
+              <button
+                type="submit"
+                disabled={saving}
+                className="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+              >
+                {saving ? "Saving…" : "Save profile"}
+              </button>
+            </div>
+          </form>
+        </Card>
       </main>
     </div>
   );

@@ -34,13 +34,10 @@ export default function PillMultiSelect({
 
   return (
     <div>
-      <span
-        id={id}
-        className="block text-sm font-medium text-uatx-ink"
-      >
+      <span id={id} className="block text-sm font-medium text-zinc-300">
         {label}
         {optional && (
-          <span className="ml-1 font-normal text-uatx-sand">(optional)</span>
+          <span className="ml-1 font-normal text-zinc-500">(optional)</span>
         )}
       </span>
       <div
@@ -60,10 +57,10 @@ export default function PillMultiSelect({
               onClick={() => toggle(opt)}
               onKeyDown={(e) => handleKeyDown(e, opt)}
               className={
-                "rounded-full border px-4 py-2 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-uatx-gold focus:ring-offset-2 " +
+                "rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] " +
                 (isSelected
-                  ? "border-uatx-gold bg-uatx-gold text-uatx-ink"
-                  : "border-gray-200 bg-white text-uatx-ink hover:border-uatx-gold/50 hover:bg-uatx-gold/5")
+                  ? "border-zinc-400 bg-zinc-100 text-zinc-900"
+                  : "border-zinc-700 bg-transparent text-zinc-300 hover:bg-zinc-800")
               }
             >
               {opt}

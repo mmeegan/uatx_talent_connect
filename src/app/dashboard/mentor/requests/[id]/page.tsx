@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import DashboardNav from "@/components/DashboardNav";
+import Card from "@/components/ui/Card";
+import Badge from "@/components/ui/Badge";
+import Button from "@/components/ui/Button";
 
 type RequestItem = {
   id: string;
@@ -53,16 +56,16 @@ export default function MentorRequestDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-uatx-cream flex items-center justify-center">
-        <p className="text-uatx-sand">Loading…</p>
+      <div className="min-h-screen bg-[#0B0F14] flex items-center justify-center">
+        <p className="text-zinc-500">Loading…</p>
       </div>
     );
   }
   if (!item) {
     return (
-      <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-4">
-        <p className="text-uatx-sand">Request not found.</p>
-        <Link href="/dashboard/mentor" className="mt-2 text-uatx-gold hover:underline">
+      <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center px-4">
+        <p className="text-zinc-500">Request not found.</p>
+        <Link href="/dashboard/mentor" className="mt-3 text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           Back to dashboard
         </Link>
       </div>
@@ -72,63 +75,68 @@ export default function MentorRequestDetailPage() {
   const isPending = item.status === "PENDING";
 
   return (
-    <div className="min-h-screen bg-uatx-cream">
-      <DashboardNav mainHref="/dashboard/mentor" mainLabel="Incoming requests" />
+    <div className="min-h-screen bg-[#0B0F14]">
+      <DashboardNav mainHref="/dashboard/mentor" mainLabel="Requests" />
 
-      <main className="mx-auto w-full max-w-7xl px-6 py-8 lg:px-8">
-        <Link href="/dashboard/mentor" className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">
+      <main className="mx-auto w-full max-w-[1100px] px-6 py-8 lg:px-8">
+        <Link href="/dashboard/mentor" className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
           ← Back to dashboard
         </Link>
-        <div className="mt-6 border border-uatx-ink/10 bg-uatx-cream p-6">
-          <h1 className="font-display text-display-md uppercase tracking-tight text-uatx-ink">{item.helpRequest.title}</h1>
-          <p className="mt-1 text-small text-uatx-sand">From {item.helpRequest.studentName}</p>
-          <p className="mt-4 text-body text-uatx-sand">{item.helpRequest.description}</p>
+        <Card className="mt-6">
+          <h1 className="font-display text-xl font-semibold tracking-tight text-zinc-100">
+            {item.helpRequest.title}
+          </h1>
+          <p className="mt-1 text-sm text-zinc-500">From {item.helpRequest.studentName}</p>
+          <p className="mt-4 text-zinc-400 leading-relaxed">{item.helpRequest.description}</p>
           {item.helpRequest.tags?.length > 0 && (
-            <div className="mt-2 flex flex-wrap gap-1">
+            <div className="mt-4 flex flex-wrap gap-2">
               {item.helpRequest.tags.map((t) => (
-                <span key={t} className="rounded border border-uatx-gold/30 bg-uatx-gold/10 px-2 py-0.5 text-small text-uatx-ink">
+                <span
+                  key={t}
+                  className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs text-zinc-400"
+                >
                   {t}
                 </span>
               ))}
             </div>
           )}
-          <p className="mt-4">
-            <span
-              className={`inline-block rounded border px-2 py-0.5 text-small font-semibold uppercase tracking-wide ${
+          <div className="mt-4">
+            <Badge
+              variant={
                 item.status === "ACCEPTED"
-                  ? "border-uatx-gold/50 bg-uatx-gold/10 text-uatx-ink"
+                  ? "success"
                   : item.status === "DECLINED"
-                  ? "border-uatx-ink/15 bg-uatx-ink/5 text-uatx-sand"
-                  : "border-uatx-gold/40 bg-uatx-gold/5 text-uatx-sand"
-              }`}
+                  ? "muted"
+                  : "warning"
+              }
             >
               {item.status}
-            </span>
-          </p>
+            </Badge>
+          </div>
           {isPending && (
-            <div className="mt-6 flex gap-3">
-              <button
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button
+                variant="primary"
                 onClick={() => respond("accept")}
                 disabled={responding}
-                className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
               >
-                Accept (share contact for coffee chat)
-              </button>
-              <button
+                Accept
+              </Button>
+              <Button
+                variant="outline"
                 onClick={() => respond("decline")}
                 disabled={responding}
-                className="rounded border border-uatx-ink/20 bg-white px-4 py-2 text-small font-medium text-uatx-ink hover:border-uatx-gold hover:text-uatx-gold disabled:opacity-50 transition-colors"
               >
                 Decline
-              </button>
+              </Button>
             </div>
           )}
           {item.status === "ACCEPTED" && (
-            <p className="mt-4 text-small text-uatx-sand">
+            <p className="mt-4 text-sm text-zinc-500">
               The student will see your contact email and can reach out to schedule the coffee chat.
             </p>
           )}
-        </div>
+        </Card>
       </main>
     </div>
   );

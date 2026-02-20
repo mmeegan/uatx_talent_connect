@@ -1,43 +1,100 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
 
 type DashboardNavProps = {
   mainHref: string;
   mainLabel: string;
 };
 
+const navLinkClass =
+  "text-sm text-zinc-400 transition-colors duration-200 hover:text-zinc-100";
+
 export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (ref.current && !ref.current.contains(e.target as Node)) setOpen(false);
+    }
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, []);
+
   return (
-    <header className="bg-uatx-ink border-b border-uatx-gold/20">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
-        <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
-          Bridge
+    <header className="border-b border-zinc-800 bg-[#0B0F14]">
+      <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6 lg:px-8">
+        <Link
+          href="/"
+          className="font-display text-xl tracking-tight text-zinc-100 hover:text-zinc-100"
+        >
+          Constellate
         </Link>
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-8">
           <Link
             href={mainHref}
-            className="text-small font-medium text-uatx-ivory"
+            className={pathname === mainHref ? "text-sm font-medium text-zinc-100" : navLinkClass}
           >
             {mainLabel}
           </Link>
-          <span className="text-uatx-ivory/40">|</span>
           <Link
-            href="/dashboard/profile"
-            className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
+            href={mainHref}
+            className={navLinkClass}
           >
+            Network
+          </Link>
+          <Link href="/dashboard/profile" className={navLinkClass}>
             Profile
           </Link>
-          <Link
-            href="/dashboard/settings"
-            className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
-          >
+          <Link href="/dashboard/settings" className={navLinkClass}>
             Settings
           </Link>
-          <Link
-            href="/api/auth/signout"
-            className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
-          >
-            Sign out
-          </Link>
+          <div className="relative" ref={ref}>
+            <button
+              type="button"
+              onClick={() => setOpen((o) => !o)}
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-zinc-600 bg-zinc-800 text-xs font-medium text-zinc-300 transition-colors duration-200 hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-500"
+              aria-expanded={open}
+              aria-haspopup="true"
+            >
+              Account
+            </button>
+            {open && (
+              <div
+                className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-zinc-800 bg-zinc-900 py-1 shadow-lg"
+                role="menu"
+              >
+                <Link
+                  href="/dashboard/profile"
+                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                >
+                  Profile
+                </Link>
+                <Link
+                  href="/dashboard/settings"
+                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                >
+                  Settings
+                </Link>
+                <Link
+                  href="/api/auth/signout"
+                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  role="menuitem"
+                  onClick={() => setOpen(false)}
+                >
+                  Sign out
+                </Link>
+              </div>
+            )}
+          </div>
         </nav>
       </div>
     </header>

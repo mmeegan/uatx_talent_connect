@@ -7,8 +7,8 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-display", weight: ["500", "600", "700"] });
 
 export const metadata: Metadata = {
-  title: "Bridge — Talent Network",
-  description: "Get matched with mentors for 30-minute coffee chats.",
+  title: "Constellate",
+  description: "Find your orientation. Matches you with mentors who sharpen your direction.",
 };
 
 export default function RootLayout({
@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
-      <body className="min-h-screen bg-uatx-cream font-sans text-uatx-ink antialiased">
+      <body className="min-h-screen bg-[#0B0F14] font-sans text-zinc-100 antialiased">
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>

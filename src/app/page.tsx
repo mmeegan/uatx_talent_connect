@@ -1,5 +1,5 @@
-import { redirect } from "next/navigation";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 
@@ -13,22 +13,22 @@ export default async function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-uatx-cream">
-      <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
-          <span className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
-            Bridge
+    <div className="min-h-screen flex flex-col bg-[#0B0F14]">
+      <header className="border-b border-zinc-800">
+        <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6 lg:px-8">
+          <span className="font-display text-xl tracking-tight text-zinc-100">
+            Constellate
           </span>
           <nav className="flex items-center gap-6">
             <Link
               href="/login"
-              className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
+              className="text-sm text-zinc-400 transition-colors duration-200 hover:text-zinc-100"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="rounded border border-uatx-gold bg-uatx-gold px-4 py-2 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
+              className="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200"
             >
               Sign up
             </Link>
@@ -36,31 +36,54 @@ export default async function LandingPage() {
         </div>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-20">
-        <p className="font-display text-display-lg uppercase tracking-tight text-uatx-ink sm:text-3xl">
-          Talent Network
+      <main className="flex-1 flex flex-col items-center justify-center px-6 py-24">
+        <h1 className="font-display text-4xl font-semibold tracking-tight text-zinc-100 sm:text-5xl md:text-6xl">
+          Find your orientation.
+        </h1>
+        <p className="mt-6 max-w-md text-center text-lg text-zinc-400 leading-relaxed">
+          Constellate matches you with mentors who sharpen your direction.
         </p>
-        <p className="mt-4 max-w-md text-center text-body text-uatx-sand">
-          Request help from a mentor. We match you; you get a 30-minute coffee chat.
-        </p>
-        <div className="mt-10 flex gap-4">
-          <Link
-            href="/signup"
-            className="rounded border border-uatx-gold bg-uatx-gold px-6 py-3 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 transition-colors"
-          >
-            Sign up
-          </Link>
-          <Link
-            href="/login"
-            className="rounded border border-uatx-ink/20 bg-transparent px-6 py-3 text-small font-medium text-uatx-ink hover:border-uatx-gold hover:text-uatx-gold transition-colors"
-          >
-            Log in
-          </Link>
-        </div>
+        <Link
+          href="/login"
+          className="mt-10 inline-block w-full max-w-xs rounded-lg border border-zinc-200 bg-zinc-100 py-3.5 text-center text-base font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14]"
+        >
+          Enter Constellate
+        </Link>
       </main>
 
-      <footer className="border-t border-uatx-ink/10 py-5 text-center text-small text-uatx-sand">
-        Bridge — Talent Network coffee chats
+      <footer className="border-t border-zinc-800 py-12">
+        <div className="mx-auto max-w-[880px] space-y-12 px-6">
+          <div className="h-px bg-zinc-800" />
+          <div className="grid gap-10 sm:grid-cols-3">
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+                How it works
+              </h3>
+              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
+                Submit a request. We match you with up to three mentors. When one accepts, you receive their contact to schedule a focused conversation.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+                Why it exists
+              </h3>
+              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
+                A private network for clarity. Structured guidance from people who have been where you’re going.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-sm font-semibold uppercase tracking-wider text-zinc-500">
+                Join
+              </h3>
+              <p className="mt-3 text-sm text-zinc-400 leading-relaxed">
+                By invitation or application. If you have access, sign up and submit your first request.
+              </p>
+            </div>
+          </div>
+          <p className="text-center text-xs text-zinc-500">
+            Constellate — a private intellectual network
+          </p>
+        </div>
       </footer>
     </div>
   );

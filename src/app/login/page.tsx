@@ -35,65 +35,73 @@ function LoginForm() {
   return (
     <div className="w-full max-w-sm space-y-8">
       <div className="text-center">
-          <Link href="/" className="font-display text-xl uppercase tracking-widest text-uatx-ink">
-            Bridge
-          </Link>
-          <h2 className="mt-6 font-display text-display-md uppercase tracking-tight text-uatx-ink">Log in</h2>
-        </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">{error}</p>
-          )}
-          <div>
-            <label htmlFor="email" className="block text-small font-medium text-uatx-ink">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold"
-            />
-          </div>
-          <div>
-            <label htmlFor="password" className="block text-small font-medium text-uatx-ink">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full rounded border border-uatx-ink/15 bg-white px-3 py-2 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold"
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded border border-uatx-gold bg-uatx-gold py-2.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-50 transition-colors"
+        <Link
+          href="/"
+          className="font-display text-xl tracking-tight text-zinc-100 hover:text-zinc-100"
+        >
+          Constellate
+        </Link>
+        <h2 className="mt-8 text-xl font-semibold text-zinc-100">Log in</h2>
+      </div>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {error && (
+          <p
+            className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200"
+            role="alert"
           >
-            {loading ? "Signing in…" : "Log in"}
-          </button>
-        </form>
-        <p className="text-center text-small text-uatx-sand">
-          Don’t have an account?{" "}
-          <Link href="/signup" className="font-medium text-uatx-gold hover:underline">
-            Sign up
-          </Link>
-        </p>
+            {error}
+          </p>
+        )}
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium text-zinc-300">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            autoComplete="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+          />
+        </div>
+        <div>
+          <label htmlFor="password" className="block text-sm font-medium text-zinc-300">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            autoComplete="current-password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-lg border border-zinc-200 bg-zinc-100 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+        >
+          {loading ? "Signing in…" : "Log in"}
+        </button>
+      </form>
+      <p className="text-center text-sm text-zinc-500">
+        Don’t have an account?{" "}
+        <Link href="/signup" className="font-medium text-zinc-300 hover:text-zinc-100 transition-colors duration-200">
+          Sign up
+        </Link>
+      </p>
     </div>
   );
 }
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-uatx-cream flex flex-col items-center justify-center px-6">
-      <Suspense fallback={<div className="text-uatx-sand">Loading…</div>}>
+    <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center px-6">
+      <Suspense fallback={<div className="text-zinc-500">Loading…</div>}>
         <LoginForm />
       </Suspense>
     </div>
