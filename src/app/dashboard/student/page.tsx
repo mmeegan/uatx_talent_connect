@@ -29,7 +29,9 @@ function badgeVariant(status: string): "success" | "warning" | "muted" {
 export default async function StudentDashboardPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
-  if ((session.user as { role?: string }).role !== "STUDENT") redirect("/dashboard/mentor");
+  const role = (session.user as { role?: string }).role;
+  if (role === "ADMIN") redirect("/admin");
+  if (role !== "STUDENT") redirect("/dashboard/mentor");
 
   const requests = await getStudentHelpRequests(session);
 

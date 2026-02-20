@@ -34,7 +34,9 @@ type ConnectionRow = {
 export default async function MentorDashboardPage() {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
-  if ((session.user as { role?: string }).role !== "MENTOR") redirect("/dashboard/student");
+  const role = (session.user as { role?: string }).role;
+  if (role === "ADMIN") redirect("/admin");
+  if (role !== "MENTOR") redirect("/dashboard/student");
 
   const requests = await getMentorIncomingRequests(session);
   const connections = await getMentorConnections(session);

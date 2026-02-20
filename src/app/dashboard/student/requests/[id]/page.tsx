@@ -17,6 +17,7 @@ export default async function StudentRequestDetailPage({
 }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
+  if ((session.user as { role?: string }).role === "ADMIN") redirect("/admin");
   const { id } = await params;
   const request = await getHelpRequestById(id, session);
   if (!request) redirect("/dashboard/student");

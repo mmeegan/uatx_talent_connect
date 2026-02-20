@@ -9,5 +9,6 @@ export default async function MatchesRedirectPage({
 }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) redirect("/login");
+  if ((session.user as { role?: string }).role === "ADMIN") redirect("/admin");
   redirect("/dashboard/student");
 }
