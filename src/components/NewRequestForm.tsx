@@ -3,55 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { TOPIC_OPTIONS, INDUSTRY_OPTIONS } from "@/lib/constants";
-
-function MultiSelect({
-  options,
-  selected,
-  onChange,
-  label,
-  id,
-}: {
-  options: readonly string[];
-  selected: string[];
-  onChange: (selected: string[]) => void;
-  label: string;
-  id: string;
-}) {
-  function toggle(value: string) {
-    if (selected.includes(value)) {
-      onChange(selected.filter((s) => s !== value));
-    } else {
-      onChange([...selected, value]);
-    }
-  }
-  return (
-    <div>
-      <span className="block text-small font-medium text-uatx-ink" id={id}>
-        {label}
-      </span>
-      <div
-        className="mt-2 flex flex-wrap gap-x-4 gap-y-2"
-        role="group"
-        aria-labelledby={id}
-      >
-        {options.map((opt) => (
-          <label
-            key={opt}
-            className="flex cursor-pointer items-center gap-2 text-body text-uatx-ink"
-          >
-            <input
-              type="checkbox"
-              checked={selected.includes(opt)}
-              onChange={() => toggle(opt)}
-              className="h-4 w-4 rounded border-uatx-ink/20 text-uatx-gold focus:ring-uatx-gold"
-            />
-            {opt}
-          </label>
-        ))}
-      </div>
-    </div>
-  );
-}
+import PillMultiSelect from "@/components/PillMultiSelect";
 
 export default function NewRequestForm() {
   const router = useRouter();
@@ -94,50 +46,85 @@ export default function NewRequestForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="space-y-8">
       {error && (
-        <p className="rounded border border-red-200 bg-red-50 px-3 py-2 text-small text-red-800">
+        <div
+          className="rounded-lg border border-red-200 bg-red-50 p-4 text-sm text-red-800"
+          role="alert"
+        >
           {error}
-        </p>
+        </div>
       )}
-      <div>
-        <label htmlFor="description" className="sr-only">
-          What do you want help with?
-        </label>
+
+      {/* Section 1: Describe */}
+      <section className="space-y-3">
+        <h3 className="text-base font-semibold text-uatx-ink">
+          Describe what you need help with
+        </h3>
+        <p className="text-sm text-uatx-sand">
+          A few sentences about your question or what you’d like to learn. We’ll match you with up to three relevant mentors.
+        </p>
         <textarea
           id="description"
+          name="description"
           rows={5}
-          placeholder="What do you want help with? Describe your question or what you'd like to learn in a few sentences."
+          placeholder="e.g. I’m exploring a move from engineering into product. I’d love to hear how others made the switch and what skills to build."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full rounded border border-uatx-ink/15 bg-white px-4 py-3 text-body text-uatx-ink placeholder:text-uatx-sand focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold"
+          className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-base text-uatx-ink placeholder:text-gray-400 focus:border-uatx-gold focus:outline-none focus:ring-1 focus:ring-uatx-gold"
+          aria-describedby="description-hint"
+          required
         />
-      </div>
-      <div>
-        <MultiSelect
+        <p id="description-hint" className="text-xs text-uatx-sand">
+          Required. Your request is sent to mentors whose expertise matches your topics.
+        </p>
+      </section>
+
+      {/* Section 2: Topics */}
+      <section className="space-y-3">
+        <h3 className="text-base font-semibold text-uatx-ink">
+          Topics
+        </h3>
+        <p className="text-sm text-uatx-sand">
+          Select any that apply. This helps us match you with the right mentors.
+        </p>
+        <PillMultiSelect
           id="topics"
-          label="Topics (what you need help with)"
+          label="What do you need help with?"
           options={TOPIC_OPTIONS}
           selected={tags}
           onChange={setTags}
         />
-      </div>
-      <div>
-        <MultiSelect
+      </section>
+
+      {/* Section 3: Industries */}
+      <section className="space-y-3">
+        <h3 className="text-base font-semibold text-uatx-ink">
+          Industries / fields
+        </h3>
+        <p className="text-sm text-uatx-sand">
+          Optional. Narrows matching to mentors in these areas.
+        </p>
+        <PillMultiSelect
           id="industries"
-          label="Industries / fields (optional)"
+          label="Industries or fields"
           options={INDUSTRY_OPTIONS}
           selected={industryTags}
           onChange={setIndustryTags}
+          optional
         />
+      </section>
+
+      {/* Submit */}
+      <div className="pt-2">
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full rounded-lg border border-uatx-gold bg-uatx-gold px-5 py-3 text-base font-semibold text-uatx-ink transition-colors hover:bg-uatx-gold/90 focus:outline-none focus:ring-2 focus:ring-uatx-gold focus:ring-offset-2 disabled:opacity-60 disabled:pointer-events-none"
+        >
+          {loading ? "Submitting…" : "Submit request"}
+        </button>
       </div>
-      <button
-        type="submit"
-        disabled={loading}
-        className="rounded border border-uatx-gold bg-uatx-gold px-5 py-2.5 text-small font-semibold uppercase tracking-wide text-uatx-ink hover:bg-uatx-gold/90 disabled:opacity-60 transition-colors"
-      >
-        {loading ? "Submitting…" : "Submit request"}
-      </button>
     </form>
   );
 }
