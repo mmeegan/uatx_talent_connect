@@ -23,6 +23,9 @@ export async function PATCH(request: Request) {
       where: { id: user.studentProfile.id },
       data: {
         ...(p.name != null && { name: p.name }),
+        ...(p.description !== undefined && { description: p.description || null }),
+        ...(p.imageUrl !== undefined && { imageUrl: p.imageUrl || null }),
+        ...(p.center !== undefined && { center: p.center || null }),
         ...(p.tags != null && { tags: JSON.stringify(p.tags) }),
       },
     });
@@ -34,6 +37,7 @@ export async function PATCH(request: Request) {
         ...(p.name != null && { name: p.name }),
         ...(p.headline != null && { headline: p.headline }),
         ...(p.bio != null && { bio: p.bio }),
+        ...(p.imageUrl !== undefined && { imageUrl: p.imageUrl || null }),
         ...(p.topics != null && { topics: JSON.stringify(p.topics) }),
         ...(p.industryTags != null && { industryTags: JSON.stringify(p.industryTags) }),
         ...(p.availability != null && { availability: p.availability }),

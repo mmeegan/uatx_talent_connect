@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { getHelpRequestById } from "@/lib/server-data";
 import Link from "next/link";
 import { getCoffeeChatEmailTemplate } from "@/lib/email-template";
+import DashboardNav from "@/components/DashboardNav";
 
 export default async function StudentRequestDetailPage({
   params,
@@ -18,21 +19,7 @@ export default async function StudentRequestDetailPage({
 
   return (
     <div className="min-h-screen bg-uatx-cream">
-      <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
-          <Link href="/dashboard/student" className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
-            Bridge
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link href="/dashboard/student" className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors">
-              Your requests
-            </Link>
-            <Link href="/api/auth/signout" className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors">
-              Sign out
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <DashboardNav mainHref="/dashboard/student" mainLabel="Your requests" />
 
       <main className="mx-auto w-full max-w-7xl px-6 py-8 lg:px-8">
         <Link href="/dashboard/student" className="text-small text-uatx-sand hover:text-uatx-gold transition-colors">

@@ -5,6 +5,7 @@ export interface MentorProfilePayload {
   name: string;
   headline: string;
   bio: string;
+  imageUrl?: string;
   topics: string[];
   industryTags: string[];
   availability: Availability;
@@ -13,6 +14,9 @@ export interface MentorProfilePayload {
 
 export interface StudentProfilePayload {
   name: string;
+  description?: string;
+  imageUrl?: string;
+  center?: string;
   tags: string[];
 }
 

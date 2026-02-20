@@ -21,13 +21,16 @@ model User {
 
 
 model StudentProfile {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  name      String
-  tags      String   // JSON array of interest tags
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  imageUrl    String?
+  center      String?  // UATX center
+  tags        String   // JSON array of interest tags
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   helpRequests HelpRequest[]
 }
@@ -39,9 +42,10 @@ model MentorProfile {
   name         String
   headline     String
   bio          String
-  topics       String         // JSON array of mentor topics
-  industryTags String         // JSON array
-  availability String  @default("MEDIUM")
+  imageUrl     String?
+  topics       String         // JSON array of mentor topics / expertise
+  industryTags String         // JSON array of fields
+  availability String         @default("MEDIUM")
   contactEmail String
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt

@@ -4,6 +4,7 @@ import { authOptions } from "@/lib/auth";
 import { getStudentHelpRequests } from "@/lib/server-data";
 import Link from "next/link";
 import NewRequestForm from "@/components/NewRequestForm";
+import DashboardNav from "@/components/DashboardNav";
 
 export default async function StudentDashboardPage() {
   const session = await getServerSession(authOptions);
@@ -14,21 +15,7 @@ export default async function StudentDashboardPage() {
 
   return (
     <div className="min-h-screen w-full bg-uatx-cream">
-      <header className="bg-uatx-ink border-b border-uatx-gold/20">
-        <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-6 lg:px-8">
-          <Link href="/dashboard/student" className="font-display text-xl uppercase tracking-widest text-uatx-ivory">
-            Bridge
-          </Link>
-          <nav className="flex items-center gap-6">
-            <Link
-              href="/api/auth/signout"
-              className="text-small text-uatx-ivory/80 hover:text-uatx-gold transition-colors"
-            >
-              Sign out
-            </Link>
-          </nav>
-        </div>
-      </header>
+      <DashboardNav mainHref="/dashboard/student" mainLabel="Your requests" />
 
       <main className="mx-auto w-full max-w-7xl px-6 py-10 lg:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:items-start">
