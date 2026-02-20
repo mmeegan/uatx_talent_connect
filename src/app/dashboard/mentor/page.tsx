@@ -8,6 +8,7 @@ import Card from "@/components/ui/Card";
 import Section from "@/components/ui/Section";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import ConnectionListItem from "@/components/ConnectionListItem";
 
 const MAX_WIDTH_CLASS = "max-w-[1100px]";
 
@@ -142,22 +143,7 @@ export default async function MentorDashboardPage() {
                 ) : (
                   <ul className="mt-6 space-y-4" role="list">
                     {(connections as ConnectionRow[]).map((c) => (
-                      <li key={c.id}>
-                        <Link
-                          href={`/dashboard/mentor/requests/${c.id}`}
-                          className="block rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(255,255,255,0.12)]"
-                        >
-                          <span className="font-medium text-[#F4F4F2]">{c.helpRequestTitle}</span>
-                          <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">{c.studentName}</p>
-                          <a
-                            href={`mailto:${encodeURIComponent(c.studentEmail)}`}
-                            className="mt-1 inline-block text-sm text-[#C6A75E] hover:text-[rgba(198,167,94,0.8)] transition-colors"
-                            onClick={(e) => e.stopPropagation()}
-                          >
-                            {c.studentEmail}
-                          </a>
-                        </Link>
-                      </li>
+                      <ConnectionListItem key={c.id} connection={c} />
                     ))}
                   </ul>
                 )}
