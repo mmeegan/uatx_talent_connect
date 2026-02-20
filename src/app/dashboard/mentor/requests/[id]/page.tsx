@@ -56,16 +56,16 @@ export default function MentorRequestDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0B0F14] flex items-center justify-center">
-        <p className="text-zinc-500">Loading…</p>
+      <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center">
+        <p className="text-[rgba(244,244,242,0.5)]">Loading…</p>
       </div>
     );
   }
   if (!item) {
     return (
       <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center px-4">
-        <p className="text-zinc-500">Request not found.</p>
-        <Link href="/dashboard/mentor" className="mt-3 text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
+        <p className="text-[rgba(244,244,242,0.5)]">Request not found.</p>
+        <Link href="/dashboard/mentor" className="mt-3 text-sm text-[rgba(244,244,242,0.6)] hover:text-[#C6A75E] transition-colors">
           Back to dashboard
         </Link>
       </div>
@@ -75,32 +75,33 @@ export default function MentorRequestDetailPage() {
   const isPending = item.status === "PENDING";
 
   return (
-    <div className="min-h-screen bg-[#0B0F14]">
+    <div className="relative min-h-screen bg-[#0B0F14]">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <DashboardNav mainHref="/dashboard/mentor" mainLabel="Requests" />
 
-      <main className="mx-auto w-full max-w-[1100px] px-6 py-8 lg:px-8">
-        <Link href="/dashboard/mentor" className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
+      <main className="relative mx-auto w-full max-w-[1100px] px-6 py-16 lg:px-8">
+        <Link href="/dashboard/mentor" className="text-sm text-[rgba(244,244,242,0.6)] hover:text-[#C6A75E] transition-colors">
           ← Back to dashboard
         </Link>
-        <Card className="mt-6">
-          <h1 className="font-display text-xl font-semibold tracking-tight text-zinc-100">
+        <Card className="mt-8">
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-[#F4F4F2]">
             {item.helpRequest.title}
           </h1>
-          <p className="mt-1 text-sm text-zinc-500">From {item.helpRequest.studentName}</p>
-          <p className="mt-4 text-zinc-400 leading-relaxed">{item.helpRequest.description}</p>
+          <p className="mt-2 text-sm text-[rgba(244,244,242,0.5)]">From {item.helpRequest.studentName}</p>
+          <p className="mt-5 text-[rgba(244,244,242,0.6)] leading-relaxed">{item.helpRequest.description}</p>
           {item.helpRequest.tags?.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2">
               {item.helpRequest.tags.map((t) => (
                 <span
                   key={t}
-                  className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs text-zinc-400"
+                  className="rounded-full border border-[rgba(255,255,255,0.12)] px-2.5 py-0.5 text-xs text-[rgba(244,244,242,0.6)]"
                 >
                   {t}
                 </span>
               ))}
             </div>
           )}
-          <div className="mt-4">
+          <div className="mt-5">
             <Badge
               variant={
                 item.status === "ACCEPTED"
@@ -114,7 +115,7 @@ export default function MentorRequestDetailPage() {
             </Badge>
           </div>
           {isPending && (
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-3">
               <Button
                 variant="primary"
                 onClick={() => respond("accept")}
@@ -132,7 +133,7 @@ export default function MentorRequestDetailPage() {
             </div>
           )}
           {item.status === "ACCEPTED" && (
-            <p className="mt-4 text-sm text-zinc-500">
+            <p className="mt-6 text-sm text-[rgba(244,244,242,0.5)] leading-relaxed">
               The student will see your contact email and can reach out to schedule the coffee chat.
             </p>
           )}

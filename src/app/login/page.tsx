@@ -4,6 +4,10 @@ import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import ConstellateIcon from "@/components/ConstellateIcon";
+
+const inputClass =
+  "input-constellate mt-1.5 block w-full rounded-lg px-3 py-2.5 text-[#F4F4F2]";
 
 function LoginForm() {
   const router = useRouter();
@@ -37,23 +41,23 @@ function LoginForm() {
       <div className="text-center">
         <Link
           href="/"
-          className="font-display text-xl tracking-tight text-zinc-100 hover:text-zinc-100"
+          className="inline-flex items-center gap-2 text-[#F4F4F2] hover:opacity-90"
         >
-          Constellate
+          <ConstellateIcon className="h-8 w-8" />
         </Link>
-        <h2 className="mt-8 text-xl font-semibold text-zinc-100">Log in</h2>
+        <h2 className="mt-8 text-2xl font-semibold tracking-tight text-[#F4F4F2]">Log in</h2>
       </div>
       <form onSubmit={handleSubmit} className="space-y-5">
         {error && (
           <p
-            className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200"
+            className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]"
             role="alert"
           >
             {error}
           </p>
         )}
         <div>
-          <label htmlFor="email" className="block text-sm font-medium text-zinc-300">
+          <label htmlFor="email" className="block text-sm font-medium text-[rgba(244,244,242,0.8)]">
             Email
           </label>
           <input
@@ -63,11 +67,11 @@ function LoginForm() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+            className={inputClass}
           />
         </div>
         <div>
-          <label htmlFor="password" className="block text-sm font-medium text-zinc-300">
+          <label htmlFor="password" className="block text-sm font-medium text-[rgba(244,244,242,0.8)]">
             Password
           </label>
           <input
@@ -77,20 +81,20 @@ function LoginForm() {
             required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+            className={inputClass}
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg border border-zinc-200 bg-zinc-100 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+          className="w-full rounded-lg border border-[rgba(244,244,242,0.4)] bg-transparent py-2.5 text-sm font-medium text-[#F4F4F2] transition-colors hover:border-[#C6A75E] hover:text-[#C6A75E] focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
         >
           {loading ? "Signing in…" : "Log in"}
         </button>
       </form>
-      <p className="text-center text-sm text-zinc-500">
-        Don’t have an account?{" "}
-        <Link href="/signup" className="font-medium text-zinc-300 hover:text-zinc-100 transition-colors duration-200">
+      <p className="text-center text-sm text-[rgba(244,244,242,0.5)]">
+        Don&apos;t have an account?{" "}
+        <Link href="/signup" className="font-medium text-[#C6A75E] hover:text-[rgba(198,167,94,0.8)] transition-colors">
           Sign up
         </Link>
       </p>
@@ -100,8 +104,9 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center px-6">
-      <Suspense fallback={<div className="text-zinc-500">Loading…</div>}>
+    <div className="relative flex min-h-screen flex-col items-center justify-center px-6">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
+      <Suspense fallback={<div className="text-[rgba(244,244,242,0.5)]">Loading…</div>}>
         <LoginForm />
       </Suspense>
     </div>

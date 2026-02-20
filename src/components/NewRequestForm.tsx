@@ -46,42 +46,42 @@ export default function NewRequestForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-8">
+    <form onSubmit={handleSubmit} className="space-y-10">
       {error && (
         <div
-          className="rounded-lg border border-zinc-700 bg-zinc-800/50 p-4 text-sm text-zinc-200"
+          className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-4 text-sm text-[rgba(244,244,242,0.9)]"
           role="alert"
         >
           {error}
         </div>
       )}
 
-      <section className="space-y-3">
-        <h3 className="text-base font-semibold text-zinc-100">
+      <section className="space-y-4">
+        <h3 className="text-lg font-medium text-[#F4F4F2]">
           Describe what you need help with
         </h3>
-        <p className="text-sm text-zinc-400">
-          A few sentences about your question or what you’d like to learn. We’ll match you with up to three relevant mentors.
+        <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
+          A few sentences about your question or what you&apos;d like to learn. We&apos;ll match you with up to three relevant mentors.
         </p>
         <textarea
           id="description"
           name="description"
-          rows={5}
-          placeholder="e.g. I’m exploring a move from engineering into product. I’d love to hear how others made the switch and what skills to build."
+          rows={6}
+          placeholder="e.g. I'm exploring a move from engineering into product. I'd love to hear how others made the switch and what skills to build."
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          className="w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-3 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+          className="input-constellate w-full rounded-lg px-4 py-3 text-[#F4F4F2] leading-relaxed"
           aria-describedby="description-hint"
           required
         />
-        <p id="description-hint" className="text-xs text-zinc-500">
+        <p id="description-hint" className="text-xs text-[rgba(244,244,242,0.4)]">
           Required. Your request is sent to mentors whose expertise matches your topics.
         </p>
       </section>
 
-      <section className="space-y-3">
-        <h3 className="text-base font-semibold text-zinc-100">Topics</h3>
-        <p className="text-sm text-zinc-400">
+      <section className="space-y-4">
+        <h3 className="text-lg font-medium text-[#F4F4F2]">Topics</h3>
+        <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
           Select any that apply. This helps us match you with the right mentors.
         </p>
         <PillMultiSelect
@@ -93,9 +93,9 @@ export default function NewRequestForm() {
         />
       </section>
 
-      <section className="space-y-3">
-        <h3 className="text-base font-semibold text-zinc-100">Industries / fields</h3>
-        <p className="text-sm text-zinc-400">
+      <section className="space-y-4">
+        <h3 className="text-lg font-medium text-[#F4F4F2]">Industries / fields</h3>
+        <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
           Optional. Narrows matching to mentors in these areas.
         </p>
         <PillMultiSelect
@@ -112,7 +112,7 @@ export default function NewRequestForm() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full rounded-lg border border-zinc-200 bg-zinc-100 py-3.5 text-base font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50 disabled:pointer-events-none"
+          className="w-full rounded-lg border border-[rgba(244,244,242,0.4)] bg-transparent py-3.5 text-base font-medium text-[#F4F4F2] transition-colors hover:border-[#C6A75E] hover:text-[#C6A75E] focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50 disabled:pointer-events-none"
         >
           {loading ? "Submitting…" : "Submit request"}
         </button>

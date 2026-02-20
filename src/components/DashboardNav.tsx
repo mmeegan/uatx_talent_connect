@@ -3,14 +3,12 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
+import ConstellateIcon from "@/components/ConstellateIcon";
 
 type DashboardNavProps = {
   mainHref: string;
   mainLabel: string;
 };
-
-const navLinkClass =
-  "text-sm text-zinc-400 transition-colors duration-200 hover:text-zinc-100";
 
 export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps) {
   const pathname = usePathname();
@@ -25,40 +23,63 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
+  const isMainActive = pathname === mainHref;
+
   return (
-    <header className="border-b border-zinc-800 bg-[#0B0F14]">
-      <div className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-6 lg:px-8">
+    <header
+      className="border-b border-[rgba(255,255,255,0.08)] bg-gradient-to-b from-[#0E131A] to-[#0B0F14]"
+      style={{ minHeight: "92px" }}
+    >
+      <div className="mx-auto flex h-[92px] max-w-[1100px] items-center justify-between px-6 lg:px-8">
         <Link
           href="/"
-          className="font-display text-xl tracking-tight text-zinc-100 hover:text-zinc-100"
+          className="flex items-center gap-3 text-[#F4F4F2] transition-opacity hover:opacity-90"
+          aria-label="Constellate home"
         >
-          Constellate
+          <ConstellateIcon className="h-9 w-9" />
         </Link>
-        <nav className="flex items-center gap-6">
+        <nav className="flex items-center gap-8">
           <Link
             href={mainHref}
-            className={pathname === mainHref ? "text-sm font-medium text-zinc-100" : navLinkClass}
+            className={`group relative text-sm font-medium transition-colors duration-200 ${
+              isMainActive ? "text-[#F4F4F2]" : "text-[rgba(244,244,242,0.6)] hover:text-[#F4F4F2]"
+            }`}
           >
             {mainLabel}
+            <span
+              className={`absolute -bottom-1 left-0 h-px bg-[#C6A75E] transition-all duration-200 ${
+                isMainActive ? "w-full" : "w-0 group-hover:w-full"
+              }`}
+              aria-hidden
+            />
           </Link>
           <div className="relative" ref={ref}>
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
-              className={open ? "text-sm font-medium text-zinc-100" : navLinkClass}
+              className={`relative text-sm font-medium transition-colors duration-200 ${
+                open ? "text-[#F4F4F2]" : "text-[rgba(244,244,242,0.6)] hover:text-[#F4F4F2]"
+              }`}
               aria-expanded={open}
               aria-haspopup="true"
             >
               Account
+              <span
+                className={`absolute -bottom-1 left-0 h-px bg-[#C6A75E] transition-all duration-200 ${
+                  open ? "w-full" : "w-0"
+                }`}
+                aria-hidden
+              />
             </button>
             {open && (
               <div
-                className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-zinc-800 bg-zinc-900 py-1 shadow-lg"
+                className="absolute right-0 top-full z-50 mt-2 w-48 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] py-1 shadow-lg backdrop-blur-sm"
                 role="menu"
+                style={{ boxShadow: "0 1px 0 0 rgba(255,255,255,0.03) inset" }}
               >
                 <Link
                   href="/dashboard/profile"
-                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  className="block px-4 py-2.5 text-sm text-[rgba(244,244,242,0.8)] transition-colors hover:bg-[rgba(198,167,94,0.06)] hover:text-[#F4F4F2]"
                   role="menuitem"
                   onClick={() => setOpen(false)}
                 >
@@ -66,7 +87,7 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
                 </Link>
                 <Link
                   href="/dashboard/settings"
-                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  className="block px-4 py-2.5 text-sm text-[rgba(244,244,242,0.8)] transition-colors hover:bg-[rgba(198,167,94,0.06)] hover:text-[#F4F4F2]"
                   role="menuitem"
                   onClick={() => setOpen(false)}
                 >
@@ -74,7 +95,7 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
                 </Link>
                 <Link
                   href="/api/auth/signout"
-                  className="block px-4 py-2 text-sm text-zinc-300 hover:bg-zinc-800 hover:text-zinc-100"
+                  className="block px-4 py-2.5 text-sm text-[rgba(244,244,242,0.8)] transition-colors hover:bg-[rgba(198,167,94,0.06)] hover:text-[#F4F4F2]"
                   role="menuitem"
                   onClick={() => setOpen(false)}
                 >

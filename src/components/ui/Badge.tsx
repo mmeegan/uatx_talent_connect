@@ -1,10 +1,10 @@
 type BadgeVariant = "default" | "success" | "warning" | "muted";
 
 const variantClasses: Record<BadgeVariant, string> = {
-  default: "border-zinc-600 bg-zinc-800 text-zinc-200",
-  success: "border-zinc-500 bg-zinc-700 text-zinc-100",
-  warning: "border-zinc-600 bg-zinc-800 text-zinc-300",
-  muted: "border-zinc-700 bg-zinc-800/50 text-zinc-400",
+  default: "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-[rgba(244,244,242,0.8)]",
+  success: "border-[#C6A75E] bg-[rgba(198,167,94,0.08)] text-[#C6A75E]",
+  warning: "border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] text-[rgba(244,244,242,0.6)]",
+  muted: "border-[rgba(255,255,255,0.08)] bg-transparent text-[rgba(244,244,242,0.4)]",
 };
 
 export default function Badge({

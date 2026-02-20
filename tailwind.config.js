@@ -10,12 +10,21 @@ module.exports = {
       colors: {
         constellate: {
           bg: "#0B0F14",
-          surface: "#18181b",
-          border: "#27272a",
-          "text-primary": "#fafafa",
-          "text-secondary": "#a1a1aa",
-          accent: "#e7e5e4",
-          cta: "#e7e5e4",
+          "nav-from": "#0E131A",
+          "nav-to": "#0B0F14",
+          surface: "rgba(255,255,255,0.02)",
+          border: "rgba(255,255,255,0.08)",
+          "text-primary": "#F4F4F2",
+          "text-secondary": "rgba(244,244,242,0.6)",
+          "text-muted": "rgba(244,244,242,0.4)",
+          gold: "#C6A75E",
+          "gold-muted": "rgba(198,167,94,0.7)",
+          "gold-glow": "rgba(198,167,94,0.08)",
+        },
+        gold: {
+          DEFAULT: "#C6A75E",
+          muted: "rgba(198,167,94,0.7)",
+          glow: "rgba(198,167,94,0.08)",
         },
       },
       fontFamily: {
@@ -28,6 +37,10 @@ module.exports = {
         section: ["1.125rem", { lineHeight: "1.35" }],
         body: ["0.9375rem", { lineHeight: "1.6" }],
         small: ["0.8125rem", { lineHeight: "1.5" }],
+      },
+      boxShadow: {
+        "gold-ring": "0 0 0 1px rgba(198,167,94,0.25)",
+        "gold-glow": "0 0 20px rgba(198,167,94,0.08)",
       },
     },
   },

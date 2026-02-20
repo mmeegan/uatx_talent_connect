@@ -41,50 +41,51 @@ export default async function MentorDashboardPage() {
   const pending = requests.filter((r: { status: string }) => r.status === "PENDING");
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14]">
+    <div className="relative min-h-screen w-full bg-[#0B0F14]">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <DashboardNav mainHref="/dashboard/mentor" mainLabel="Requests" />
 
-      <main className="mx-auto w-full px-6 py-10 lg:px-8">
+      <main className="relative mx-auto w-full px-6 py-16 lg:px-8">
         <div className={`mx-auto ${MAX_WIDTH_CLASS}`}>
-          <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-16 lg:grid-cols-3">
             <div className="lg:col-span-2">
-              <h1 className="font-display text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl">
+              <h1 className="font-display text-4xl font-bold tracking-tight text-[#F4F4F2] sm:text-5xl leading-tight">
                 Incoming requests
               </h1>
-              <div className="mt-2 h-px w-16 bg-zinc-700" />
-              <p className="mt-4 text-zinc-400">
+              <div className="mt-4 h-px w-16 bg-[#C6A75E]" />
+              <p className="mt-6 text-[rgba(244,244,242,0.6)] leading-relaxed">
                 Students have been matched to you. Accept or decline each request.
               </p>
 
               {requests.length === 0 ? (
-                <Card className="mt-8">
-                  <p className="py-8 text-center text-sm text-zinc-500">
-                    No requests yet. When a student’s request is matched to you, it will appear here.
+                <Card className="mt-10 transition-transform duration-200 hover:-translate-y-0.5">
+                  <p className="py-8 text-center text-sm text-[rgba(244,244,242,0.4)]">
+                    No requests yet. When a student&apos;s request is matched to you, it will appear here.
                   </p>
                 </Card>
               ) : (
-                <ul className="mt-6 space-y-4" role="list">
+                <ul className="mt-10 space-y-6" role="list">
                   {(requests as RequestRow[]).map((r) => (
                     <li key={r.id}>
-                      <Card className="border-zinc-800">
+                      <Card className="border-[rgba(255,255,255,0.08)] transition-transform duration-200 hover:-translate-y-0.5">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                           <div className="min-w-0 flex-1">
-                            <p className="font-medium text-zinc-100">{r.helpRequest.title}</p>
-                            <p className="mt-1 text-sm text-zinc-500">From {r.helpRequest.studentName}</p>
-                            <p className="mt-3 text-sm text-zinc-400 line-clamp-2">{r.helpRequest.description}</p>
+                            <p className="font-medium text-[#F4F4F2]">{r.helpRequest.title}</p>
+                            <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">From {r.helpRequest.studentName}</p>
+                            <p className="mt-3 text-sm text-[rgba(244,244,242,0.6)] line-clamp-2 leading-relaxed">{r.helpRequest.description}</p>
                             {r.helpRequest.tags?.length ? (
-                              <div className="mt-2 flex flex-wrap gap-1.5">
+                              <div className="mt-3 flex flex-wrap gap-2">
                                 {r.helpRequest.tags.map((t: string) => (
                                   <span
                                     key={t}
-                                    className="rounded-full border border-zinc-700 bg-zinc-800/50 px-2.5 py-0.5 text-xs text-zinc-400"
+                                    className="rounded-full border border-[rgba(255,255,255,0.12)] px-2.5 py-0.5 text-xs text-[rgba(244,244,242,0.6)]"
                                   >
                                     {t}
                                   </span>
                                 ))}
                               </div>
                             ) : null}
-                            <p className="mt-2 text-xs text-zinc-500">
+                            <p className="mt-2 text-xs text-[rgba(244,244,242,0.4)]">
                               {new Date(r.createdAt).toLocaleDateString(undefined, {
                                 month: "short",
                                 day: "numeric",
@@ -121,7 +122,7 @@ export default async function MentorDashboardPage() {
               )}
 
               {pending.length > 0 && (
-                <p className="mt-4 text-sm text-zinc-500">
+                <p className="mt-6 text-sm text-[rgba(244,244,242,0.5)]">
                   {pending.length} pending — open each to accept or decline.
                 </p>
               )}
@@ -129,26 +130,26 @@ export default async function MentorDashboardPage() {
 
             <aside>
               <Section title="Connections">
-                <p className="text-sm text-zinc-400">
-                  Students whose requests you’ve accepted.
+                <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
+                  Students whose requests you&apos;ve accepted.
                 </p>
                 {connections.length === 0 ? (
-                  <p className="mt-6 py-6 text-center text-sm text-zinc-500">
+                  <p className="mt-6 py-6 text-center text-sm text-[rgba(244,244,242,0.4)]">
                     No connections yet.
                   </p>
                 ) : (
-                  <ul className="mt-4 space-y-3" role="list">
+                  <ul className="mt-6 space-y-4" role="list">
                     {(connections as ConnectionRow[]).map((c) => (
                       <li key={c.id}>
                         <Link
                           href={`/dashboard/mentor/requests/${c.id}`}
-                          className="block rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 transition-colors duration-200 hover:border-zinc-700 hover:bg-zinc-800/50"
+                          className="block rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(255,255,255,0.12)]"
                         >
-                          <span className="font-medium text-zinc-100">{c.helpRequestTitle}</span>
-                          <p className="mt-1 text-sm text-zinc-500">{c.studentName}</p>
+                          <span className="font-medium text-[#F4F4F2]">{c.helpRequestTitle}</span>
+                          <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">{c.studentName}</p>
                           <a
                             href={`mailto:${encodeURIComponent(c.studentEmail)}`}
-                            className="mt-1 inline-block text-sm text-zinc-400 hover:text-zinc-300 transition-colors duration-200"
+                            className="mt-1 inline-block text-sm text-[#C6A75E] hover:text-[rgba(198,167,94,0.8)] transition-colors"
                             onClick={(e) => e.stopPropagation()}
                           >
                             {c.studentEmail}

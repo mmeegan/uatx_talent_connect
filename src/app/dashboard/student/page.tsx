@@ -34,38 +34,39 @@ export default async function StudentDashboardPage() {
   const requests = await getStudentHelpRequests(session);
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14]">
+    <div className="relative min-h-screen w-full bg-[#0B0F14]">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <DashboardNav mainHref="/dashboard/student" mainLabel="Requests" />
 
-      <main className="mx-auto w-full px-6 py-10 lg:px-8">
+      <main className="relative mx-auto w-full px-6 py-16 lg:px-8">
         <div className={`mx-auto ${MAX_WIDTH_CLASS}`}>
-          <h1 className="font-display text-2xl font-semibold tracking-tight text-zinc-100 sm:text-3xl">
+          <h1 className="font-display text-4xl font-bold tracking-tight text-[#F4F4F2] sm:text-5xl leading-tight">
             Start a mentorship request
           </h1>
-          <div className="mt-2 h-px w-16 bg-zinc-700" />
-          <p className="mt-4 text-zinc-400">
-            Describe what you need help with and we’ll match you with up to three mentors. You’ll see updates here when they respond.
+          <div className="mt-4 h-px w-16 bg-[#C6A75E]" />
+          <p className="mt-6 text-[rgba(244,244,242,0.6)] leading-relaxed">
+            Describe what you need help with and we&apos;ll match you with up to three mentors. You&apos;ll see updates here when they respond.
           </p>
 
-          <div className="mt-10 space-y-8">
-            <Card aria-labelledby="requests-heading">
+          <div className="mt-20 space-y-20">
+            <Card aria-labelledby="requests-heading" className="transition-transform duration-200 hover:-translate-y-0.5">
               <Section title="Active requests" id="requests">
                 {requests.length === 0 ? (
-                  <p className="py-8 text-center text-sm text-zinc-500">
+                  <p className="py-8 text-center text-sm text-[rgba(244,244,242,0.4)]">
                     No requests yet. Begin by submitting one below.
                   </p>
                 ) : (
-                  <ul className="space-y-3" role="list">
+                  <ul className="space-y-4" role="list">
                     {(requests as RequestItem[]).map((r) => (
                       <li key={r.id}>
                         <Link
                           href={`/dashboard/student/requests/${r.id}`}
-                          className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-900/30 p-4 transition-colors duration-200 hover:border-zinc-700 hover:bg-zinc-800/50"
+                          className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(255,255,255,0.12)]"
                         >
-                          <span className="font-medium text-zinc-100">{r.title}</span>
+                          <span className="font-medium text-[#F4F4F2]">{r.title}</span>
                           <Badge variant={badgeVariant(r.status)}>{r.status}</Badge>
                           {r.createdAt && (
-                            <span className="w-full text-xs text-zinc-500 sm:w-auto">
+                            <span className="w-full text-xs text-[rgba(244,244,242,0.4)] sm:w-auto">
                               {new Date(r.createdAt).toLocaleDateString(undefined, {
                                 month: "short",
                                 day: "numeric",
@@ -81,15 +82,15 @@ export default async function StudentDashboardPage() {
               </Section>
             </Card>
 
-            <Card aria-labelledby="new-request-heading">
-              <h2 id="new-request-heading" className="text-lg font-semibold text-zinc-100">
+            <Card aria-labelledby="new-request-heading" className="transition-transform duration-200 hover:-translate-y-0.5">
+              <h2 id="new-request-heading" className="text-xl font-medium text-[#F4F4F2]">
                 New request
               </h2>
-              <div className="mt-2 h-px bg-zinc-800" />
-              <p className="mt-4 text-sm text-zinc-400">
+              <div className="mt-3 h-px bg-[rgba(255,255,255,0.08)]" />
+              <p className="mt-5 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
                 Fill in what you need help with and relevant topics so we can match you with mentors.
               </p>
-              <div className="mt-6">
+              <div className="mt-8">
                 <NewRequestForm />
               </div>
             </Card>

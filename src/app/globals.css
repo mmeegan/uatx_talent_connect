@@ -5,6 +5,26 @@
 @layer base {
   body {
     background-color: #0B0F14;
-    color: #fafafa;
+    color: #F4F4F2;
   }
+}
+
+/* Page-level radial lighting for depth */
+.radial-bg {
+  background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.03), transparent 60%);
+}
+
+/* Shared form input/textarea - use with input and textarea */
+.input-constellate {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.1);
+  --tw-placeholder-opacity: 0.35;
+}
+.input-constellate::placeholder {
+  color: rgba(244,244,242,0.35);
+}
+.input-constellate:focus {
+  outline: none;
+  border-color: #C6A75E;
+  box-shadow: 0 0 0 2px rgba(198,167,94,0.15);
 }

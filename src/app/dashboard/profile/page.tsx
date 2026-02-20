@@ -53,8 +53,8 @@ function parseCenter(center: string[] | string | null | undefined): string[] {
 const AVAILABILITY_OPTIONS = ["LOW", "MEDIUM", "HIGH"] as const;
 
 const inputClass =
-  "mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500";
-const labelClass = "block text-sm font-medium text-zinc-300";
+  "input-constellate mt-1.5 block w-full rounded-lg px-3 py-2.5 text-[#F4F4F2]";
+const labelClass = "block text-sm font-medium text-[rgba(244,244,242,0.8)]";
 
 export default function ProfilePage() {
   const { data: session, status } = useSession();
@@ -91,7 +91,7 @@ export default function ProfilePage() {
   if (status === "loading" || loading) {
     return (
       <div className="min-h-screen bg-[#0B0F14] flex items-center justify-center">
-        <p className="text-zinc-500">Loading…</p>
+        <p className="text-[rgba(244,244,242,0.5)]">Loading…</p>
       </div>
     );
   }
@@ -103,7 +103,7 @@ export default function ProfilePage() {
       <div className="min-h-screen w-full bg-[#0B0F14]">
         <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
         <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
-          <p className="text-zinc-500">No profile found.</p>
+          <p className="text-[rgba(244,244,242,0.5)]">No profile found.</p>
         </main>
       </div>
     );
@@ -211,38 +211,40 @@ function StudentProfileForm({
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14]">
+    <div className="relative min-h-screen w-full bg-[#0B0F14]">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
-      <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
-        <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
+      <main className="relative mx-auto w-full max-w-[880px] px-6 py-16 lg:px-8">
+        <Link href={mainHref} className="text-sm text-[rgba(244,244,242,0.6)] hover:text-[#C6A75E] transition-colors">
           ← Back to dashboard
         </Link>
         {(imageUrl || profile.imageUrl) && (
-          <div className="mt-6">
+          <div className="mt-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl || profile.imageUrl || ""}
               alt=""
-              className="h-28 w-28 rounded-full border border-zinc-700 object-cover"
+              className="h-28 w-28 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
               onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
             />
           </div>
         )}
-        <h1 className="mt-6 text-2xl font-semibold text-zinc-100">{name}</h1>
-        <div className="mt-2 h-px w-16 bg-zinc-700" />
-        <p className="mt-4 text-zinc-400">Your public profile.</p>
+        <h1 className="mt-8 font-display text-4xl font-bold tracking-tight text-[#F4F4F2]">{name}</h1>
+        <div className="mt-3 h-0.5 w-20 bg-[#C6A75E]" />
+        <p className="mt-6 text-[rgba(244,244,242,0.6)]">Your public profile.</p>
 
-        <Card className="mt-8">
+        <Card className="mt-12">
           {error && (
-            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4" role="alert">
+            <p className="mb-4 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]" role="alert">
               {error}
             </p>
           )}
           {success && (
-            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4">
+            <p className="mb-4 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]">
               Profile updated.
             </p>
           )}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <Section title="About">
               <div className="space-y-4">
                 <div>
@@ -279,7 +281,7 @@ function StudentProfileForm({
               <button
                 type="submit"
                 disabled={saving}
-                className="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+                className="rounded-lg border border-[rgba(244,244,242,0.4)] bg-transparent px-4 py-2.5 text-sm font-medium text-[#F4F4F2] transition-colors hover:border-[#C6A75E] hover:text-[#C6A75E] focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
               >
                 {saving ? "Saving…" : "Save profile"}
               </button>
@@ -332,39 +334,41 @@ function MentorProfileForm({
   }
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14]">
+    <div className="relative min-h-screen w-full bg-[#0B0F14]">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
-      <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
-        <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
+      <main className="relative mx-auto w-full max-w-[880px] px-6 py-16 lg:px-8">
+        <Link href={mainHref} className="text-sm text-[rgba(244,244,242,0.6)] hover:text-[#C6A75E] transition-colors">
           ← Back to dashboard
         </Link>
         {(imageUrl || profile.imageUrl) && (
-          <div className="mt-6">
+          <div className="mt-8">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={imageUrl || profile.imageUrl || ""}
               alt=""
-              className="h-28 w-28 rounded-full border border-zinc-700 object-cover"
+              className="h-28 w-28 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
               onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
             />
           </div>
         )}
-        <h1 className="mt-6 text-2xl font-semibold text-zinc-100">{name}</h1>
-        <p className="mt-1 text-zinc-500">{headline || "Mentor"}</p>
-        <div className="mt-2 h-px w-16 bg-zinc-700" />
-        <p className="mt-4 text-zinc-400">Your mentor profile.</p>
+        <h1 className="mt-8 font-display text-4xl font-bold tracking-tight text-[#F4F4F2]">{name}</h1>
+        <p className="mt-2 text-[rgba(244,244,242,0.5)]">{headline || "Mentor"}</p>
+        <div className="mt-3 h-0.5 w-20 bg-[#C6A75E]" />
+        <p className="mt-6 text-[rgba(244,244,242,0.6)]">Your mentor profile.</p>
 
-        <Card className="mt-8">
+        <Card className="mt-12">
           {error && (
-            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4" role="alert">
+            <p className="mb-4 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]" role="alert">
               {error}
             </p>
           )}
           {success && (
-            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200 mb-4">
+            <p className="mb-4 rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]">
               Profile updated.
             </p>
           )}
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <Section title="About">
               <div className="space-y-4">
                 <div>
@@ -396,18 +400,18 @@ function MentorProfileForm({
               </div>
             </Section>
             <Section title="Availability">
-              <span id="av-label" className="block text-sm font-medium text-zinc-300">Capacity for new conversations</span>
-              <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="av-label">
+              <span id="av-label" className="block text-sm font-medium text-[rgba(244,244,242,0.8)]">Capacity for new conversations</span>
+              <div className="mt-3 flex flex-wrap gap-2" role="group" aria-labelledby="av-label">
                 {AVAILABILITY_OPTIONS.map((opt) => (
                   <button
                     key={opt}
                     type="button"
                     onClick={() => setAvailability(opt)}
                     className={
-                      "rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] " +
+                      "rounded-full border px-4 py-2 text-sm font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] " +
                       (availability === opt
-                        ? "border-zinc-400 bg-zinc-100 text-zinc-900"
-                        : "border-zinc-700 bg-transparent text-zinc-400 hover:bg-zinc-800")
+                        ? "border-[#C6A75E] bg-[rgba(198,167,94,0.08)] text-[#C6A75E]"
+                        : "border-[rgba(255,255,255,0.12)] bg-transparent text-[rgba(244,244,242,0.6)] hover:border-[#C6A75E] hover:text-[#C6A75E]")
                     }
                   >
                     {opt}
@@ -419,7 +423,7 @@ function MentorProfileForm({
               <button
                 type="submit"
                 disabled={saving}
-                className="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+                className="rounded-lg border border-[rgba(244,244,242,0.4)] bg-transparent px-4 py-2.5 text-sm font-medium text-[#F4F4F2] transition-colors hover:border-[#C6A75E] hover:text-[#C6A75E] focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
               >
                 {saving ? "Saving…" : "Save profile"}
               </button>

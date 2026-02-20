@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Oswald } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "@/components/SessionProvider";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-display", weight: ["500", "600", "700"] });
@@ -18,8 +19,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${oswald.variable}`}>
-      <body className="min-h-screen bg-[#0B0F14] font-sans text-zinc-100 antialiased">
-        <SessionProvider>{children}</SessionProvider>
+      <body className="min-h-screen bg-[#0B0F14] font-sans text-[#F4F4F2] antialiased">
+        <SessionProvider>
+          <div className="flex min-h-screen flex-col">
+            {children}
+            <Footer />
+          </div>
+        </SessionProvider>
       </body>
     </html>
   );

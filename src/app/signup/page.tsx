@@ -3,12 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import ConstellateIcon from "@/components/ConstellateIcon";
 
 type Role = "STUDENT" | "MENTOR";
 
 const inputClass =
-  "mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500";
-const labelClass = "block text-sm font-medium text-zinc-300";
+  "input-constellate mt-1.5 block w-full rounded-lg px-3 py-2.5 text-[#F4F4F2]";
+const labelClass = "block text-sm font-medium text-[rgba(244,244,242,0.8)]";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -71,40 +72,41 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0F14] flex flex-col items-center justify-center px-6 py-12">
-      <div className="w-full max-w-md space-y-6">
+    <div className="relative flex min-h-screen flex-col items-center justify-center px-6 py-12">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
+      <div className="relative w-full max-w-md space-y-6">
         <div className="text-center">
-          <Link href="/" className="font-display text-xl tracking-tight text-zinc-100">
-            Constellate
+          <Link href="/" className="inline-flex items-center gap-2 text-[#F4F4F2] hover:opacity-90">
+            <ConstellateIcon className="h-8 w-8" />
           </Link>
-          <h2 className="mt-8 text-xl font-semibold text-zinc-100">Sign up</h2>
+          <h2 className="mt-8 text-2xl font-semibold tracking-tight text-[#F4F4F2]">Sign up</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           {error && (
-            <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200" role="alert">
+            <p className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]" role="alert">
               {error}
             </p>
           )}
           <div>
             <span className={labelClass}>I am a</span>
             <div className="mt-2 flex gap-6">
-              <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-[rgba(244,244,242,0.8)]">
                 <input
                   type="radio"
                   name="role"
                   checked={role === "STUDENT"}
                   onChange={() => setRole("STUDENT")}
-                  className="border-zinc-600 text-zinc-100 focus:ring-zinc-500"
+                  className="border-[rgba(255,255,255,0.2)] text-[#C6A75E] focus:ring-[#C6A75E]"
                 />
                 Student
               </label>
-              <label className="flex cursor-pointer items-center gap-2 text-sm text-zinc-300">
+              <label className="flex cursor-pointer items-center gap-2 text-sm text-[rgba(244,244,242,0.8)]">
                 <input
                   type="radio"
                   name="role"
                   checked={role === "MENTOR"}
                   onChange={() => setRole("MENTOR")}
-                  className="border-zinc-600 text-zinc-100 focus:ring-zinc-500"
+                  className="border-[rgba(255,255,255,0.2)] text-[#C6A75E] focus:ring-[#C6A75E]"
                 />
                 Mentor
               </label>
@@ -170,14 +172,14 @@ export default function SignupPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg border border-zinc-200 bg-zinc-100 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+            className="w-full rounded-lg border border-[rgba(244,244,242,0.4)] bg-transparent py-2.5 text-sm font-medium text-[#F4F4F2] transition-colors hover:border-[#C6A75E] hover:text-[#C6A75E] focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
           >
             {loading ? "Creating account…" : "Sign up"}
           </button>
         </form>
-        <p className="text-center text-sm text-zinc-500">
+        <p className="text-center text-sm text-[rgba(244,244,242,0.5)]">
           Already have an account?{" "}
-          <Link href="/login" className="font-medium text-zinc-300 hover:text-zinc-100 transition-colors duration-200">Log in</Link>
+          <Link href="/login" className="font-medium text-[#C6A75E] hover:text-[rgba(198,167,94,0.8)] transition-colors">Log in</Link>
         </p>
       </div>
     </div>

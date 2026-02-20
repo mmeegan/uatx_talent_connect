@@ -6,7 +6,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Card from "@/components/ui/Card";
-import Section from "@/components/ui/Section";
 
 export default function SettingsPage() {
   const { data: session, status } = useSession();
@@ -26,7 +25,7 @@ export default function SettingsPage() {
   if (status === "loading") {
     return (
       <div className="min-h-screen bg-[#0B0F14] flex items-center justify-center">
-        <p className="text-zinc-500">Loading…</p>
+        <p className="text-[rgba(244,244,242,0.5)]">Loading…</p>
       </div>
     );
   }
@@ -69,34 +68,39 @@ export default function SettingsPage() {
   }
 
   const inputClass =
-    "mt-1.5 block w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2.5 text-zinc-100 placeholder-zinc-500 focus:border-zinc-600 focus:outline-none focus:ring-1 focus:ring-zinc-500";
+    "input-constellate mt-1.5 block w-full rounded-lg px-3 py-2.5 text-[#F4F4F2]";
 
   return (
-    <div className="min-h-screen w-full bg-[#0B0F14]">
+    <div className="relative min-h-screen w-full bg-[#0B0F14]">
+      <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <DashboardNav mainHref={mainHref} mainLabel={mainLabel} />
-      <main className="mx-auto w-full max-w-[880px] px-6 py-10 lg:px-8">
-        <Link href={mainHref} className="text-sm text-zinc-400 hover:text-zinc-100 transition-colors duration-200">
+      <main className="relative mx-auto w-full max-w-[880px] px-6 py-16 lg:px-8">
+        <Link href={mainHref} className="text-sm text-[rgba(244,244,242,0.6)] hover:text-[#C6A75E] transition-colors">
           ← Back to dashboard
         </Link>
-        <h1 className="mt-4 text-2xl font-semibold text-zinc-100">Settings</h1>
-        <div className="mt-2 h-px w-16 bg-zinc-700" />
-        <p className="mt-4 text-zinc-400">Account control.</p>
+        <h1 className="mt-8 font-display text-4xl font-bold tracking-tight text-[#F4F4F2]">Settings</h1>
+        <div className="mt-4 h-px w-16 bg-[#C6A75E]" />
+        <p className="mt-6 text-[rgba(244,244,242,0.6)] leading-relaxed">Account control.</p>
 
-        <Card className="mt-8">
-          <Section title="Change password">
+        <Card className="mt-12">
+          <div className="border-l-2 border-[#C6A75E] pl-4">
+            <h2 className="text-xl font-medium text-[#F4F4F2]">Change password</h2>
+            <div className="mt-3 h-px w-full max-w-[200px] bg-[rgba(255,255,255,0.08)]" />
+          </div>
+          <div className="mt-6 space-y-5">
             {error && (
-              <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200" role="alert">
+              <p className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]" role="alert">
                 {error}
               </p>
             )}
             {success && (
-              <p className="rounded-lg border border-zinc-700 bg-zinc-800/50 px-3 py-2 text-sm text-zinc-200">
+              <p className="rounded-lg border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] px-3 py-2 text-sm text-[rgba(244,244,242,0.9)]">
                 Password updated successfully.
               </p>
             )}
-            <form onSubmit={handleChangePassword} className="mt-4 space-y-5">
+            <form onSubmit={handleChangePassword} className="space-y-5">
               <div>
-                <label htmlFor="currentPassword" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="currentPassword" className="block text-sm font-medium text-[rgba(244,244,242,0.8)]">
                   Current password
                 </label>
                 <input
@@ -109,7 +113,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label htmlFor="newPassword" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="newPassword" className="block text-sm font-medium text-[rgba(244,244,242,0.8)]">
                   New password
                 </label>
                 <input
@@ -123,7 +127,7 @@ export default function SettingsPage() {
                 />
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-zinc-300">
+                <label htmlFor="confirmPassword" className="block text-sm font-medium text-[rgba(244,244,242,0.8)]">
                   Confirm new password
                 </label>
                 <input
@@ -139,12 +143,12 @@ export default function SettingsPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="rounded-lg border border-zinc-200 bg-zinc-100 px-4 py-2.5 text-sm font-medium text-zinc-900 transition-colors duration-200 hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-zinc-500 focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
+                className="rounded-lg border border-[rgba(244,244,242,0.4)] bg-transparent px-4 py-2.5 text-sm font-medium text-[#F4F4F2] transition-colors hover:border-[#C6A75E] hover:text-[#C6A75E] focus:outline-none focus:ring-2 focus:ring-[#C6A75E] focus:ring-offset-2 focus:ring-offset-[#0B0F14] disabled:opacity-50"
               >
                 {loading ? "Updating…" : "Update password"}
               </button>
             </form>
-          </Section>
+          </div>
         </Card>
       </main>
     </div>
