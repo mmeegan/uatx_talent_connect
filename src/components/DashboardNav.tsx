@@ -94,7 +94,7 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
                   Settings
                 </Link>
                 <Link
-                  href="/api/auth/signout"
+                  href="/signout"
                   className="block px-4 py-2.5 text-sm text-[rgba(244,244,242,0.8)] transition-colors hover:bg-[rgba(198,167,94,0.06)] hover:text-[#F4F4F2]"
                   role="menuitem"
                   onClick={() => setOpen(false)}
