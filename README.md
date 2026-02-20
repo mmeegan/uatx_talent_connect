@@ -68,17 +68,19 @@ Password for all: **password123**
 
 | Role    | Email                 |
 |---------|------------------------|
+| Admin   | admin@demo.bridge     |
 | Student | student@demo.bridge   |
 | Mentor  | mentor1@demo.bridge   |
 | Mentor  | mentor2@demo.bridge   |
 | Mentor  | mentor3@demo.bridge   |
 
-**Mentor invite codes (for new signups):** `MENTOR2024`, `TALENT-BRIDGE`
+**Mentor invite codes (for new signups):** `MENTOR2024`, `TALENT-BRIDGE` — or create more from the **Admin** page at `/admin`.
 
 ## Features
 
 - **Landing** — value prop and sign up / log in
 - **Auth** — sign up (students open; mentors require invite code), log in, sign out
+- **Admin** — at `/admin`: view and create mentor invite codes; view all mentors and students in the network (admin account required)
 - **Student**
   - Dashboard: list of help requests
   - Create help request (title, description, optional tags)

@@ -9,6 +9,7 @@ export default async function LandingPage() {
   const role = (session?.user as { role?: string } | undefined)?.role;
 
   if (session) {
+    if (role === "ADMIN") redirect("/admin");
     if (role === "MENTOR") redirect("/dashboard/mentor");
     redirect("/dashboard/student");
   }

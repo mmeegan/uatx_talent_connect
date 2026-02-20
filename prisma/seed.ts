@@ -6,6 +6,17 @@ const prisma = new PrismaClient();
 async function main() {
   const hashed = await bcrypt.hash("password123", 12);
 
+  // Admin user (no student/mentor profile)
+  await prisma.user.upsert({
+    where: { email: "admin@demo.bridge" },
+    create: {
+      email: "admin@demo.bridge",
+      password: hashed,
+      role: "ADMIN",
+    },
+    update: {},
+  });
+
   // Invite codes for mentors
   await prisma.inviteCode.upsert({
     where: { code: "MENTOR2024" },
@@ -142,6 +153,7 @@ async function main() {
   console.log("Demo accounts (password: password123):");
   console.log("  Student: student@demo.bridge");
   console.log("  Mentors: mentor1@demo.bridge, mentor2@demo.bridge, mentor3@demo.bridge");
+  console.log("  Admin: admin@demo.bridge");
   console.log("  Mentor invite codes: MENTOR2024, TALENT-BRIDGE");
 }
 
