@@ -22,6 +22,7 @@ type RequestRow = {
     description: string;
     tags?: string[];
     studentName: string;
+    studentImageUrl?: string;
   };
 };
 
@@ -30,6 +31,7 @@ type ConnectionRow = {
   helpRequestTitle: string;
   studentName: string;
   studentEmail: string;
+  studentImageUrl?: string;
 };
 
 export default async function MentorDashboardPage() {
@@ -41,7 +43,6 @@ export default async function MentorDashboardPage() {
 
   const requests = await getMentorIncomingRequests(session);
   const connections = await getMentorConnections(session);
-  const pending = requests.filter((r: { status: string }) => r.status === "PENDING");
 
   return (
     <div className="relative min-h-screen w-full bg-[#0B0F14]">
@@ -72,7 +73,20 @@ export default async function MentorDashboardPage() {
                     <li key={r.id}>
                       <Card className="border-[rgba(255,255,255,0.08)] transition-transform duration-200 hover:-translate-y-0.5">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-                          <div className="min-w-0 flex-1">
+                          <div className="min-w-0 flex-1 flex gap-4">
+                            {(r.helpRequest as RequestRow["helpRequest"]).studentImageUrl ? (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img
+                                src={(r.helpRequest as RequestRow["helpRequest"]).studentImageUrl!}
+                                alt=""
+                                className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
+                              />
+                            ) : (
+                              <div className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-[rgba(244,244,242,0.4)] text-sm font-medium">
+                                {(r.helpRequest.studentName || "S").charAt(0).toUpperCase()}
+                              </div>
+                            )}
+                            <div className="min-w-0">
                             <p className="font-medium text-[#F4F4F2]">{r.helpRequest.title}</p>
                             <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">From {r.helpRequest.studentName}</p>
                             <p className="mt-3 text-sm text-[rgba(244,244,242,0.6)] line-clamp-2 leading-relaxed">{r.helpRequest.description}</p>
@@ -95,28 +109,18 @@ export default async function MentorDashboardPage() {
                                 year: "numeric",
                               })}
                             </p>
-                            <Badge
-                              variant={
-                                r.status === "ACCEPTED"
-                                  ? "success"
-                                  : r.status === "DECLINED"
-                                  ? "muted"
-                                  : "warning"
-                              }
-                              className="mt-2"
-                            >
-                              {r.status}
+                            <Badge variant="warning" className="mt-2">
+                              Pending
                             </Badge>
-                          </div>
-                          {r.status === "PENDING" && (
-                            <div className="flex shrink-0 gap-2 sm:flex-col">
-                              <Link href={`/dashboard/mentor/requests/${r.id}`}>
-                                <Button variant="primary" className="w-full sm:w-auto">
-                                  Respond
-                                </Button>
-                              </Link>
                             </div>
-                          )}
+                          </div>
+                          <div className="flex shrink-0 gap-2 sm:flex-col">
+                            <Link href={`/dashboard/mentor/requests/${r.id}`}>
+                              <Button variant="primary" className="w-full sm:w-auto">
+                                Respond
+                              </Button>
+                            </Link>
+                          </div>
                         </div>
                       </Card>
                     </li>
@@ -124,9 +128,9 @@ export default async function MentorDashboardPage() {
                 </ul>
               )}
 
-              {pending.length > 0 && (
+              {requests.length > 0 && (
                 <p className="mt-6 text-sm text-[rgba(244,244,242,0.5)]">
-                  {pending.length} pending — open each to accept or decline.
+                  Open each to accept or decline.
                 </p>
               )}
             </div>

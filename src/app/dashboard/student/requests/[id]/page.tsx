@@ -61,13 +61,26 @@ export default async function StudentRequestDetailPage({
                 (mr: {
                   id: string;
                   status: string;
-                  mentor: { name: string; headline: string; contactEmail?: string };
+                  mentor: { name: string; headline: string; contactEmail?: string; imageUrl?: string };
                 }) => (
                   <li
                     key={mr.id}
                     className="flex flex-wrap items-start justify-between gap-4 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-5 backdrop-blur-sm"
                   >
-                    <div>
+                    <div className="flex gap-4">
+                      {mr.mentor.imageUrl ? (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          src={mr.mentor.imageUrl}
+                          alt=""
+                          className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
+                        />
+                      ) : (
+                        <div className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-[rgba(244,244,242,0.4)] text-sm font-medium">
+                          {(mr.mentor.name || "M").charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                      <div>
                       {mr.status === "ACCEPTED" ? (
                         <>
                           <p className="font-medium text-[#F4F4F2]">{mr.mentor.name}</p>
@@ -81,6 +94,7 @@ export default async function StudentRequestDetailPage({
                           {mr.status === "PENDING" ? "Pending" : "Declined"}
                         </Badge>
                       )}
+                      </div>
                     </div>
                     {mr.status === "ACCEPTED" && mr.mentor.contactEmail && (
                       <a

@@ -43,7 +43,7 @@ export async function getMentorIncomingRequests(session: Session | null) {
   });
   if (!mentor) return [];
   const list = await prisma.mentorRequest.findMany({
-    where: { mentorId: mentor.id },
+    where: { mentorId: mentor.id, status: "PENDING" },
     orderBy: { createdAt: "desc" },
     include: {
       helpRequest: { include: { student: true } },
@@ -59,6 +59,7 @@ export async function getMentorIncomingRequests(session: Session | null) {
       description: r.helpRequest.description,
       tags: JSON.parse(r.helpRequest.tags || "[]"),
       studentName: r.helpRequest.student.name,
+      studentImageUrl: r.helpRequest.student.imageUrl ?? undefined,
     },
   }));
 }
@@ -92,6 +93,7 @@ export async function getMentorConnections(session: Session | null) {
     helpRequestTitle: r.helpRequest.title,
     studentName: r.helpRequest.student.name,
     studentEmail: r.helpRequest.student.user.email,
+    studentImageUrl: r.helpRequest.student.imageUrl ?? undefined,
   }));
 }
 
@@ -128,6 +130,7 @@ export async function getHelpRequestById(id: string, session: Session | null) {
         name: mr.mentor.name,
         headline: mr.mentor.headline,
         contactEmail: mr.status === "ACCEPTED" ? mr.mentor.contactEmail : undefined,
+        imageUrl: mr.mentor.imageUrl ?? undefined,
       },
     })),
   };

@@ -7,16 +7,30 @@ type ConnectionRow = {
   helpRequestTitle: string;
   studentName: string;
   studentEmail: string;
+  studentImageUrl?: string;
 };
 
 export default function ConnectionListItem({ connection }: { connection: ConnectionRow }) {
-  const { id, helpRequestTitle, studentName, studentEmail } = connection;
+  const { id, helpRequestTitle, studentName, studentEmail, studentImageUrl } = connection;
   return (
     <li>
       <Link
         href={`/dashboard/mentor/requests/${id}`}
-        className="block rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(255,255,255,0.12)]"
+        className="flex gap-4 rounded-xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-5 backdrop-blur-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[rgba(255,255,255,0.12)]"
       >
+        {studentImageUrl ? (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img
+            src={studentImageUrl}
+            alt=""
+            className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
+          />
+        ) : (
+          <div className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-[rgba(244,244,242,0.4)] text-sm font-medium">
+            {(studentName || "S").charAt(0).toUpperCase()}
+          </div>
+        )}
+        <div className="min-w-0">
         <span className="font-medium text-[#F4F4F2]">{helpRequestTitle}</span>
         <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">{studentName}</p>
         <a
@@ -26,6 +40,7 @@ export default function ConnectionListItem({ connection }: { connection: Connect
         >
           {studentEmail}
         </a>
+        </div>
       </Link>
     </li>
   );

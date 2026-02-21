@@ -38,6 +38,7 @@ export async function GET() {
         tags: JSON.parse(r.helpRequest.tags || "[]"),
         studentName: r.helpRequest.student.name,
         studentEmail: r.helpRequest.student.user.email,
+        studentImageUrl: r.helpRequest.student.imageUrl ?? undefined,
       },
     }))
   );

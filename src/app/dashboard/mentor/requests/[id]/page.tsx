@@ -18,6 +18,7 @@ type RequestItem = {
     description: string;
     tags: string[];
     studentName: string;
+    studentImageUrl?: string;
   };
 };
 
@@ -84,10 +85,26 @@ export default function MentorRequestDetailPage() {
           ← Back to dashboard
         </Link>
         <Card className="mt-8">
+          <div className="flex gap-4">
+            {item.helpRequest.studentImageUrl ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
+              <img
+                src={item.helpRequest.studentImageUrl}
+                alt=""
+                className="h-14 w-14 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
+              />
+            ) : (
+              <div className="h-14 w-14 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] bg-[rgba(255,255,255,0.04)] flex items-center justify-center text-[rgba(244,244,242,0.4)] text-lg font-medium">
+                {(item.helpRequest.studentName || "S").charAt(0).toUpperCase()}
+              </div>
+            )}
+            <div className="min-w-0">
           <h1 className="font-display text-2xl font-semibold tracking-tight text-[#F4F4F2]">
             {item.helpRequest.title}
           </h1>
           <p className="mt-2 text-sm text-[rgba(244,244,242,0.5)]">From {item.helpRequest.studentName}</p>
+            </div>
+          </div>
           <p className="mt-5 text-[rgba(244,244,242,0.6)] leading-relaxed">{item.helpRequest.description}</p>
           {item.helpRequest.tags?.length > 0 && (
             <div className="mt-5 flex flex-wrap gap-2">
