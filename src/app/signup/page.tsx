@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import NavBrand from "@/components/brand/NavBrand";
+import { TOPIC_TAGS, FIELD_TAGS } from "@/lib/tags";
+import PillMultiSelect from "@/components/PillMultiSelect";
 
 type Role = "STUDENT" | "MENTOR";
 
@@ -20,8 +22,8 @@ export default function SignupPage() {
   const [name, setName] = useState("");
   const [headline, setHeadline] = useState("");
   const [bio, setBio] = useState("");
-  const [topics, setTopics] = useState("");
-  const [industryTags, setIndustryTags] = useState("");
+  const [topics, setTopics] = useState<string[]>([]);
+  const [industryTags, setIndustryTags] = useState<string[]>([]);
   const [availability, setAvailability] = useState("MEDIUM");
   const [contactEmail, setContactEmail] = useState("");
   const [interestTags, setInterestTags] = useState("");
@@ -49,8 +51,8 @@ export default function SignupPage() {
               name: name.trim() || "Mentor",
               headline: headline.trim(),
               bio: bio.trim(),
-              topics: topics.split(/[\s,]+/).map((t) => t.trim()).filter(Boolean),
-              industryTags: industryTags.split(/[\s,]+/).map((t) => t.trim()).filter(Boolean),
+              topics,
+              industryTags,
               availability,
               contactEmail: contactEmail.trim() || email.trim(),
             },
@@ -145,12 +147,10 @@ export default function SignupPage() {
                 <textarea id="bio" rows={3} required value={bio} onChange={(e) => setBio(e.target.value)} className={inputClass} />
               </div>
               <div>
-                <label htmlFor="topics" className={labelClass}>Topics you mentor on (comma-separated) *</label>
-                <input id="topics" type="text" placeholder="e.g. product management, career transition" value={topics} onChange={(e) => setTopics(e.target.value)} className={inputClass} />
+                <PillMultiSelect id="signup-topics" label="Topics you mentor on *" options={TOPIC_TAGS} selected={topics} onChange={setTopics} />
               </div>
               <div>
-                <label htmlFor="industryTags" className={labelClass}>Industry tags (comma-separated)</label>
-                <input id="industryTags" type="text" placeholder="e.g. tech, healthcare" value={industryTags} onChange={(e) => setIndustryTags(e.target.value)} className={inputClass} />
+                <PillMultiSelect id="signup-industries" label="Industries / fields (optional)" options={FIELD_TAGS} selected={industryTags} onChange={setIndustryTags} optional />
               </div>
               <div>
                 <label htmlFor="availability" className={labelClass}>Availability</label>

@@ -5,7 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import DashboardNav from "@/components/DashboardNav";
-import { TOPIC_OPTIONS, INDUSTRY_OPTIONS, UATX_CENTERS } from "@/lib/constants";
+import { UATX_CENTERS } from "@/lib/constants";
+import { TOPIC_TAGS, FIELD_TAGS } from "@/lib/tags";
 import PillMultiSelect from "@/components/PillMultiSelect";
 import Card from "@/components/ui/Card";
 import Section from "@/components/ui/Section";
@@ -273,8 +274,8 @@ function StudentProfileForm({
             </Section>
             <Section title="Expertise">
               <div className="space-y-4">
-                <PillMultiSelect id="topics" label="Topics" options={TOPIC_OPTIONS} selected={tags} onChange={setTags} />
-                <PillMultiSelect id="industries" label="Industries / fields" options={INDUSTRY_OPTIONS} selected={industryTags} onChange={setIndustryTags} optional />
+                <PillMultiSelect id="topics" label="Topics" options={TOPIC_TAGS} selected={tags} onChange={setTags} />
+                <PillMultiSelect id="industries" label="Industries / fields" options={FIELD_TAGS} selected={industryTags} onChange={setIndustryTags} optional />
               </div>
             </Section>
             <div className="pt-2">
@@ -395,8 +396,8 @@ function MentorProfileForm({
             </Section>
             <Section title="Expertise">
               <div className="space-y-4">
-                <PillMultiSelect id="m-topics" label="Topics you mentor on" options={TOPIC_OPTIONS} selected={topics} onChange={setTopics} />
-                <PillMultiSelect id="m-industries" label="Industries / fields" options={INDUSTRY_OPTIONS} selected={industryTags} onChange={setIndustryTags} />
+                <PillMultiSelect id="m-topics" label="Topics you mentor on" options={TOPIC_TAGS} selected={topics} onChange={setTopics} />
+                <PillMultiSelect id="m-industries" label="Industries / fields" options={FIELD_TAGS} selected={industryTags} onChange={setIndustryTags} />
               </div>
             </Section>
             <Section title="Availability">

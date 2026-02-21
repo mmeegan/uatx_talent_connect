@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { TOPIC_OPTIONS, INDUSTRY_OPTIONS } from "@/lib/constants";
+import { TOPIC_TAGS, FIELD_TAGS } from "@/lib/tags";
 import PillMultiSelect from "@/components/PillMultiSelect";
 
 export default function NewRequestForm() {
@@ -10,6 +10,7 @@ export default function NewRequestForm() {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState<string[]>([]);
   const [industryTags, setIndustryTags] = useState<string[]>([]);
+  const [notes, setNotes] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -31,6 +32,7 @@ export default function NewRequestForm() {
         description: trimmed,
         tags,
         industryTags,
+        notes: notes.trim() || undefined,
       }),
     });
     const data = await res.json().catch(() => ({}));
@@ -42,6 +44,7 @@ export default function NewRequestForm() {
     setDescription("");
     setTags([]);
     setIndustryTags([]);
+    setNotes("");
     router.refresh();
   }
 
@@ -80,31 +83,49 @@ export default function NewRequestForm() {
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-lg font-medium text-[#F4F4F2]">Topics</h3>
+        <h3 className="text-lg font-medium text-[#F4F4F2]">Topics (what you need help with)</h3>
         <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
           Select any that apply. This helps us match you with the right mentors.
         </p>
         <PillMultiSelect
           id="topics"
-          label="What do you need help with?"
-          options={TOPIC_OPTIONS}
+          label="Topics"
+          options={TOPIC_TAGS}
           selected={tags}
           onChange={setTags}
         />
       </section>
 
       <section className="space-y-4">
-        <h3 className="text-lg font-medium text-[#F4F4F2]">Industries / fields</h3>
+        <h3 className="text-lg font-medium text-[#F4F4F2]">Industries / fields (optional)</h3>
         <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
-          Optional. Narrows matching to mentors in these areas.
+          Narrows matching to mentors in these areas.
         </p>
         <PillMultiSelect
           id="industries"
           label="Industries or fields"
-          options={INDUSTRY_OPTIONS}
+          options={FIELD_TAGS}
           selected={industryTags}
           onChange={setIndustryTags}
           optional
+        />
+      </section>
+
+      <section className="space-y-4">
+        <label htmlFor="notes" className="block text-lg font-medium text-[#F4F4F2]">
+          Notes (optional)
+        </label>
+        <p className="text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">
+          Anything else that doesn’t fit the categories above.
+        </p>
+        <textarea
+          id="notes"
+          name="notes"
+          rows={3}
+          placeholder="e.g. specific context, timing, or follow-up preferences"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          className="input-constellate w-full rounded-lg px-4 py-3 text-[#F4F4F2] leading-relaxed"
         />
       </section>
 

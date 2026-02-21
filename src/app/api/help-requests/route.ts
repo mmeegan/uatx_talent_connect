@@ -66,16 +66,22 @@ export async function POST(request: Request) {
   }
 
   const body = await request.json();
-  const { title, description, tags, industryTags } = body;
+  const { title, description, tags, industryTags, notes } = body;
   if (!title?.trim()) {
     return NextResponse.json({ error: "Title is required" }, { status: 400 });
   }
+
+  const desc = (description ?? "").trim();
+  const notesTrimmed = typeof notes === "string" ? notes.trim() : "";
+  const fullDescription = notesTrimmed
+    ? `${desc}\n\n[Notes: ${notesTrimmed}]`
+    : desc;
 
   const helpRequest = await prisma.helpRequest.create({
     data: {
       studentId: user.studentProfile.id,
       title: title.trim(),
-      description: (description ?? "").trim(),
+      description: fullDescription,
       tags: JSON.stringify(Array.isArray(tags) ? tags : []),
       industryTags: JSON.stringify(Array.isArray(industryTags) ? industryTags : []),
     },
