@@ -50,13 +50,13 @@ export default async function LandingPage() {
             className="font-display text-4xl font-bold tracking-tight text-[#F4F4F2] sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-center animate-hero-fade-in opacity-0"
             style={{ animationDelay: "0.1s" }}
           >
-            The University of Austin Talent Network.
+            Find your orientation.
           </h1>
           <p
             className="mt-8 max-w-md text-center text-lg text-[rgba(244,244,242,0.6)] leading-relaxed animate-hero-fade-in opacity-0"
             style={{ animationDelay: "0.35s" }}
           >
-            Structured mentorship connecting UATX students with professionals across industries.
+            Mentorship for intellectual ascent.
           </p>
           <div
             className="mt-14 flex flex-col items-center gap-4 sm:flex-row animate-hero-fade-in opacity-0"
@@ -64,7 +64,7 @@ export default async function LandingPage() {
           >
             <Link href="/login">
               <Button variant="primary" className="min-w-[200px] py-3">
-                Enter the Network
+                Enter Constellate
               </Button>
             </Link>
             <Link href="#how-it-works">

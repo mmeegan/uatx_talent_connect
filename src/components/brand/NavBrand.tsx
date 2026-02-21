@@ -1,7 +1,7 @@
 import Link from "next/link";
 import ConstellateIcon from "@/components/ConstellateIcon";
 
-const TAGLINE = "Private Network for Intellectual Ascent";
+const TAGLINE = "University of Austin Talent Network";
 
 type NavBrandProps = {
   variant?: "full" | "compact";
