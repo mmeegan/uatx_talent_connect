@@ -14,13 +14,13 @@ export default function NavBrand({ variant = "full", className = "" }: NavBrandP
       <ConstellateIcon className={variant === "compact" ? "h-8 w-8 shrink-0" : "h-9 w-9 shrink-0"} />
       <div className="flex flex-col justify-center">
         <span
-          className="font-medium tracking-wide text-[#F4F4F2]"
+          className="font-medium tracking-tight text-[#F4F4F2]"
           style={{
             fontSize: variant === "full" ? "1.0625rem" : "0.9375rem",
-            letterSpacing: "0.06em",
+            letterSpacing: "0.02em",
           }}
         >
-          CONSTELLATE
+          Constellate
         </span>
         {variant === "full" && (
           <span className="mt-0.5 text-xs text-[rgba(244,244,242,0.6)] leading-tight">
