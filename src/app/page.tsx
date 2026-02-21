@@ -2,7 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import ConstellateIcon from "@/components/ConstellateIcon";
+import NavBrand from "@/components/brand/NavBrand";
 
 export default async function LandingPage() {
   const session = await getServerSession(authOptions);
@@ -17,15 +17,12 @@ export default async function LandingPage() {
   return (
     <div className="relative min-h-screen flex flex-col bg-[#0B0F14]">
       <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
-      <header className="border-b border-[rgba(255,255,255,0.08)] bg-gradient-to-b from-[#0E131A] to-[#0B0F14]">
-        <div className="mx-auto flex h-[92px] max-w-[1100px] items-center justify-between px-6 lg:px-8">
-          <Link
-            href="/"
-            className="flex items-center gap-3 text-[#F4F4F2] transition-opacity hover:opacity-90"
-            aria-label="Constellate"
-          >
-            <ConstellateIcon className="h-9 w-9" />
-          </Link>
+      <header
+        className="border-b bg-gradient-to-b from-[#0E131A] to-[#0B0F14]"
+        style={{ borderBottomColor: "rgba(255,255,255,0.06)" }}
+      >
+        <div className="mx-auto flex h-[92px] max-w-[1100px] items-center justify-between px-8 lg:px-10">
+          <NavBrand variant="full" className="shrink-0" />
           <nav className="flex items-center gap-8">
             <Link
               href="/login"

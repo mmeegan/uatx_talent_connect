@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
-import ConstellateIcon from "@/components/ConstellateIcon";
+import NavBrand from "@/components/brand/NavBrand";
 
 type DashboardNavProps = {
   mainHref: string;
@@ -27,17 +27,14 @@ export default function DashboardNav({ mainHref, mainLabel }: DashboardNavProps)
 
   return (
     <header
-      className="border-b border-[rgba(255,255,255,0.08)] bg-gradient-to-b from-[#0E131A] to-[#0B0F14]"
-      style={{ minHeight: "92px" }}
+      className="border-b bg-gradient-to-b from-[#0E131A] to-[#0B0F14]"
+      style={{
+        minHeight: "92px",
+        borderBottomColor: "rgba(255,255,255,0.06)",
+      }}
     >
-      <div className="mx-auto flex h-[92px] max-w-[1100px] items-center justify-between px-6 lg:px-8">
-        <Link
-          href="/"
-          className="flex items-center gap-3 text-[#F4F4F2] transition-opacity hover:opacity-90"
-          aria-label="Constellate home"
-        >
-          <ConstellateIcon className="h-9 w-9" />
-        </Link>
+      <div className="mx-auto flex h-[92px] max-w-[1100px] items-center justify-between px-8 lg:px-10">
+        <NavBrand variant="full" className="shrink-0" />
         <nav className="flex items-center gap-8">
           <Link
             href={mainHref}

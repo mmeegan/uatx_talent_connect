@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import ConstellateIcon from "@/components/ConstellateIcon";
+import NavBrand from "@/components/brand/NavBrand";
 
 type Role = "STUDENT" | "MENTOR";
 
@@ -76,9 +76,7 @@ export default function SignupPage() {
       <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
       <div className="relative w-full max-w-md space-y-6">
         <div className="text-center">
-          <Link href="/" className="inline-flex items-center gap-2 text-[#F4F4F2] hover:opacity-90">
-            <ConstellateIcon className="h-8 w-8" />
-          </Link>
+          <NavBrand variant="compact" className="inline-flex" />
           <h2 className="mt-8 text-2xl font-semibold tracking-tight text-[#F4F4F2]">Sign up</h2>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5">

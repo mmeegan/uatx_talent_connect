@@ -4,7 +4,7 @@ import { Suspense, useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import ConstellateIcon from "@/components/ConstellateIcon";
+import NavBrand from "@/components/brand/NavBrand";
 
 const inputClass =
   "input-constellate mt-1.5 block w-full rounded-lg px-3 py-2.5 text-[#F4F4F2]";
@@ -39,12 +39,7 @@ function LoginForm() {
   return (
     <div className="w-full max-w-sm space-y-8">
       <div className="text-center">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-[#F4F4F2] hover:opacity-90"
-        >
-          <ConstellateIcon className="h-8 w-8" />
-        </Link>
+        <NavBrand variant="compact" className="inline-flex" />
         <h2 className="mt-8 text-2xl font-semibold tracking-tight text-[#F4F4F2]">Log in</h2>
       </div>
       <form onSubmit={handleSubmit} className="space-y-5">

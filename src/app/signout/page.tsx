@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect } from "react";
-import ConstellateIcon from "@/components/ConstellateIcon";
+import NavBrand from "@/components/brand/NavBrand";
 
 export default function SignoutPage() {
   const router = useRouter();
@@ -33,13 +33,9 @@ export default function SignoutPage() {
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center px-6">
       <div className="radial-bg absolute inset-0 pointer-events-none" aria-hidden />
-      <Link
-        href="/"
-        className="absolute left-6 top-8 flex items-center text-[#F4F4F2] hover:opacity-90"
-        aria-label="Constellate"
-      >
-        <ConstellateIcon className="h-9 w-9" />
-      </Link>
+      <div className="absolute left-8 top-8">
+        <NavBrand variant="full" className="shrink-0" />
+      </div>
 
       <div
         className="relative w-full max-w-md rounded-2xl border border-[rgba(255,255,255,0.08)] bg-[rgba(255,255,255,0.02)] p-8 shadow-sm backdrop-blur-sm"
