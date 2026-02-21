@@ -19,7 +19,7 @@
 }
 
 .ambient-vignette {
-  box-shadow: inset 0 0 20vmax 2vmax rgba(11,15,20,0.4);
+  background: radial-gradient(circle at center, transparent 55%, rgba(0,0,0,0.5) 100%);
 }
 
 /* Legacy alias */
@@ -27,7 +27,7 @@
   background: radial-gradient(circle at 50% 20%, rgba(255,255,255,0.03), transparent 60%);
 }
 
-/* Subtle noise overlay (CSS-only, very low opacity) */
+/* Subtle noise overlay (CSS-only, extremely low opacity — breaks flatness only) */
 .ambient-noise {
   position: relative;
 }
@@ -36,7 +36,7 @@
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.03;
+  opacity: 0.012;
   pointer-events: none;
 }
 

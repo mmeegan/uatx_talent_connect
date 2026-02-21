@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
 import NavBrand from "@/components/brand/NavBrand";
 import Shell from "@/components/Shell";
-import StarfieldLayer from "@/components/StarfieldLayer";
 import SectionHeader from "@/components/ui/SectionHeader";
 import Button from "@/components/ui/Button";
 
@@ -20,10 +19,6 @@ export default async function LandingPage() {
 
   return (
     <Shell ambient instrumentOverlay drift className="min-h-screen">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden>
-        <StarfieldLayer className="absolute inset-0" />
-      </div>
-
       <header
         className="relative border-b bg-gradient-to-b from-[#0E131A] to-[#0B0F14]"
         style={{ minHeight: "92px", borderBottomColor: "rgba(255,255,255,0.06)" }}
