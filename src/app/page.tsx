@@ -56,7 +56,7 @@ export default async function LandingPage() {
             className="mt-8 max-w-md text-center text-lg text-[rgba(244,244,242,0.6)] leading-relaxed animate-hero-fade-in opacity-0"
             style={{ animationDelay: "0.35s" }}
           >
-            Mentorship for intellectual ascent.
+            Structured mentorship connecting UATX students with professionals across industries.
           </p>
           <div
             className="mt-14 flex flex-col items-center gap-4 sm:flex-row animate-hero-fade-in opacity-0"
