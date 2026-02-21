@@ -26,6 +26,16 @@ export async function GET() {
     },
   });
 
+  function parseCenter(center: string | null): string[] {
+    if (!center) return [];
+    try {
+      const a = JSON.parse(center);
+      return Array.isArray(a) ? a.filter((x: unknown): x is string => typeof x === "string") : [];
+    } catch {
+      return [];
+    }
+  }
+
   return NextResponse.json(
     list.map((r) => ({
       id: r.id,
@@ -39,6 +49,7 @@ export async function GET() {
         studentName: r.helpRequest.student.name,
         studentEmail: r.helpRequest.student.user.email,
         studentImageUrl: r.helpRequest.student.imageUrl ?? undefined,
+        studentCenters: parseCenter(r.helpRequest.student.center),
       },
     }))
   );

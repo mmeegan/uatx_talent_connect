@@ -49,6 +49,16 @@ export async function getMentorIncomingRequests(session: Session | null) {
       helpRequest: { include: { student: true } },
     },
   });
+  function parseCenter(center: string | null): string[] {
+    if (!center) return [];
+    try {
+      const a = JSON.parse(center);
+      return Array.isArray(a) ? a.filter((x): x is string => typeof x === "string") : [];
+    } catch {
+      return [];
+    }
+  }
+
   return list.map((r) => ({
     id: r.id,
     status: r.status,
@@ -60,6 +70,7 @@ export async function getMentorIncomingRequests(session: Session | null) {
       tags: JSON.parse(r.helpRequest.tags || "[]"),
       studentName: r.helpRequest.student.name,
       studentImageUrl: r.helpRequest.student.imageUrl ?? undefined,
+      studentCenters: parseCenter(r.helpRequest.student.center),
     },
   }));
 }
@@ -87,6 +98,16 @@ export async function getMentorConnections(session: Session | null) {
     },
   });
 
+  function parseCenter(center: string | null): string[] {
+    if (!center) return [];
+    try {
+      const a = JSON.parse(center);
+      return Array.isArray(a) ? a.filter((x): x is string => typeof x === "string") : [];
+    } catch {
+      return [];
+    }
+  }
+
   return list.map((r) => ({
     id: r.id,
     acceptedAt: r.updatedAt,
@@ -94,6 +115,7 @@ export async function getMentorConnections(session: Session | null) {
     studentName: r.helpRequest.student.name,
     studentEmail: r.helpRequest.student.user.email,
     studentImageUrl: r.helpRequest.student.imageUrl ?? undefined,
+    studentCenters: parseCenter(r.helpRequest.student.center),
   }));
 }
 

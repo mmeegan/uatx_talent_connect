@@ -23,6 +23,7 @@ type RequestRow = {
     tags?: string[];
     studentName: string;
     studentImageUrl?: string;
+    studentCenters?: string[];
   };
 };
 
@@ -32,6 +33,7 @@ type ConnectionRow = {
   studentName: string;
   studentEmail: string;
   studentImageUrl?: string;
+  studentCenters?: string[];
 };
 
 export default async function MentorDashboardPage() {
@@ -69,15 +71,18 @@ export default async function MentorDashboardPage() {
                 </Card>
               ) : (
                 <ul className="mt-10 space-y-6" role="list">
-                  {(requests as RequestRow[]).map((r) => (
+                  {(requests as RequestRow[]).map((r) => {
+                    const req = r.helpRequest as RequestRow["helpRequest"];
+                    const centerLabel = req.studentCenters?.length ? ` · ${req.studentCenters.join(", ")}` : "";
+                    return (
                     <li key={r.id}>
                       <Card className="border-[rgba(255,255,255,0.08)] transition-transform duration-200 hover:-translate-y-0.5">
                         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                           <div className="min-w-0 flex-1 flex gap-4">
-                            {(r.helpRequest as RequestRow["helpRequest"]).studentImageUrl ? (
+                            {req.studentImageUrl ? (
                               /* eslint-disable-next-line @next/next/no-img-element */
                               <img
-                                src={(r.helpRequest as RequestRow["helpRequest"]).studentImageUrl!}
+                                src={req.studentImageUrl}
                                 alt=""
                                 className="h-12 w-12 shrink-0 rounded-full border border-[rgba(255,255,255,0.12)] object-cover"
                               />
@@ -88,7 +93,7 @@ export default async function MentorDashboardPage() {
                             )}
                             <div className="min-w-0">
                             <p className="font-medium text-[#F4F4F2]">{r.helpRequest.title}</p>
-                            <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">From {r.helpRequest.studentName}</p>
+                            <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">From {r.helpRequest.studentName}{centerLabel}</p>
                             <p className="mt-3 text-sm text-[rgba(244,244,242,0.6)] line-clamp-2 leading-relaxed">{r.helpRequest.description}</p>
                             {r.helpRequest.tags?.length ? (
                               <div className="mt-3 flex flex-wrap gap-2">
@@ -124,7 +129,7 @@ export default async function MentorDashboardPage() {
                         </div>
                       </Card>
                     </li>
-                  ))}
+                  ); })}
                 </ul>
               )}
 

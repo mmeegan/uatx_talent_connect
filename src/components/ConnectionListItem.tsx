@@ -8,10 +8,11 @@ type ConnectionRow = {
   studentName: string;
   studentEmail: string;
   studentImageUrl?: string;
+  studentCenters?: string[];
 };
 
 export default function ConnectionListItem({ connection }: { connection: ConnectionRow }) {
-  const { id, helpRequestTitle, studentName, studentEmail, studentImageUrl } = connection;
+  const { id, helpRequestTitle, studentName, studentEmail, studentImageUrl, studentCenters } = connection;
   return (
     <li>
       <Link
@@ -32,7 +33,7 @@ export default function ConnectionListItem({ connection }: { connection: Connect
         )}
         <div className="min-w-0">
         <span className="font-medium text-[#F4F4F2]">{helpRequestTitle}</span>
-        <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">{studentName}</p>
+        <p className="mt-1 text-sm text-[rgba(244,244,242,0.5)]">{studentName}{studentCenters?.length ? ` · ${studentCenters.join(", ")}` : ""}</p>
         <a
           href={`mailto:${encodeURIComponent(studentEmail)}`}
           className="mt-1 inline-block text-sm text-[#C6A75E] hover:text-[rgba(198,167,94,0.8)] transition-colors"

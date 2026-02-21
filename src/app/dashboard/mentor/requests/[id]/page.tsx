@@ -19,6 +19,7 @@ type RequestItem = {
     tags: string[];
     studentName: string;
     studentImageUrl?: string;
+    studentCenters?: string[];
   };
 };
 
@@ -102,7 +103,7 @@ export default function MentorRequestDetailPage() {
           <h1 className="font-display text-2xl font-semibold tracking-tight text-[#F4F4F2]">
             {item.helpRequest.title}
           </h1>
-          <p className="mt-2 text-sm text-[rgba(244,244,242,0.5)]">From {item.helpRequest.studentName}</p>
+          <p className="mt-2 text-sm text-[rgba(244,244,242,0.5)]">From {item.helpRequest.studentName}{item.helpRequest.studentCenters?.length ? ` · ${item.helpRequest.studentCenters.join(", ")}` : ""}</p>
             </div>
           </div>
           <p className="mt-5 text-[rgba(244,244,242,0.6)] leading-relaxed">{item.helpRequest.description}</p>
