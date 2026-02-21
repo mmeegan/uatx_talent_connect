@@ -50,13 +50,13 @@ export default async function LandingPage() {
             className="font-display text-4xl font-bold tracking-tight text-[#F4F4F2] sm:text-5xl md:text-6xl lg:text-7xl leading-tight text-center animate-hero-fade-in opacity-0"
             style={{ animationDelay: "0.1s" }}
           >
-            Find your orientation.
+            The University of Austin Talent Network.
           </h1>
           <p
             className="mt-8 max-w-md text-center text-lg text-[rgba(244,244,242,0.6)] leading-relaxed animate-hero-fade-in opacity-0"
             style={{ animationDelay: "0.35s" }}
           >
-            Mentorship for intellectual ascent.
+            Structured mentorship connecting UATX students with professionals across industries.
           </p>
           <div
             className="mt-14 flex flex-col items-center gap-4 sm:flex-row animate-hero-fade-in opacity-0"
@@ -64,7 +64,7 @@ export default async function LandingPage() {
           >
             <Link href="/login">
               <Button variant="primary" className="min-w-[200px] py-3">
-                Enter Constellate
+                Enter the Network
               </Button>
             </Link>
             <Link href="#how-it-works">
@@ -91,21 +91,21 @@ export default async function LandingPage() {
               label="Process"
               title="How it works"
             >
-              Submit a request. We match you with up to three mentors. When one accepts, you receive their contact to schedule a focused conversation.
+              UATX students request mentorship; the network matches them with professionals. Connections are structured and time-bound.
             </SectionHeader>
 
             <div className="grid gap-12 sm:grid-cols-3">
               <div>
                 <span className="text-xs font-medium tracking-[0.2em] uppercase text-[#C6A75E]">01</span>
-                <p className="mt-2 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">Submit a request with your question and topics.</p>
+                <p className="mt-2 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">Students submit a mentorship request.</p>
               </div>
               <div>
                 <span className="text-xs font-medium tracking-[0.2em] uppercase text-[#C6A75E]">02</span>
-                <p className="mt-2 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">We match you to relevant mentors by expertise and availability.</p>
+                <p className="mt-2 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">Mentors are matched by expertise and availability.</p>
               </div>
               <div>
                 <span className="text-xs font-medium tracking-[0.2em] uppercase text-[#C6A75E]">03</span>
-                <p className="mt-2 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">When a mentor accepts, you get their contact and a template to start the conversation.</p>
+                <p className="mt-2 text-sm text-[rgba(244,244,242,0.6)] leading-relaxed">Connections are structured and time-bound.</p>
               </div>
             </div>
           </div>
@@ -115,10 +115,10 @@ export default async function LandingPage() {
 
         <section className="relative mx-auto w-full max-w-[880px] px-8 py-24 lg:px-10">
           <SectionHeader
-            label="Ethos"
-            title="Why Constellate"
+            label="Purpose"
+            title="Why the Talent Network"
           >
-            A private network for clarity. Structured guidance from people who have been where you&apos;re going. No algorithm feed — only intentional matches and focused dialogue.
+            The University of Austin Talent Network supports UATX students with structured mentorship from professionals. Matches are intentional; conversations are focused and time-bound to support talent development and career clarity.
           </SectionHeader>
         </section>
 
@@ -129,7 +129,7 @@ export default async function LandingPage() {
             label="Network"
             title="The Network"
           >
-            Matching is driven by topics and industries you choose. Mentors cycle in by availability. Connections stay human: one request, up to three mentors, then a direct line to the one who says yes.
+            UATX students are matched with up to three mentors per request based on topic and industry. Mentors participate according to availability. When a mentor accepts, the student receives contact details to schedule a focused, time-bound conversation.
           </SectionHeader>
         </section>
       </main>
