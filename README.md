@@ -1,6 +1,8 @@
-# Bridge
+# Constellate — University of Austin Talent Network
 
-A full-stack web app that connects students with mentors for 30-minute coffee chats. Students submit help requests, get matched to relevant mentors by topic and availability, and can send requests to up to 3 mentors. Mentors accept or decline; on accept, the student receives the mentor’s contact email and a pre-filled email template to start the conversation.
+A full-stack web app for the **University of Austin (UATX) Talent Network**: structured mentorship connecting UATX students with professionals across industries. Students submit help requests, get matched to relevant mentors by topic and field, and can be connected with up to 3 mentors per request. Mentors accept or decline; on accept, the student receives the mentor’s contact details and can schedule a focused, time-bound conversation.
+
+**Live app:** [https://www.uatxconstellate.com/](https://www.uatxconstellate.com/)
 
 ## Tech stack
 
@@ -34,7 +36,7 @@ Edit `.env` if needed:
 
 - `DATABASE_URL` — SQLite file path (default `file:./dev.db` is fine for local)
 - `NEXTAUTH_SECRET` — use a random string in production (e.g. `openssl rand -base64 32`)
-- `NEXTAUTH_URL` — app URL (e.g. `http://localhost:3000` for dev)
+- `NEXTAUTH_URL` — app URL (e.g. `http://localhost:3000` for dev; production: `https://www.uatxconstellate.com`)
 
 ### 3. Database
 
@@ -60,7 +62,7 @@ npm run db:reset
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
+Open [http://localhost:3000](http://localhost:3000). The production site runs at [https://www.uatxconstellate.com/](https://www.uatxconstellate.com/).
 
 ## Demo accounts (after seed)
 
@@ -78,25 +80,28 @@ Password for all: **password123**
 
 ## Features
 
-- **Landing** — value prop and sign up / log in
-- **Auth** — sign up (students open; mentors require invite code), log in, sign out
+- **Landing** — Constellate / UATX Talent Network value prop, “Find your orientation,” and sign up / log in
+- **Auth** — sign up (students open; mentors require invite code), log in, sign out (custom signout page)
 - **Admin** — at `/admin`: view and create mentor invite codes; view all mentors and students in the network (admin account required)
 - **Student**
   - Dashboard: list of help requests
-  - Create help request (title, description, optional tags)
-  - Matches: ranked mentors per request; select up to 3 and send request
+  - Create help request (description, topics, industries/fields from shared tag list, optional notes)
+  - UATX center(s) and expertise tags on profile
   - Request detail: status per mentor; “Email to schedule” (mailto + template) when accepted
 - **Mentor**
-  - Dashboard: incoming requests
+  - Dashboard: incoming requests (with student name, centers, and request details)
   - Request detail: accept or decline; on accept, student sees contact email and template
-- **Matching** — tag overlap (request tags vs mentor topics/industry), availability weight, light deprioritization of mentors with more requests
+  - Connections: list of accepted students (with centers)
+- **Matching** — tag overlap (request topics/fields vs mentor topics/industries), availability weight, light deprioritization of mentors with more requests
+
+Topic and field options are defined in a single source of truth (`src/lib/tags.ts`) and used everywhere (student requests, mentor profile, signup).
 
 ## Project structure
 
 - `src/app/` — App Router pages and API routes
-- `src/app/api/` — Auth (signup, NextAuth), profiles, help-requests, mentor requests
-- `src/components/` — e.g. SessionProvider
-- `src/lib/` — Prisma client, auth config, matching logic, email template, server data helpers
+- `src/app/api/` — Auth (signup, NextAuth), profiles, help-requests, mentor requests, admin
+- `src/components/` — Nav, forms, UI (Card, Button, PillMultiSelect, etc.), brand (NavBrand)
+- `src/lib/` — Prisma client, auth config, matching logic, tags (TOPIC_TAGS, FIELD_TAGS), design tokens, server data helpers
 - `prisma/` — schema and seed
 
 ## Scripts

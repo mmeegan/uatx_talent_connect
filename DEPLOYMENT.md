@@ -1,7 +1,7 @@
 # How to Push This App to Production (Step-by-Step)
 
-Your app uses: **Next.js 14**, **React**, **TypeScript**, **Tailwind CSS**, **SQLite** (via Prisma), and **NextAuth**.  
-The easiest host for this stack is **Railway** — it supports Next.js and SQLite with minimal setup.
+**Constellate** (University of Austin Talent Network) uses: **Next.js 14**, **React**, **TypeScript**, **Tailwind CSS**, **SQLite** (via Prisma), and **NextAuth**.  
+The easiest host for this stack is **Railway** — it supports Next.js and SQLite with minimal setup. The live app is at **[https://www.uatxconstellate.com/](https://www.uatxconstellate.com/)**.
 
 ---
 
@@ -67,7 +67,7 @@ Add a **Volume** to your app service, mount it (e.g. at `/data`), then in Step 4
    |------------------|--------|
    | `DATABASE_URL`   | The URL Railway gave you for SQLite, or `file:/data/prisma.db` if you used a volume |
    | `NEXTAUTH_SECRET`| The long random string you generated with `openssl rand -base64 32` |
-   | `NEXTAUTH_URL`   | Your app’s public URL (see Step 5 — e.g. `https://your-app.up.railway.app`) |
+   | `NEXTAUTH_URL`   | Your app’s public URL (see Step 5). For custom domain use `https://www.uatxconstellate.com` |
 
 4. Save. Railway will redeploy with the new variables.
 
@@ -78,7 +78,7 @@ Add a **Volume** to your app service, mount it (e.g. at `/data`), then in Step 4
 3. Under **Networking** / **Public Networking**, click **Generate Domain** (or **Add domain**).
 4. Copy the URL Railway gives you (e.g. `https://uatx-talent-connect-production.up.railway.app`).
 5. Go back to **Variables** and set:
-   - `NEXTAUTH_URL` = that URL (e.g. `https://uatx-talent-connect-production.up.railway.app`).
+   - `NEXTAUTH_URL` = that URL (e.g. `https://uatx-talent-connect-production.up.railway.app`). Once your custom domain is connected (see **CUSTOM_DOMAIN.md**), set it to `https://www.uatxconstellate.com` instead.
 6. Save again so the app redeploys with the correct `NEXTAUTH_URL`.
 
 ### Step 6: Run database setup on Railway (one time)
@@ -115,6 +115,6 @@ Your app needs the database tables and (optionally) seed data. Railway can run c
 
 - **Stack:** Next.js 14, React, TypeScript, Tailwind, SQLite (Prisma), NextAuth.
 - **Host:** Railway — good fit because it can run Next.js and SQLite (or a volume for the DB file).
-- **Steps:** GitHub repo → Railway “New Project” from GitHub → add SQLite or Volume → set `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` → generate domain → run `prisma db push` (and optionally `db:seed`) → open the generated URL.
+- **Steps:** GitHub repo → Railway “New Project” from GitHub → add SQLite or Volume → set `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` → generate domain (or use custom domain [www.uatxconstellate.com](https://www.uatxconstellate.com/)) → run `prisma db push` (and optionally `db:seed`) → open the app URL.
 
 You can connect your GoDaddy domain later by adding it in Railway’s **Settings** → **Networking** / **Custom domain** and then pointing the domain at Railway in GoDaddy (we can do that in a follow-up when you’re ready).

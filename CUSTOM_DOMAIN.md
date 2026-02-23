@@ -1,6 +1,6 @@
 # Connecting Your GoDaddy Domain to Railway
 
-After your app is live on Railway, you can point your GoDaddy domain so people visit `https://yourdomain.com` instead of the Railway URL.
+After your app is live on Railway, you can point your GoDaddy domain so people visit your custom URL instead of the Railway default. **Constellate** is served at **https://www.uatxconstellate.com/**.
 
 ---
 
@@ -10,8 +10,8 @@ After your app is live on Railway, you can point your GoDaddy domain so people v
 2. Go to **Settings** (or look for **Networking** / **Domains**).
 3. Find **Custom Domains** or **Domains** and click **Add domain** (or **+ Domain**).
 4. Enter the domain you want:
-   - For **www**: `www.yourdomain.com`
-   - For **root (no www)**: `yourdomain.com`
+   - For **www**: `www.uatxconstellate.com` (Constellate uses this)
+   - For **root (no www)**: `uatxconstellate.com`
    You can add both; do one at a time.
 5. Railway will show the **DNS records** you need. You might see:
    - **CNAME** with a target like `uatxtalentconnect-production.up.railway.app`
@@ -29,7 +29,7 @@ After your app is live on Railway, you can point your GoDaddy domain so people v
 
    **If Railway gave you a CNAME (most common for www):**
    - **Type:** CNAME
-   - **Name:** `www` (for www.yourdomain.com) — or whatever Railway says (sometimes they use `@` for root).
+   - **Name:** `www` (for www.uatxconstellate.com) — or whatever Railway says (sometimes they use `@` for root).
    - **Value / Points to:** paste the exact target from Railway (e.g. `uatxtalentconnect-production.up.railway.app`). No `https://`, no trailing slash.
    - **TTL:** 600 or 1 hour is fine.
 
@@ -51,8 +51,8 @@ So sign-in and redirects use your real domain:
 
 1. In Railway → your **uatx_talent_connect** service → **Variables**.
 2. Find **NEXTAUTH_URL** and set it to your custom URL:
-   - If using www: `https://www.yourdomain.com`
-   - If using root only: `https://yourdomain.com`
+   - For Constellate (www): `https://www.uatxconstellate.com`
+   - If using root only: `https://uatxconstellate.com`
    Use the same URL you added as a custom domain.
 3. Save. Railway will redeploy with the new value.
 
@@ -61,7 +61,7 @@ So sign-in and redirects use your real domain:
 ## Part 4: Verify
 
 1. Wait until Railway’s dashboard shows the domain as **Verified** or **Active** (Railway checks DNS automatically).
-2. Visit `https://yourdomain.com` or `https://www.yourdomain.com` in your browser. You should see your app.
+2. Visit [https://www.uatxconstellate.com/](https://www.uatxconstellate.com/) in your browser. You should see Constellate.
 3. Try signing in to confirm redirects work correctly.
 
 If the domain doesn’t verify, double-check in GoDaddy that the **Name** and **Value** match exactly what Railway shows (no extra spaces, no typos).
